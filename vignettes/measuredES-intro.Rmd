@@ -114,17 +114,7 @@ fit_bonett <- mes_ci(fit, method = "bonett")
 fit_bonett$ci
 ```
 
-## 8. A quick read on a reliability value
-
-`reliability_check()` is a one-liner that tells you whether your
-reliability is in good shape and how much it would shrink an observed
-effect:
-
-```{r}
-reliability_check(0.78)
-```
-
-## 9. A few things to keep in mind
+## 8. A few things to keep in mind
 
 1. **Random error only.** The correction handles random measurement
    error. Systematic bias (social desirability, common method variance,

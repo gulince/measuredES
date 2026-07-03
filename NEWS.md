@@ -22,8 +22,6 @@ Initial release.
   `metafor`-ready data frame (`yi`, `vi`, `sei`, `ni`).
 * `mes_report()`: APA-7 inline text (English and Turkish) and tabular
   output.
-* `reliability_check()`: quick verbal interpretation of a reliability
-  coefficient.
 * S3 methods for the `mes` class: `print()`, `summary()`, `plot()`
   (ggplot2 when available, base graphics otherwise), and
   `as.data.frame()`.

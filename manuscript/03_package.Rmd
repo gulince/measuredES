@@ -21,14 +21,17 @@ provides noncentral-distribution-based confidence intervals for
 effect sizes but does not implement the Spearman correction.
 `psych` [@revelle2024] supports one-sided attenuation correction
 for correlations as part of its psychometric toolkit, but does not
-extend this to standardized mean differences. To our knowledge, no
-existing package combines the $d$-family attenuation correction with
-interval estimation and meta-analytic output; `measuredES` fills
-that gap.
+extend this to standardized mean differences. `psychmeta`
+[@dahlke2019] corrects previously computed *d* values for
+unreliability within its Hunter--Schmidt meta-analysis framework;
+`measuredES` complements it at the primary-study level, where the
+input is raw data, a formula, or summary statistics and the output
+is a corrected estimate with a choice of analytical or bootstrap
+interval, APA-7 text, and a `metafor`-ready export.
 
 ## 3.2 Core Function Map
 
-The package exports seven user-facing functions:
+The package exports six user-facing functions:
 
 | Function | Description |
 |---|---|
@@ -38,7 +41,6 @@ The package exports seven user-facing functions:
 | `mes_ci()` | Recomputes the confidence interval of an existing `mes` object with a different method |
 | `mes_meta()` | Converts `mes` objects to `metafor`-compatible format ($y_i$, $v_i$) |
 | `mes_report()` | Produces APA-7 formatted inline text from a `mes` object |
-| `reliability_check()` | Bounds-checks a reliability coefficient and reports its practical implications |
 
 `disattenuate()` is the mathematical engine underlying all
 correction functions and can be called directly when users need

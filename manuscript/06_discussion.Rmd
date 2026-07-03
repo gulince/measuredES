@@ -105,6 +105,12 @@ assumption. In quasi-experimental or correlational designs where
 both variables are measured with error, both reliabilities enter
 the correction, and the additional uncertainty is compounded.
 
+**Balanced designs only.** All simulated conditions used equal group
+sizes. This is also the case in which the pooled-SD standardizer
+coincides with the average-variance standardizer for which Bonett's
+variance is derived (Section 2.3.2). Coverage of both intervals
+under substantially unbalanced designs remains to be quantified.
+
 **Independence of reliability and true scores.** The simulation
 assumed that measurement error is uncorrelated with true scores,
 as required by the CTT model. Systematic measurement biases (e.g.,

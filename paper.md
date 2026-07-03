@@ -43,11 +43,17 @@ sizes systematically underestimate population effects:
 $$d_{observed} = d_{true} \cdot \sqrt{r_{xx}}$$
 
 This attenuation distorts power analyses, replicability assessments,
-and meta-analytic syntheses. Existing R packages provide effect size
-computation [`effectsize`: @bensh2020; `MBESS`: @kelley2007;
-`psych`: @revelle2024] but none offer a unified framework for
-measurement-corrected *d*-family effect sizes with multiple confidence
-interval methods and meta-analytic output. `measuredES` fills this gap.
+and meta-analytic syntheses. Existing R packages cover parts of the
+problem: `effectsize` [@bensh2020], `MBESS` [@kelley2007], and
+`psych` [@revelle2024] compute effect sizes, intervals, and
+reliability coefficients but do not disattenuate standardized mean
+differences, while `psychmeta` [@dahlke2019] implements
+Hunter--Schmidt artifact corrections, including unreliability
+corrections for *d*, within its meta-analytic framework.
+`measuredES` targets the single-study workflow instead: it accepts
+raw data, summary statistics, or a formula, offers analytical
+(Hunter--Schmidt, Bonett) and bootstrap intervals for the corrected
+estimate, and produces APA-7 text and `metafor`-ready output.
 
 # Core functionality
 
@@ -60,8 +66,8 @@ Confidence intervals are available via three methods: the
 Hunter--Schmidt analytical approximation, Bonett's (2008)
 heteroscedasticity-robust variance, and the bias-corrected accelerated
 bootstrap [@efron1987]. For balanced equal-variance designs the first
-two agree closely; Bonett's method becomes important when group SDs
-differ or the design is unbalanced.
+two agree closely; Bonett's variance is designed for the case where
+the group standard deviations differ.
 
 `mes_report()` produces inline APA-7 text that can go straight into a
 manuscript. `mes_meta()` converts results to the format `metafor::rma()`

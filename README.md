@@ -12,9 +12,11 @@ outcome measure, you can use it to get a better approximation of the
 underlying effect, with less distortion from measurement noise.
 
 Packages like `effectsize`, `MBESS`, and `psych` each cover a piece of
-this but they scatter the pieces. Here everything sits in one place:
-the correction itself, three confidence interval methods (Hunter-Schmidt,
-Bonett, Bootstrap BCa), APA-7 ready output, and direct `metafor` integration.
+this, and `psychmeta` corrects *d* values for unreliability inside its
+meta-analysis framework. `measuredES` handles the single-study side, in
+one place: the correction itself (from raw data, summary statistics, or
+a formula), three confidence interval methods (Hunter-Schmidt, Bonett,
+Bootstrap BCa), APA-7 ready output, and direct `metafor` integration.
 
 ## What it does
 
@@ -76,7 +78,6 @@ positive" sign.
 | `mes_g()` | Hedges' *g* with reliability correction |
 | `disattenuate()` | The bare math behind the correction (d and r) |
 | `mes_ci()` | Re-run the CI on an existing `mes` object with a different method |
-| `reliability_check()` | One-line interpretation of a reliability value |
 | `mes_meta()` | Build a `metafor`-ready data frame (`yi`, `vi`, `sei`, `ni`) from one or more `mes` objects |
 | `mes_report()` | APA-7 inline text or a one-row table for the manuscript |
 

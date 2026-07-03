@@ -104,10 +104,14 @@ $$\widehat{\text{Var}}(d) =
 where $v_i = n_i - 1$. The `measuredES` implementation divides this
 variance by $\rho_{xx}$, as in the Hunter--Schmidt interval, and
 pairs it with a $t_{\alpha/2,\nu}$ critical value with
-$\nu = n_1 + n_2 - 2$ rather than $z_{\alpha/2}$. For equal group
-sizes and equal variances the Bonett and Hunter--Schmidt variances
-coincide; the two intervals then differ only through the $t$
-critical value. Our simulation results in Section 5 show that this
+$\nu = n_1 + n_2 - 2$ rather than $z_{\alpha/2}$. Two caveats
+apply. First, Bonett derives the variance for a contrast
+standardized by $\sqrt{(s_1^2 + s_2^2)/2}$, whereas `measuredES`
+standardizes by the pooled SD; the two standardizers coincide when
+$n_1 = n_2$, the balanced case simulated in Section 4. Second, for
+equal group sizes and equal variances the Bonett and
+Hunter--Schmidt variances coincide, so the two intervals then
+differ only through the $t$ critical value. Our simulation results in Section 5 show that this
 interval attains near-nominal coverage even at $n = 30$ per group.
 
 ### 2.3.3 Bootstrap Interval

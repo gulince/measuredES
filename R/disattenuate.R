@@ -118,37 +118,3 @@ disattenuate <- function(effect,
 
   corrected
 }
-
-
-#' Quick check of a reliability coefficient
-#'
-#' @description
-#' Prints a quick verdict on a reliability value (excellent, good,
-#' acceptable, etc.) along with how much score variance is error and
-#' how much an observed effect would be shrunk by it. Handy as a
-#' sanity check before running the analysis.
-#'
-#' @param r Reliability coefficient.
-#'
-#' @return Invisibly, the supplied \code{r}; prints messages.
-#'
-#' @examples
-#' reliability_check(0.85)
-#'
-#' @export
-reliability_check <- function(r) {
-  .check_reliability(r, strict = TRUE)
-
-  level <- if (r >= 0.90)      "excellent"
-           else if (r >= 0.80) "good"
-           else if (r >= 0.70) "acceptable"
-           else if (r >= 0.60) "questionable"
-           else                "inadequate"
-
-  message(sprintf("r_xx = %.3f  (%s)", r, level))
-  message(sprintf("About %.1f%% of score variance is error.", (1 - r) * 100))
-  message(sprintf("Observed effects are about %.1f%% of the true effect (sqrt(r) = %.3f).",
-                  sqrt(r) * 100, sqrt(r)))
-
-  invisible(r)
-}

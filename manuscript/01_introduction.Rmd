@@ -61,11 +61,22 @@ The widely used `effectsize` package [@bensh2020] computes Cohen's
 *d*, Hedges' *g*, and many other indices, but
 does not offer measurement-error correction as part of its core
 functionality. Specialized packages cover narrow components of the
-problem—`MBESS` [@kelley2007] provides confidence intervals for
-several effect sizes; `psych` [@revelle2024] computes reliability
-coefficients including coefficient $\omega$; `metafor` [@viechtbauer2010] performs meta-analytic
-synthesis—but no single package integrates disattenuation,
-interval estimation, and meta-analytic export.
+problem: `MBESS` [@kelley2007] provides confidence intervals for
+several effect sizes, `psych` [@revelle2024] computes reliability
+coefficients including coefficient $\omega$, and `metafor`
+[@viechtbauer2010] performs meta-analytic synthesis. The closest
+relative is `psychmeta` [@dahlke2019], which implements
+Hunter--Schmidt artifact corrections, including unreliability
+corrections for *d* via `correct_d()`, as part of its psychometric
+meta-analysis machinery. `psychmeta` is oriented toward
+meta-analytic databases: `correct_d()` takes previously computed
+*d* values, obtains the correction by converting through the
+point-biserial correlation, and does not offer the
+heteroscedasticity-robust or bootstrap intervals evaluated here.
+No package serves the single-study workflow of computing a
+corrected *d*-family estimate from raw data, a formula, or summary
+statistics together with interval estimation and meta-analytic
+export.
 
 Second, the routine application of corrections requires choices that
 applied researchers cannot easily make without software guidance.
