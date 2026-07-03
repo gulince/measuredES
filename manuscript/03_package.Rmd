@@ -90,3 +90,36 @@ mes_report(result, style = "inline", language = "en")
 #> corrected d = -0.65 (observed d = -0.57), 95% CI [-1.01, -0.28];
 #> reliability r_xx = 0.78
 ```
+
+## 3.4 Worked Example
+
+To show what the correction does at the level of a literature
+synthesis, we reanalyze the illustrative *d*-value dataset
+distributed with `psychmeta` [@dahlke2019]: 50 studies, each
+reporting a standardized mean difference, the two group sizes, and
+the reliability of the dependent variable (mean $r_{yy} = .74$,
+range .64--.83). Because each study reports *d* and group sizes
+rather than raw data, the summary-statistic interface reconstructs
+each study exactly:
+
+```r
+data("data_d_meas_multi", package = "psychmeta")
+dat <- subset(data_d_meas_multi, construct == "Y")
+
+studies <- lapply(seq_len(nrow(dat)), function(i) {
+  mes_d(means = c(dat$d[i], 0), sds = c(1, 1),
+        ns    = c(dat$n1[i], dat$n2[i]),
+        rxx   = dat$ryyi[i])
+})
+meta_df <- mes_meta(studies)
+metafor::rma(yi = yi, vi = vi, data = meta_df, method = "REML")
+```
+
+The uncorrected random-effects estimate is $d = 0.82$, 95% CI
+[0.75, 0.89]. After study-level correction, the pooled estimate is
+0.95 [0.88, 1.02], an increase of 16% that matches the theoretical
+expectation $1/\sqrt{.74} \approx 1.16$. A researcher who used the
+uncorrected synthesis for power planning would design for an effect
+roughly one-sixth smaller than what the literature supports at the
+construct level. The full script is included in the package
+repository (`analysis/04_example_reanalysis.R`).

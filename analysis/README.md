@@ -24,6 +24,9 @@ source("analysis/02_simulation_meta.R")   # ~30 minutes
 
 # Tables and figures
 source("analysis/03_analysis_tables_figures.R")
+
+# Worked example (manuscript Section 3.4; requires psychmeta)
+source("analysis/04_example_reanalysis.R")
 ```
 
 ## Outputs

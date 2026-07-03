@@ -76,7 +76,33 @@ even when the between-study true effect heterogeneity is modest.
 `mes_meta()` produces a `metafor`-compatible data frame for this
 purpose.
 
-## 6.3 Limitations
+## 6.3 When the Correction Should Not Be Used
+
+Disattenuation is not universally endorsed, and we do not present it
+as such. The correction presupposes that the classical true score is
+the quantity of scientific interest. A long-standing critique holds
+that the true score is not the construct: it is merely the expected
+observed score over hypothetical replications, and correcting toward
+it does not by itself move the estimate closer to the latent
+attribute the researcher cares about [@borsboom2004]. Researchers
+who find that framing unconvincing for their application lose
+nothing by reporting the observed effect together with the
+reliability of the measure.
+
+There are also practical situations in which the correction is the
+wrong tool. When the research question concerns observed scores
+themselves, as in selection decisions or descriptive benchmarking,
+the uncorrected effect is the estimand and correcting it answers a
+question nobody asked. When the reliability estimate comes from a
+different population or administration than the effect size, the
+correction can import error rather than remove it [@charles2005].
+And at very low reliability, the corrected estimate becomes unstable
+enough that it should be treated as exploratory; `measuredES` warns
+below $\rho_{xx} = 0.10$ but instability begins well above that.
+These boundaries are the reason Recommendation 1 asks for both
+estimates side by side rather than for the corrected value alone.
+
+## 6.4 Limitations
 
 Several limitations of the present work should be noted.
 
@@ -117,7 +143,7 @@ as required by the CTT model. Systematic measurement biases (e.g.,
 acquiescence, response fatigue) that correlate with $T$ cannot be
 addressed by the Spearman correction.
 
-## 6.4 Future Directions
+## 6.5 Future Directions
 
 Several extensions are planned. First, the propagation-of-error
 variance formula of @hunter2004 could be offered as an option in

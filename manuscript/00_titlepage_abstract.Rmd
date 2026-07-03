@@ -33,9 +33,11 @@ analytical intervals held
 near-nominal coverage, with Hunter--Schmidt slightly
 anti-conservative and Bonett slightly conservative at small sample
 sizes; and meta-analyses of studies with heterogeneous reliability
-were biased downward unless each study was corrected individually. We discuss
-what these results imply for reporting practice and meta-analytic
-synthesis, and when the correction is defensible in applied work.
+were biased downward unless each study was corrected individually,
+with coverage of the pooled estimate falling as low as 0.28 at
+$k = 20$ studies. We discuss what these results imply for reporting
+practice and meta-analytic synthesis, and when the correction is
+defensible in applied work.
 
 **Keywords:** effect size, measurement error, reliability,
 attenuation, Cohen's *d*, Hedges' *g*, meta-analysis, simulation
