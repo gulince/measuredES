@@ -2,19 +2,13 @@
 title: "Measurement-Corrected Effect Sizes for the Behavioral Sciences: A Simulation Study and the measuredES R Package"
 shorttitle: "Measurement-Corrected Effect Sizes"
 author:
-  - name: Fazilet Gül İnce Aracı
-    affiliation: 1
-    corresponding: yes
-    email: gulincegazi@gmail.com
-    orcid: 0000-0001-5620-6911
-affiliation:
-  - id: 1
-    institution: "Department of Measurement and Evaluation, Karamanoğlu Mehmet Bey University"
+  - "Fazilet Gül İnce Aracı, Department of Measurement and Evaluation, Karamanoğlu Mehmet Bey University (gulincegazi@gmail.com, ORCID 0000-0001-5620-6911)"
 date: "`r format(Sys.Date(), '%B %Y')`"
 output:
   word_document:
     fig_caption: yes
 bibliography: ../paper.bib
+csl: apa.csl
 ---
 
 # Abstract
@@ -49,6 +43,7 @@ study, R software
 
 ---
 
-*Word count (excluding abstract and references):* approximately 9,000
+*Word count (excluding abstract, references, tables, and figures):*
+approximately 5,000
 
 ---

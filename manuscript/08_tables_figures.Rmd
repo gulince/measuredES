@@ -1,0 +1,48 @@
+# Tables
+
+```{r table1, echo = FALSE}
+t1w <- read.csv("../analysis/results/table1_bias.csv")
+t1 <- do.call(rbind, lapply(c("0.2", "0.5", "0.8"), function(d) {
+  data.frame(
+    rho       = t1w$rho_true,
+    delta     = as.numeric(d),
+    bias_obs  = t1w[[paste0("bias_obs_d", d)]],
+    bias_corr = t1w[[paste0("bias_corr_d", d)]],
+    rmse_obs  = t1w[[paste0("rmse_obs_d", d)]],
+    rmse_corr = t1w[[paste0("rmse_corr_d", d)]]
+  )
+}))
+t1 <- t1[order(t1$rho, t1$delta), ]
+knitr::kable(
+  t1, row.names = FALSE, digits = 3,
+  col.names = c("$\\rho_{xx}$", "$\\delta$",
+                "Bias (uncorr.)", "Bias (corr.)",
+                "RMSE (uncorr.)", "RMSE (corr.)"),
+  caption = paste(
+    "Table 1. Bias and RMSE of the uncorrected and corrected Cohen's d,",
+    "averaged over sample size (normal distribution, known reliability).")
+)
+```
+
+```{r table2, echo = FALSE}
+t2 <- read.csv("../analysis/results/table3_meta.csv")
+knitr::kable(
+  t2, row.names = FALSE, digits = 3,
+  col.names = c("k", "$\\delta_{\\mu}$", "Reliability pattern",
+                "Bias (uncorr.)", "Bias (corr.)",
+                "RMSE (uncorr.)", "RMSE (corr.)",
+                "Coverage (uncorr.)", "Coverage (corr.)"),
+  caption = paste(
+    "Table 2. Bias, RMSE, and 95% CI coverage of the pooled",
+    "random-effects estimate under homogeneous and heterogeneous",
+    "between-study reliability.")
+)
+```
+
+# Figures
+
+![Figure 1. Bias of the corrected and uncorrected Cohen's d by sample size, population effect size, and reliability (normal distribution, known reliability).](../analysis/figures/fig1_bias.png)
+
+![Figure 2. Coverage of nominal 95% confidence intervals by method, sample size, reliability, and reliability-estimation condition (normal distribution).](../analysis/figures/fig2_coverage.png)
+
+![Figure 3. Bias of the pooled meta-analytic estimate under homogeneous and heterogeneous between-study reliability.](../analysis/figures/fig3_meta_bias.png)

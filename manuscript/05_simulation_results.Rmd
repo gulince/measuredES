@@ -5,7 +5,8 @@
 Table 1 reports the bias and RMSE of uncorrected and corrected
 estimators across all combinations of $\rho_{xx}$ and $\delta$,
 averaged over sample size, under normal distributions with known
-reliability.
+reliability; Figure 1 displays the bias of both estimators by sample
+size.
 
 **Uncorrected estimator.** The uncorrected Cohen's $d$ showed
 systematic negative bias across all conditions, with the relative bias
@@ -52,6 +53,9 @@ at the test lengths and sample sizes studied.
 ## 5.2 Study 2: Confidence Interval Performance
 
 ### 5.2.1 Coverage Probability
+
+Figure 2 displays coverage for both intervals across sample sizes,
+reliability levels, and reliability-estimation conditions.
 
 **Known reliability.** When $\rho_{xx}$ was treated as known, both
 the Hunter–Schmidt and Bonett intervals achieved near-nominal
@@ -113,7 +117,8 @@ narrow.
 
 Table 2 summarizes the bias, RMSE, and coverage of the pooled
 effect-size estimate under homogeneous and heterogeneous reliability
-across $k \in \{5, 10, 20\}$ studies.
+across $k \in \{5, 10, 20\}$ studies; Figure 3 displays the bias of
+the pooled estimates.
 
 ### 5.3.1 Homogeneous Reliability
 

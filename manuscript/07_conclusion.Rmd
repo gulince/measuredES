@@ -23,3 +23,8 @@ inference, not an esoteric refinement.
 submission to the Comprehensive R Archive Network (CRAN). All
 simulation code and data are included in the package repository to
 support full reproducibility.
+
+# References
+
+::: {#refs}
+:::
