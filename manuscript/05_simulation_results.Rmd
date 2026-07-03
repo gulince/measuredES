@@ -138,16 +138,11 @@ showing lower RMSE at $k = 20$ due to the elimination of bias.
 The most striking results emerged under heterogeneous reliability,
 where $\rho_{xx}$ varied across studies according to a Beta(8, 4)
 distribution (mean $\approx 0.67$). In this condition, the
-uncorrected meta-analytic estimator suffered severe coverage failure:
-
-| $k$ | $\delta_{\mu}$ | Coverage (uncorrected) | Coverage (corrected) |
-|-----|----------------|------------------------|----------------------|
-| 5   | 0.30           | 0.854                  | 0.920                |
-| 10  | 0.30           | 0.780                  | 0.934                |
-| 20  | 0.30           | 0.654                  | 0.936                |
-| 5   | 0.50           | 0.722                  | 0.936                |
-| 10  | 0.50           | 0.565                  | 0.947                |
-| 20  | 0.50           | 0.279                  | 0.929                |
+uncorrected meta-analytic estimator suffered severe coverage
+failure, and the failure worsened as more studies were pooled:
+coverage of the uncorrected estimate fell from 0.854 at $k = 5$,
+$\delta_{\mu} = 0.30$ to 0.279 at $k = 20$, $\delta_{\mu} = 0.50$
+(Table 2, heterogeneous rows).
 
 At $k = 20$ and $\delta_{\mu} = 0.50$, the uncorrected pooled
 estimate was contained within the 95% confidence interval in only

@@ -74,10 +74,10 @@ fig1 <- ggplot(fig1_data,
   geom_line(aes(group = Estimator), linewidth = 0.4) +
   facet_grid(delta_label ~ rho_label, labeller = label_parsed) +
   scale_x_continuous(breaks = c(30, 60, 120, 240)) +
-  scale_colour_manual(values = c("Corrected"   = "#1f78b4",
-                                 "Uncorrected" = "#e31a1c")) +
+  scale_colour_manual(values = c("Corrected"   = "black",
+                                 "Uncorrected" = "grey55")) +
   labs(x = "Sample size per group", y = "Bias",
-       title = "Bias of corrected vs. uncorrected Cohen's d") +
+       colour = NULL, shape = NULL) +
   theme_minimal(base_size = 11) +
   theme(legend.position = "top",
         panel.grid.minor = element_blank())
@@ -116,9 +116,10 @@ fig2 <- ggplot(fig2_data,
   scale_x_continuous(breaks = c(30, 60, 120, 240)) +
   scale_y_continuous(limits = c(0.80, 1.00),
                      breaks = seq(0.80, 1.00, 0.05)) +
+  scale_colour_manual(values = c("Hunter-Schmidt" = "grey55",
+                                 "Bonett"         = "black")) +
   labs(x = "Sample size per group", y = "Coverage probability",
-       title = "Coverage of nominal 95% confidence intervals",
-       linetype = NULL) +
+       colour = NULL, linetype = NULL) +
   theme_minimal(base_size = 11) +
   theme(legend.position = "top")
 
@@ -165,10 +166,10 @@ fig3 <- ggplot(fig3_data,
   facet_grid(delta_label ~ rho_label,
              labeller = labeller(delta_label = label_parsed,
                                  rho_label   = label_value)) +
-  scale_fill_manual(values = c("Corrected"   = "#1f78b4",
-                               "Uncorrected" = "#e31a1c")) +
+  scale_fill_manual(values = c("Corrected"   = "grey25",
+                               "Uncorrected" = "grey70")) +
   labs(x = "Number of studies (k)", y = "Bias of pooled estimate",
-       title = "Meta-analytic bias under heterogeneous reliability") +
+       fill = NULL) +
   theme_minimal(base_size = 11) +
   theme(legend.position = "top")
 
