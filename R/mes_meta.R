@@ -1,0 +1,130 @@
+# mes_meta.R: turn mes objects into a data frame metafor can use
+
+
+#' Convert 'mes' objects to a meta-analysis-ready format
+#'
+#' @description
+#' Transforms one or more 'mes' objects into a data frame that can be passed
+#' directly to \code{metafor::rma()} or used in Hunter--Schmidt psychometric
+#' meta-analysis procedures.
+#'
+#' @param ... One or more 'mes' objects (or a list of 'mes' objects).
+#' @param study_id Optional study identifiers (character vector).
+#'
+#' @return A data frame with the following columns:
+#' \describe{
+#'   \item{study}{Study identifier}
+#'   \item{yi}{Corrected effect size}
+#'   \item{vi}{Approximate sampling variance of the effect size}
+#'   \item{sei}{Standard error}
+#'   \item{ni}{Total sample size}
+#'   \item{rxx}{Reliability of the dependent variable}
+#'   \item{type}{Effect-size type}
+#' }
+#'
+#' @references
+#' Hunter, J. E., & Schmidt, F. L. (2004). \emph{Methods of meta-analysis}
+#' (2nd ed.). Sage.
+#'
+#' Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor
+#' package. \emph{Journal of Statistical Software}, 36(3), 1--48.
+#'
+#' @examples
+#' set.seed(2026)
+#' c1 <- rnorm(40, 100, 15); t1 <- rnorm(40, 108, 15)
+#' c2 <- rnorm(60, 100, 15); t2 <- rnorm(60, 105, 15)
+#'
+#' s1 <- mes_d(c1, t1, rxx = 0.85)
+#' s2 <- mes_d(c2, t2, rxx = 0.78)
+#'
+#' meta_df <- mes_meta(s1, s2, study_id = c("Study_2024", "Study_2025"))
+#' meta_df
+#'
+#' \donttest{
+#' # Random-effects meta-analysis with metafor
+#' if (requireNamespace("metafor", quietly = TRUE)) {
+#'   metafor::rma(yi = meta_df$yi, vi = meta_df$vi)
+#' }
+#' }
+#'
+#' @export
+mes_meta <- function(..., study_id = NULL) {
+
+  args <- list(...)
+
+  # Unwrap a single list argument
+  if (length(args) == 1L && is.list(args[[1L]]) &&
+      !inherits(args[[1L]], "mes")) {
+    args <- args[[1L]]
+  }
+
+  if (!all(vapply(args, inherits, logical(1L), what = "mes"))) {
+    stop("All inputs must be of class 'mes'.", call. = FALSE)
+  }
+
+  k <- length(args)
+
+  if (is.null(study_id)) {
+    study_id <- paste0("Study_", seq_len(k))
+  } else if (length(study_id) != k) {
+    stop("'study_id' length must match the number of studies.",
+         call. = FALSE)
+  }
+
+  rows <- vector("list", k)
+  for (i in seq_len(k)) {
+    obj <- args[[i]]
+
+    yi <- obj$estimate
+
+    # invert only symmetric CIs (HS, Bonett); BCa intervals are asymmetric,
+    # so bootstrap objects take the analytical fallback below
+    analytic_ci <- !is.null(obj$ci_method) && !is.na(obj$ci_method) &&
+                   obj$ci_method %in% c("hunter_schmidt", "bonett")
+
+    vi <- if (!is.null(obj$ci) && all(!is.na(obj$ci)) && analytic_ci) {
+      alpha <- 1 - obj$conf_level
+      crit <- if (obj$ci_method == "bonett" &&
+                  !is.null(obj$n$n1) && !is.null(obj$n$n2)) {
+        stats::qt(1 - alpha / 2, df = obj$n$n1 + obj$n$n2 - 2L)
+      } else {
+        stats::qnorm(1 - alpha / 2)
+      }
+      ((obj$ci[2L] - obj$ci[1L]) / (2 * crit))^2
+    } else if (obj$type %in% c("d", "g") &&
+               !is.null(obj$n$n1) && !is.null(obj$n$n2)) {
+      # Hedges & Olkin (1985) variance; for g, Var(g*) = J^2 * Var(d) / rxx
+      n1 <- obj$n$n1; n2 <- obj$n$n2
+      if (obj$type == "g" && !is.null(obj$extras$cohen_d_raw) &&
+          !is.null(obj$extras$hedges_J)) {
+        d_underlying <- obj$extras$cohen_d_raw
+        J            <- obj$extras$hedges_J
+      } else {
+        d_underlying <- obj$raw_estimate
+        J            <- 1
+      }
+      var_d <- (n1 + n2) / (n1 * n2) +
+               d_underlying^2 / (2 * (n1 + n2))
+      (J^2) * var_d / obj$reliability$rxx
+    } else NA_real_
+
+    rxx_val <- if (!is.null(obj$reliability$rxx))
+                 obj$reliability$rxx
+               else if (!is.null(obj$reliability$marginal_reliability))
+                 obj$reliability$marginal_reliability
+               else NA_real_
+
+    rows[[i]] <- data.frame(
+      study = study_id[i],
+      yi    = yi,
+      vi    = vi,
+      sei   = if (!is.na(vi)) sqrt(vi) else NA_real_,
+      ni    = if (!is.null(obj$n$total)) obj$n$total else NA_integer_,
+      rxx   = rxx_val,
+      type  = obj$type,
+      stringsAsFactors = FALSE
+    )
+  }
+
+  do.call(rbind, rows)
+}

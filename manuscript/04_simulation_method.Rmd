@@ -1,0 +1,103 @@
+# 4. Simulation Study
+
+## 4.1 Overview
+
+Three simulation studies were conducted to evaluate the statistical
+properties of `measuredES`. Study 1 examined the bias and root mean
+square error (RMSE) of the corrected and uncorrected effect-size
+estimators. Study 2 examined the coverage probability and width of
+the Hunter–Schmidt and Bonett confidence intervals. Study 3 examined
+the consequences of reliability heterogeneity in a meta-analytic
+context. All simulations were implemented in R (version 4.5.3) using
+the `parallel` package for multi-core execution. Each study used
+`set.seed(2026)` for reproducibility. Full simulation code is
+available at https://github.com/gulince/measuredES.
+
+## 4.2 Data-Generation Model
+
+### 4.2.1 Classical Test Theory Parameterization
+
+Data were generated under the standard CTT model $X = T + E$.
+True scores were drawn from either a standard normal distribution
+($T \sim \mathcal{N}(0, 1)$) or a standardized chi-squared
+distribution with four degrees of freedom to represent a positively
+skewed condition (skewness $\approx 1.41$). For the treatment group,
+the true-score mean was shifted by $\delta$ (the population effect
+size), so that $T_2 \sim \mathcal{N}(\delta, 1)$.
+
+Error variance was set to reproduce the target reliability exactly:
+
+$$\sigma^2_E = \frac{1 - \rho_{xx}}{\rho_{xx}},$$
+
+which ensures $\text{Var}(X) = 1/\rho_{xx}$ and
+$\text{Var}(T)/\text{Var}(X) = \rho_{xx}$. Under this parameterization,
+the expected value of the uncorrected $d_{\text{obs}}$ is
+$\delta \sqrt{\rho_{xx}}$, and the expected value of the corrected
+$\hat{\delta}$ is $\delta$.
+
+### 4.2.2 Reliability Estimation Conditions
+
+Two reliability conditions were crossed with all other factors.
+In the *known* condition, the population $\rho_{xx}$ was supplied
+directly to the correction formula. In the *estimated* condition,
+$\rho_{xx}$ was estimated from a simulated $k = 10$ item test using
+Cronbach's $\alpha$ computed from item responses generated under the
+tau-equivalent model. The Spearman–Brown formula was used to
+determine per-item reliability such that the $k$-item composite
+achieved the target $\rho_{xx}$.
+
+## 4.3 Study 1 and Study 2 Design
+
+A fully crossed factorial design with the following factors was used:
+
+- **Population effect size** ($\delta$): 0.20, 0.50, 0.80
+  (small, medium, large; @cohen1988)
+- **Sample size per group** ($n$): 30, 60, 120, 240
+- **Reliability** ($\rho_{xx}$): 0.60, 0.75, 0.85, 0.95
+- **Reliability condition**: known vs. estimated
+- **Score distribution**: normal vs. skewed
+
+This yielded $3 \times 4 \times 4 \times 2 \times 2 = 192$ conditions.
+Each condition was replicated $R = 5{,}000$ times, for a total of
+960,000 simulated experiments.
+
+### 4.3.1 Performance Criteria
+
+**Study 1 (point estimation):**
+
+- *Bias*: $\hat{\delta} - \delta$
+- *Relative bias* (%): $100 \times (\hat{\delta} - \delta) / \delta$
+- *RMSE*: $\sqrt{E[(\hat{\delta} - \delta)^2]}$
+
+**Study 2 (confidence intervals):**
+
+- *Coverage probability*: proportion of intervals containing $\delta$
+  (nominal: 0.95)
+- *Mean CI width*
+- *Asymmetric miss rates*: proportion of intervals falling entirely
+  above or below $\delta$
+
+## 4.4 Study 3 Design
+
+Study 3 examined the meta-analytic consequences of ignoring
+reliability differences across studies. A random-effects model was
+simulated with the following factors:
+
+- **Number of studies** ($k$): 5, 10, 20
+- **Mean population effect** ($\delta_{\mu}$): 0.30, 0.50
+- **Reliability pattern**:
+  - *Homogeneous*: $\rho_{xx} = 0.85$ for all studies
+  - *Heterogeneous*: $\rho_{xx} \sim \text{Beta}(8, 4)$
+    (mean $\approx 0.67$, SD $\approx 0.13$)
+
+This yielded $3 \times 2 \times 2 = 12$ conditions, each replicated
+$R = 1{,}000$ times. For each replication, $k$ primary studies were
+generated with sample sizes drawn uniformly from
+$\{40, 60, 100, 150, 250\}$. True effect sizes varied across studies
+as $\delta_i \sim \mathcal{N}(\delta_{\mu}, 0.10)$ to reflect
+realistic between-study heterogeneity. Random-effects meta-analysis
+was conducted using the `metafor` package [@viechtbauer2010] with
+restricted maximum likelihood (REML) estimation, applied separately
+to uncorrected and corrected effect sizes. Performance was evaluated
+using bias, RMSE, and coverage probability of the 95% confidence
+interval for the pooled estimate.

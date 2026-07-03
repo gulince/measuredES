@@ -1,0 +1,39 @@
+Package: measuredES
+Type: Package
+Title: Measurement-Corrected Effect Sizes for the Behavioral Sciences
+Version: 0.1.0
+Authors@R: c(
+    person(given = "Fazilet Gül", family = "İnce Aracı",
+           email = "gulincegazi@gmail.com",
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-5620-6911")),
+    person(given = "Eren Halil", family = "Özberk",
+           role = "aut",
+           comment = c(ORCID = "0000-0003-2136-3081")))
+Description: Computes effect sizes (Cohen's d and Hedges' g) corrected for
+    attenuation due to measurement unreliability. Implements the classical
+    disattenuation formula of Spearman (1904) <doi:10.2307/1412159>, the
+    Hunter-Schmidt psychometric meta-analysis framework, and analytical and
+    bootstrap confidence intervals following Charles (2005)
+    <doi:10.1037/1082-989X.10.2.206> and Bonett (2008)
+    <doi:10.1037/1082-989X.13.2.99>. Produces APA-7 style reports and
+    'metafor'-compatible meta-analytic data structures.
+License: GPL (>= 3)
+Encoding: UTF-8
+Depends: R (>= 4.0.0)
+Imports:
+    stats,
+    boot,
+    graphics,
+    utils
+Suggests:
+    metafor,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    ggplot2
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+URL: https://github.com/gulince/measuredES
+BugReports: https://github.com/gulince/measuredES/issues
+Config/roxygen2/version: 8.0.0

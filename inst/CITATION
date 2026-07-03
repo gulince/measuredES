@@ -1,0 +1,11 @@
+citHeader("To cite the 'measuredES' package in publications, please use:")
+
+bibentry(
+  bibtype = "Manual",
+  title   = "{measuredES}: Measurement-Corrected Effect Sizes for the Behavioral Sciences",
+  author  = c(person(given = "Fazilet Gül", family = "İnce Aracı"),
+              person(given = "Eren Halil", family = "Özberk")),
+  year    = "2026",
+  note    = "R package version 0.1.0",
+  url     = "https://github.com/gulince/measuredES"
+)

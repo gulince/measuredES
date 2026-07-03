@@ -1,0 +1,179 @@
+---
+title: "measuredES: Measurement-Corrected Effect Sizes"
+author: "Fazilet Gül İnce Aracı"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to measuredES}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment  = "#>",
+  fig.width = 6, fig.height = 4
+)
+```
+
+## 1. The idea behind the correction
+
+Classical test theory splits an observed score into a true part and a
+random error part:
+
+$$X = T + E.$$
+
+That noise inflates the variance of $X$, which pulls observed
+standardized effect sizes toward zero:
+
+$$d_{observed} = d_{true} \cdot \sqrt{r_{xx}}.$$
+
+Spearman's (1904) correction puts the lost magnitude back:
+
+$$d_{corrected} = \frac{d_{observed}}{\sqrt{r_{xx}}}.$$
+
+
+## 2. Basic usage
+
+```{r}
+library(measuredES)
+
+# Two groups, treatment effect of about half a SD
+set.seed(2026)
+control   <- rnorm(60, mean = 100, sd = 15)
+treatment <- rnorm(60, mean = 108, sd = 15)
+
+fit <- mes_d(x1 = control, x2 = treatment, rxx = 0.85)
+print(fit)
+```
+
+The printout shows:
+
+- **Raw (observed) d**: classical Cohen's d on the data as-is.
+- **Corrected d**: the same value with the reliability shrinkage undone.
+- **95% CI**: by default the analytical Hunter-Schmidt interval.
+
+## 3. From summary statistics in a published article
+
+You don't always have the raw data. If a paper reports means, SDs, and
+sample sizes, that's enough:
+
+```{r}
+mes_d(means = c(50, 56),
+      sds   = c(10, 11),
+      ns    = c(80, 75),
+      rxx   = 0.78)
+```
+
+## 4. Formula interface
+
+If the data live in a data frame as outcome and group columns:
+
+```{r}
+df <- data.frame(
+  score = c(control, treatment),
+  group = rep(c("control", "treatment"), each = 60)
+)
+mes_d(formula = score ~ group, data = df, rxx = 0.85)
+```
+
+## 5. Meta-analysis
+
+`mes_meta()` turns one or more results into a data frame with the
+`yi`/`vi` columns `metafor::rma()` expects:
+
+```{r}
+set.seed(2026)
+s1 <- mes_d(rnorm(40, 0, 1), rnorm(40, 0.30, 1), rxx = 0.85)
+s2 <- mes_d(rnorm(60, 0, 1), rnorm(60, 0.40, 1), rxx = 0.78)
+s3 <- mes_d(rnorm(80, 0, 1), rnorm(80, 0.50, 1), rxx = 0.90)
+
+meta_df <- mes_meta(s1, s2, s3,
+                    study_id = c("Smith2024", "Jones2024", "Lee2025"))
+meta_df
+```
+
+## 6. APA-7 reporting
+
+`mes_report()` produces a sentence you can drop straight into a
+manuscript:
+
+```{r}
+mes_report(fit, style = "inline", language = "en")
+```
+
+## 7. Switching the CI method
+
+If a reviewer wants a different interval, `mes_ci()` re-runs the
+interval on an existing result without redoing the effect size:
+
+```{r}
+# From the default Hunter-Schmidt to Bonett
+fit_bonett <- mes_ci(fit, method = "bonett")
+fit_bonett$ci
+```
+
+## 8. A quick read on a reliability value
+
+`reliability_check()` is a one-liner that tells you whether your
+reliability is in good shape and how much it would shrink an observed
+effect:
+
+```{r}
+reliability_check(0.78)
+```
+
+## 9. A few things to keep in mind
+
+1. **Random error only.** The correction handles random measurement
+   error. Systematic bias (social desirability, common method variance,
+   and so on) is a separate problem that disattenuation won't fix.
+
+2. **Parallel-tests assumption.** The formula $d_{corrected} = d_{obs} /
+   \sqrt{r_{xx}}$ assumes both groups share the same reliability and
+   the same measurement-error variance. (The `ryy` argument of
+   `disattenuate()` is for correlations, where two different variables
+   are each measured with error; it does not apply to the d-family.)
+   If reliability clearly differs between your groups, there is no
+   single correct $r_{xx}$: run the correction at each group's value
+   as a sensitivity analysis and report the range.
+
+3. **Low reliability is trouble.** Below $r_{xx} \approx 0.50$ the
+   corrected estimate gets unstable (Charles, 2005), and below 0.10
+   the package issues a warning. Treat anything in that range as
+   exploratory at best.
+
+4. **Reliability is treated as a known constant.** All three CI
+   methods plug $r_{xx}$ in as if you measured it without error.
+   When $r_{xx}$ is itself an estimate (e.g., a sample Cronbach's
+   $\alpha$), the true interval is wider than what comes back. The
+   bootstrap option doesn't help here either, because it holds
+   $r_{xx}$ fixed across replicates; a Bayesian model that puts a
+   prior on $r_{xx}$ would be the right tool.
+
+5. **Disattenuation is not universally accepted.** There is a
+   methodological tradition (Borsboom, Mellenbergh, & van Heerden,
+   2004; Markus & Borsboom, 2013) that questions the very idea of a
+   "true score" as a target of inference. From that perspective, what
+   we observe is what we observe, and correcting toward an unobservable
+   construct can mislead more than it helps. This package follows the
+   Hunter & Schmidt (2004) tradition, which is widespread in
+   psychometric meta-analysis, but if you find the latent-construct
+   framing unconvincing for your application, reporting the observed
+   effect alongside reliability information may be more honest than
+   reporting the corrected value.
+
+## References
+
+- Borsboom, D., Mellenbergh, G. J., & van Heerden, J. (2004). The concept
+  of validity. *Psychological Review*, 111(4), 1061--1071.
+- Charles, E. P. (2005). The correction for attenuation due to measurement
+  error: Clarifying concepts and creating confidence sets. *Psychological
+  Methods*, 10(2), 206--226.
+- Hunter, J. E., & Schmidt, F. L. (2004). *Methods of meta-analysis*
+  (2nd ed.). Sage.
+- Markus, K. A., & Borsboom, D. (2013). *Frontiers of test validity
+  theory: Measurement, causation, and meaning*. Routledge.
+- Spearman, C. (1904). The proof and measurement of association between
+  two things. *American Journal of Psychology*, 15, 72--101.

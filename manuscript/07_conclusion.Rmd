@@ -1,0 +1,25 @@
+# 7. Conclusion
+
+Standardized effect sizes are the currency of cumulative science in
+the behavioral disciplines, yet the routine neglect of measurement
+error means that this currency is systematically debased. The
+`measuredES` package provides a practical, theoretically grounded
+toolkit for recovering effect sizes at the construct level for
+independent-groups designs and meta-analytic synthesis.
+
+The simulation results reported here demonstrate that the Spearman
+correction performs as theory predicts, eliminating bias with
+negligible RMSE cost at moderate to large sample sizes, and that
+the Bonett confidence interval provides near-nominal coverage across
+a wide range of conditions. The meta-analytic findings carry
+particular weight: under the realistic scenario of heterogeneous
+reliability across studies, uncorrected meta-analysis can fail to
+contain the true effect in more than 70% of replications. Correcting
+for measurement error is a prerequisite for valid cumulative
+inference, not an esoteric refinement.
+
+`measuredES` is freely available on GitHub
+(https://github.com/gulince/measuredES) and is being prepared for
+submission to the Comprehensive R Archive Network (CRAN). All
+simulation code and data are included in the package repository to
+support full reproducibility.

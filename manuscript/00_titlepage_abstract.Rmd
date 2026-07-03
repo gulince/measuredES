@@ -1,0 +1,54 @@
+---
+title: "Measurement-Corrected Effect Sizes for the Behavioral Sciences: A Simulation Study and the measuredES R Package"
+shorttitle: "Measurement-Corrected Effect Sizes"
+author:
+  - name: Fazilet Gül İnce Aracı
+    affiliation: 1
+    corresponding: yes
+    email: gulincegazi@gmail.com
+    orcid: 0000-0001-5620-6911
+affiliation:
+  - id: 1
+    institution: "Department of Measurement and Evaluation, Karamanoğlu Mehmet Bey University"
+date: "`r format(Sys.Date(), '%B %Y')`"
+output:
+  word_document:
+    fig_caption: yes
+bibliography: ../paper.bib
+---
+
+# Abstract
+
+Observed effect sizes are attenuated by imperfect score reliability,
+yet this bias is rarely corrected in research practice. We introduce
+measuredES, an R package that computes Cohen's *d* and Hedges' *g*
+corrected for unreliability under classical test theory, with three
+confidence-interval methods (Hunter--Schmidt analytical, Bonett
+*t*-based, and bias-corrected accelerated bootstrap). To evaluate
+the package and the correction itself, we conducted a 192-cell
+factorial Monte Carlo simulation (5,000 replications per cell)
+examining bias, root-mean-square error, and confidence-interval
+coverage of corrected and uncorrected Cohen's *d* across true effect
+size, sample size, reliability, distributional form, and known
+versus estimated reliability. A second simulation (1,000
+replications per cell) examined what between-study reliability
+heterogeneity does to pooled meta-analytic estimates. Uncorrected
+effect sizes underestimated the population effect in proportion to
+$\sqrt{\rho_{xx}}$, by about 22% at $\rho_{xx} = .60$; both
+analytical intervals held
+near-nominal coverage, with Hunter--Schmidt slightly
+anti-conservative and Bonett slightly conservative at small sample
+sizes; and meta-analyses of studies with heterogeneous reliability
+were biased downward unless each study was corrected individually. We discuss
+what these results imply for reporting practice and meta-analytic
+synthesis, and when the correction is defensible in applied work.
+
+**Keywords:** effect size, measurement error, reliability,
+attenuation, Cohen's *d*, Hedges' *g*, meta-analysis, simulation
+study, R software
+
+---
+
+*Word count (excluding abstract and references):* approximately 9,000
+
+---

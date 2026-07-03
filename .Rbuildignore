@@ -1,0 +1,15 @@
+^analysis$
+^manuscript$
+^paper\.bib$
+^paper\.md$
+^LICENSE$
+^\.Rproj\.user$
+^.*\.Rproj$
+^README\.Rmd$
+^\.positai$
+^\.claude$
+^\.RData$
+^\.Rhistory$
+^\.Ruserdata$
+^\.github$
+^cran-comments\.md$

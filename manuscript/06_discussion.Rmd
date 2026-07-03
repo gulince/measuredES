@@ -1,0 +1,125 @@
+# 6. Discussion
+
+## 6.1 Summary of Findings
+
+This paper introduced `measuredES`, an R package for computing
+effect sizes corrected for measurement error. Three simulation
+studies demonstrated the
+statistical consequences of ignoring measurement unreliability in
+primary studies and meta-analytic synthesis.
+
+The corrected estimator was essentially unbiased across all
+conditions examined, varying population effect size, sample size,
+reliability, score distribution, and whether reliability was known
+or estimated, while the uncorrected Cohen's $d$ showed consistent
+negative bias scaling with reliability: approximately 22% relative
+attenuation at $\rho_{xx} = 0.60$ and 2.5% at $\rho_{xx} = 0.95$.
+This is not a statistical artifact: with $\rho_{xx} = 0.60$, a
+researcher reporting $d = 0.40$ is likely observing a true effect
+of $\delta \approx 0.52$, a difference large enough to change power
+calculations and meta-analytic conclusions.
+
+Both analytical confidence intervals held close to nominal
+coverage, but they erred in opposite directions: the Hunter–Schmidt
+interval tended to sit slightly below the nominal level (mean
+coverage 0.948), while the Bonett interval erred on the
+conservative side (mean 0.952), most visibly at $n = 30$ per group.
+When anti-conservative inference is the greater concern, this
+asymmetry favors Bonett. Estimating reliability with a 10-item
+coefficient $\alpha$ produced no measurable coverage penalty at the
+sample sizes studied; the undercoverage predicted when reliability
+uncertainty is ignored [@charles2005] evidently requires shorter
+tests, smaller samples, or lower reliability than examined here.
+
+The meta-analytic simulation produced the most consequential finding.
+Under heterogeneous reliability, a condition that is the rule rather
+than the exception in real literature syntheses [@vacha1998;
+@mcneish2018], the uncorrected random-effects estimate showed severe
+coverage failure, reaching as low as 27.9% at $k = 20$ and a
+medium-to-large population effect. The corrected estimator maintained
+near-nominal coverage throughout. This confirms empirically a point
+that @hunter2004 argued on theoretical grounds: pooling uncorrected
+effect sizes across studies with heterogeneous measurement
+properties gives systematically misleading results, not just
+inefficient ones.
+
+## 6.2 Practical Recommendations
+
+On the basis of the simulation results, we offer the following
+recommendations for applied researchers:
+
+**1. Always report the corrected effect size alongside the
+uncorrected value.** The uncorrected $d$ remains interpretable as
+a description of the observed data, but the corrected $\hat{\delta}$
+is the more appropriate estimate of the construct-level effect.
+`mes_report()` produces APA-7-compliant text for both.
+
+**2. Prefer the Bonett interval when undercoverage is the greater
+risk.** The Hunter–Schmidt interval fell below nominal coverage in
+59% of design cells and the Bonett interval in 29%; Bonett's
+deviations were on the conservative side, at the cost of roughly
+2% additional width. The difference between the two is largest when
+$n < 60$ per group.
+
+**3. Do not over-read interval precision when reliability is
+estimated.** Our simulation found no coverage penalty when
+$\hat{\rho}_{xx}$ came from a 10-item $\alpha$ at $n \geq 30$ per
+group, but the intervals treat $\hat{\rho}_{xx}$ as fixed. With
+short tests, small samples, or low reliability, theory predicts
+undercoverage [@charles2005], and the intervals should then be read
+as lower bounds on the true uncertainty.
+
+**4. Correct effect sizes before meta-analytic synthesis.**
+The simulation results indicate that heterogeneous reliability can
+reduce coverage of the pooled estimate to levels far below nominal
+even when the between-study true effect heterogeneity is modest.
+`mes_meta()` produces a `metafor`-compatible data frame for this
+purpose.
+
+## 6.3 Limitations
+
+Several limitations of the present work should be noted.
+
+**Known-reliability assumption in CIs.** As discussed in
+Sections 2.3.4 and 5.2, the confidence intervals currently
+implemented in `measuredES` treat $\rho_{xx}$ as a fixed constant.
+Study 2 found no measurable coverage penalty with a 10-item
+$\alpha$ at the sample sizes examined, but the omitted variance
+term grows as tests shorten and samples shrink; a full
+propagation-of-error approach [@hunter2004] or a Bayesian interval
+that places a prior on $\rho_{xx}$ would capture that additional
+uncertainty. These extensions are planned for a future release.
+
+**Parallel-tests assumption.** The Spearman correction is exact
+under the parallel-tests model, in which all items have equal true
+loadings and equal error variances. Congeneric and essentially
+tau-equivalent models yield different correction factors
+[@revelle2009]. When the measurement model departs substantially
+from parallel tests, the corrected estimate may retain residual
+bias.
+
+**Single fallible variable.** The current simulation focused on
+the case in which the dependent variable is fallible and the
+grouping variable is error-free, the standard experimental
+assumption. In quasi-experimental or correlational designs where
+both variables are measured with error, both reliabilities enter
+the correction, and the additional uncertainty is compounded.
+
+**Independence of reliability and true scores.** The simulation
+assumed that measurement error is uncorrelated with true scores,
+as required by the CTT model. Systematic measurement biases (e.g.,
+acquiescence, response fatigue) that correlate with $T$ cannot be
+addressed by the Spearman correction.
+
+## 6.4 Future Directions
+
+Several extensions are planned. First, the propagation-of-error
+variance formula of @hunter2004 could be offered as an option in
+`mes_d()` and `mes_g()`, giving wider, more conservative confidence
+intervals that account for estimated reliability. Second, a
+Bayesian implementation with a Beta prior on $\rho_{xx}$ would
+offer coherent interval estimation under full uncertainty. Support
+for effect sizes in multilevel and structural equation models,
+where measurement error is handled at the model level, and an
+interface with the `OpenMx` package [@neale2016] for
+latent-variable effect sizes are natural longer-term extensions.

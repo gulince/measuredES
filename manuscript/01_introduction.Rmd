@@ -1,0 +1,121 @@
+# 1. Introduction
+
+The reporting of standardized effect sizes has become a
+near-universal expectation in the behavioral sciences, codified in
+the *Publication Manual of the American Psychological Association*
+[@apa2020] and embedded in editorial policy across psychology,
+education, and the broader social sciences [@wilkinson1999;
+@cumming2014]. Effect sizes quantify the magnitude of a phenomenon
+on a metric that is comparable across studies, feed power analysis
+and study planning, and supply the raw material for meta-analytic
+synthesis. Effect-size reporting has accordingly been central to the
+"new statistics" reform movement [@cumming2014], and recent
+editorial mandates go beyond reporting to require interval estimates
+and substantive interpretation [@apa2020, p. 89].
+
+Yet a foundational psychometric problem has remained largely
+peripheral to this reform: standardized effect sizes computed from
+fallible measures are systematically attenuated relative to the
+population effect on the construct of interest. This attenuation,
+formalized by @spearman1904, follows directly from classical test
+theory: when an observed score $X$ is the sum of a true score $T$
+and an independent random error $E$, the variance of $X$ exceeds
+the variance of $T$, and any standardized contrast on $X$ is shrunk
+toward zero. For the standardized mean difference, the relationship
+takes the form
+
+$$d_{\text{observed}} = d_{\text{true}} \cdot \sqrt{\rho_{xx}}$$
+
+where $\rho_{xx}$ is the reliability of the dependent variable. The
+same logic applies to correlation coefficients, where error in both
+variables compounds the shrinkage [@spearman1904].
+
+The practical consequences of this attenuation are not subtle.
+@schmidt1996 traced the implications of ignoring measurement error
+across 26 research scenarios spanning personnel selection,
+educational evaluation, and clinical assessment, finding that
+uncorrected effect estimates produced systematically misleading
+substantive conclusions. @hunter2004 made the disattenuation logic
+the foundation of an entire approach to meta-analysis, sometimes
+termed "psychometric meta-analysis," in which observed effect sizes
+are corrected for sampling error, range restriction, and unreliability
+before synthesis. @baugh2002 argued that the routine reporting of
+effect sizes corrected for score reliability should become standard
+practice in educational and psychological measurement, and the
+present paper takes that argument as its starting point.
+
+## 1.1 The gap between methodological consensus and software support
+
+The methodological case for measurement-corrected effect sizes is
+neither novel nor contested. Spearman's correction has been a
+textbook procedure for over a century, and Hunter and Schmidt's
+psychometric meta-analysis framework has accumulated thousands of
+applications in industrial-organizational psychology, education, and
+related fields. What has not kept pace with the methodological
+consensus is the routine availability of corrected estimates in
+applied work. Two observations support this characterization.
+
+First, the dominant general-purpose effect-size packages in the R
+ecosystem do not implement reliability correction by default.
+The widely used `effectsize` package [@bensh2020] computes Cohen's
+*d*, Hedges' *g*, and many other indices, but
+does not offer measurement-error correction as part of its core
+functionality. Specialized packages cover narrow components of the
+problem—`MBESS` [@kelley2007] provides confidence intervals for
+several effect sizes; `psych` [@revelle2024] computes reliability
+coefficients including coefficient $\omega$; `metafor` [@viechtbauer2010] performs meta-analytic
+synthesis—but no single package integrates disattenuation,
+interval estimation, and meta-analytic export.
+
+Second, the routine application of corrections requires choices that
+applied researchers cannot easily make without software guidance.
+The classical Spearman correction yields a point estimate but does
+not by itself provide an interval estimate; the standard
+Hunter--Schmidt confidence interval [@hunter2004, p. 99] treats
+reliability as known and can undercover when reliability is poorly
+estimated [@charles2005]; the Bonett *t*-distribution
+refinement [@bonett2008] and bootstrap procedures
+[see also @algina2003] offer alternatives, but their relative
+performance under realistic conditions has not been systematically
+mapped. As a consequence, the small minority of applied researchers
+who apply disattenuation often do so without an interval estimate,
+which limits the inferential value of the correction.
+
+
+## 1.2 The present contribution
+
+We address this gap by introducing the measuredES R package, which
+implements measurement-corrected *d*-family effect sizes under
+classical test theory. The package provides corrected versions of
+Cohen's *d* and Hedges' *g*, the general disattenuation engine
+(including the two-sided correction for correlations), three
+confidence-interval methods (Hunter--Schmidt analytical, Bonett, and
+BCa bootstrap), an APA-7 reporting interface, and a meta-analytic
+export that feeds `metafor` directly. The implementation favors
+single-function workflows, accepts summary statistics as well as raw
+data, and ships with a vignette and a reproducible test suite.
+
+To evaluate both the package and the broader correction approach, we
+conducted three connected Monte Carlo simulation studies, presented
+in this article. **Study 1** examined the bias and root-mean-square
+error of corrected and uncorrected Cohen's *d* across a 192-cell
+factorial design crossing true effect size, sample size, true
+reliability, reliability estimation status (known versus estimated
+via coefficient $\alpha$), and distributional form (normal versus
+moderately skewed). **Study 2** evaluated the coverage probability
+and width of the two analytical confidence-interval procedures
+(Hunter--Schmidt and Bonett) across the same design factors; the
+BCa bootstrap was excluded from the simulation because of its
+computational cost (see Section 2.3.3). **Study 3** moved the
+analysis to the meta-analytic level,
+examining the bias of pooled effect estimates under homogeneous
+versus heterogeneous between-study reliability, with the number of
+synthesized studies $k \in \{5, 10, 20\}$.
+
+The remainder of this article is organized as follows. Section 2
+develops the theoretical foundation: Spearman's correction and the
+confidence-interval methods built on it. Section 3 introduces the
+`measuredES` package. Section 4 describes the simulation design,
+and Section 5 reports the results of the three studies. Section 6
+discusses implications, practical recommendations, and limitations,
+and Section 7 concludes.

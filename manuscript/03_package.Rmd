@@ -1,0 +1,90 @@
+# 3. The measuredES Package
+
+## 3.1 Design Philosophy
+
+`measuredES` was designed around three principles. First,
+*correctness by default*: every effect-size function returns both
+the uncorrected and corrected estimate, so the correction is visible
+in the output rather than hidden in an optional post-processing
+step. Second, *unified interface*: a single S3 class (`mes`)
+provides consistent `print`, `summary`, `plot`, and `as.data.frame`
+methods regardless of which effect-size type was computed. Third,
+*workflow compatibility*: output flows directly into downstream
+tools, `metafor` for meta-analysis [@viechtbauer2010] and APA-7
+formatted text for manuscript reporting.
+
+The package addresses a gap in the existing R ecosystem.
+`effectsize` [@bensh2020] provides a comprehensive suite of
+effect-size functions with clean output and APA reporting, but
+offers no correction for measurement error. `MBESS` [@kelley2007]
+provides noncentral-distribution-based confidence intervals for
+effect sizes but does not implement the Spearman correction.
+`psych` [@revelle2024] supports one-sided attenuation correction
+for correlations as part of its psychometric toolkit, but does not
+extend this to standardized mean differences. To our knowledge, no
+existing package combines the $d$-family attenuation correction with
+interval estimation and meta-analytic output; `measuredES` fills
+that gap.
+
+## 3.2 Core Function Map
+
+The package exports seven user-facing functions:
+
+| Function | Description |
+|---|---|
+| `mes_d()` | Cohen's $d$ corrected for attenuation: $d^* = d / \sqrt{\rho_{xx}}$ |
+| `mes_g()` | Hedges' $g$ with both small-sample and attenuation correction: $g^* = J \cdot d / \sqrt{\rho_{xx}}$ |
+| `disattenuate()` | General correction engine for $d$-family effect sizes and correlations |
+| `mes_ci()` | Recomputes the confidence interval of an existing `mes` object with a different method |
+| `mes_meta()` | Converts `mes` objects to `metafor`-compatible format ($y_i$, $v_i$) |
+| `mes_report()` | Produces APA-7 formatted inline text from a `mes` object |
+| `reliability_check()` | Bounds-checks a reliability coefficient and reports its practical implications |
+
+`disattenuate()` is the mathematical engine underlying all
+correction functions and can be called directly when users need
+to apply the correction to effect sizes computed outside the
+package.
+
+## 3.3 Typical Workflow
+
+A typical research workflow with `measuredES` proceeds in three steps.
+
+**Step 1: Compute the corrected effect size.**
+
+```r
+library(measuredES)
+
+# From raw data
+result <- mes_d(x1 = control_scores,
+                x2 = treatment_scores,
+                rxx = 0.85)
+
+# Or from summary statistics (e.g., a published article)
+result <- mes_d(means = c(50, 56),
+                sds   = c(10, 11),
+                ns    = c(80, 75),
+                rxx   = 0.78)
+```
+
+Three confidence interval methods are available via `ci_method`:
+`"hunter_schmidt"` (default), `"bonett"`, and `"bootstrap"`
+(BCa; requires raw data).
+
+**Step 2: Prepare for meta-analysis.**
+
+```r
+# Combine results from multiple studies
+meta_data <- mes_meta(study1_result, study2_result, study3_result)
+
+# Pass directly to metafor
+library(metafor)
+rma(yi = meta_data$yi, vi = meta_data$vi, data = meta_data)
+```
+
+**Step 3: Report in APA-7 format.**
+
+```r
+mes_report(result, style = "inline", language = "en")
+#> corrected d = -0.65 (observed d = -0.57), 95% CI [-1.01, -0.28];
+#> reliability r_xx = 0.78
+```
