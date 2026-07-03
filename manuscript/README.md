@@ -1,21 +1,27 @@
 # Manuscript
 
-R Markdown sources for the measuredES manuscript. Target outlet:
-*Educational and Psychological Measurement*, Methodological Studies
-category.
+R Markdown sources for the measuredES manuscript.
 
-Files compile in numeric order (00-07) into a single Word document.
+The numbered files (00-08) compile in order into a single Word
+document. Two build scripts are provided; run either from the package
+root:
+
+- `render_manuscript.R` produces `manuscript.docx` (full version,
+  with author information).
+- `render_blinded.R` produces `manuscript_blinded.docx` (author
+  identity and repository URLs masked for double-anonymized review)
+  and `title_page.docx` (the separate title page).
+
 Tables and figures are read from `analysis/results/` and
 `analysis/figures/`; if the package's statistical code changes, rerun
 `analysis/run_simulations.R` and
 `analysis/03_analysis_tables_figures.R` before recompiling.
+Citations use `../paper.bib` with the APA-7 CSL style (`apa.csl`).
 
 Before submission:
 
-- Add an APA-7 CSL file (e.g., `apa.csl` from the Zotero style
-  repository) and the journal's Word template to the YAML header of
-  `00_titlepage_abstract.Rmd`.
-- APA-7 style check.
-- EPM reproducibility checklist and open data/code statement (the
-  GitHub repository).
-- Word count check (target about 9,000 words).
+- Apply the journal's Word template to the YAML header of
+  `00_titlepage_abstract.Rmd` if one is required.
+- Complete the journal's reproducibility checklist and open
+  data/code statement (the GitHub repository).
+- Verify the word count stated on the title page.

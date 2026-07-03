@@ -1,7 +1,7 @@
 # Simulation Study Guide
 
-This directory contains the simulation studies for the `measuredES` manuscript
-submitted to *Educational and Psychological Measurement*.
+This directory contains the simulation studies reported in the
+`measuredES` manuscript.
 
 ## Prerequisites
 
@@ -35,8 +35,8 @@ source("analysis/04_example_reanalysis.R")
 - `simulation_main.csv` : Studies 1 & 2 raw results (192 rows)
 - `simulation_meta.csv` : Study 3 raw results (12 rows)
 - `table1_bias.csv`     : Bias summary (manuscript Table 1)
-- `table2_coverage.csv` : CI coverage (manuscript Table 2)
-- `table3_meta.csv`     : Meta-analytic comparison (Table 3)
+- `table2_coverage.csv` : CI coverage summaries (reported in Section 5.2)
+- `table3_meta.csv`     : Meta-analytic comparison (manuscript Table 2)
 
 ### Figures (`figures/`)
 - `fig1_bias.{png,pdf}`    : Bias comparison (Figure 1)
@@ -51,8 +51,10 @@ cores used should be reported alongside manuscript results.
 
 ## Design notes
 
-- R = 5,000 replications per condition; sufficient for stable Monte Carlo
-  estimates at EPM standards.
+- R = 5,000 replications per condition. The Monte Carlo standard error
+  of a coverage estimate near .95 is then about 0.003 (about 0.007 for
+  Study 3 at R = 1,000), small enough that the reported differences
+  between methods are not simulation noise.
 - Bootstrap-BCa CI is excluded from the main simulation due to
   computational cost (5,000 replications x 2,000 resamples per cell is
   prohibitive across 192 conditions).

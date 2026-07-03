@@ -1,5 +1,5 @@
 # render_blinded.R
-# Builds the two documents EPM's masked review requires:
+# Builds the two documents masked (double-anonymized) review requires:
 #   manuscript/manuscript_blinded.docx  (no author identity, URLs masked)
 #   manuscript/title_page.docx          (title, authors, affiliations)
 #
