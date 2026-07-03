@@ -13,7 +13,7 @@ standardized mean difference. Unlike Hunter-Schmidt / Hedges-Olkin
 group's own variance and yields better coverage when the two groups'
 SDs differ. The interval uses a t critical value with df = n1+n2-2.
 
-Variance (Bonett, 2008, Eq. 11, adapted to the corrected d):
+Variance (Bonett, 2008, adapted to the corrected d):
 \deqn{\widehat{Var}(d) =
   \frac{d^2 \, (s_1^4/v_1 + s_2^4/v_2)}{2(s_1^2 + s_2^2)^2}
   + \frac{s_1^2/v_1 + s_2^2/v_2}{(s_1^2 + s_2^2)/2}}

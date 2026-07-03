@@ -8,7 +8,7 @@
 }
 \description{
 Sampling variance from Hedges & Olkin (1985), then divided by rxx
-per Hunter & Schmidt (2004, p. 99):
+per Hunter & Schmidt (2004):
 \deqn{Var(d) = \frac{n_1 + n_2}{n_1 n_2} + \frac{d^2}{2(n_1 + n_2)}}
 Treating reliability as fixed, the corrected variance is:
 \deqn{Var(d^*) = \frac{Var(d)}{r_{xx}}}

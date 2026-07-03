@@ -11,8 +11,8 @@ Initial release.
   statistics (`means`, `sds`, `ns`), or a `y ~ group` formula.
 * Three confidence-interval methods: the Hunter-Schmidt analytical
   approximation, Bonett's (2008) heteroscedasticity-robust variance
-  (Eq. 11, with a t critical value), and the BCa bootstrap with a
-  percentile fallback.
+  with a t critical value, and the BCa bootstrap with a percentile
+  fallback.
 * `disattenuate()`: the bare Spearman (1904) correction, for d-family
   effect sizes and correlations.
 * `mes_ci()`: recompute the confidence interval of an existing `mes`

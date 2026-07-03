@@ -210,7 +210,7 @@ mes_d <- function(x1 = NULL,
 #'
 #' @description
 #' Sampling variance from Hedges & Olkin (1985), then divided by rxx
-#' per Hunter & Schmidt (2004, p. 99):
+#' per Hunter & Schmidt (2004):
 #' \deqn{Var(d) = \frac{n_1 + n_2}{n_1 n_2} + \frac{d^2}{2(n_1 + n_2)}}
 #' Treating reliability as fixed, the corrected variance is:
 #' \deqn{Var(d^*) = \frac{Var(d)}{r_{xx}}}
@@ -248,7 +248,7 @@ mes_d <- function(x1 = NULL,
 #' group's own variance and yields better coverage when the two groups'
 #' SDs differ. The interval uses a t critical value with df = n1+n2-2.
 #'
-#' Variance (Bonett, 2008, Eq. 11, adapted to the corrected d):
+#' Variance (Bonett, 2008, adapted to the corrected d):
 #' \deqn{\widehat{Var}(d) =
 #'   \frac{d^2 \, (s_1^4/v_1 + s_2^4/v_2)}{2(s_1^2 + s_2^2)^2}
 #'   + \frac{s_1^2/v_1 + s_2^2/v_2}{(s_1^2 + s_2^2)/2}}

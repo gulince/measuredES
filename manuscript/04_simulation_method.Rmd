@@ -65,7 +65,7 @@ The factor levels were chosen to span realistic research conditions
 rather than to stress-test extremes. The reliability values
 0.60--0.95 cover the range typically documented for published
 psychological measures in reliability generalization studies
-[@vacha1998]; group sizes of 30--240 run from small laboratory
+[e.g., @vacha1998]; group sizes of 30--240 run from small laboratory
 experiments to well-powered field studies; and the 10-item test used
 in the estimated-reliability condition matches the length of many
 brief self-report scales.
@@ -108,7 +108,7 @@ simulated with the following factors:
     (mean $\approx 0.67$, SD $\approx 0.13$), a distribution whose
     center and spread reflect the between-study variation in score
     reliability documented in reliability generalization work
-    [@vacha1998]
+    [e.g., @vacha1998]
 
 This yielded $3 \times 2 \times 2 = 12$ conditions, each replicated
 $R = 1{,}000$ times. For each replication, $k$ primary studies were

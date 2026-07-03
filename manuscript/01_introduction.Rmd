@@ -11,7 +11,7 @@ and study planning, and supply the raw material for meta-analytic
 synthesis. Effect-size reporting has accordingly been central to the
 "new statistics" reform movement [@cumming2014], and recent
 editorial mandates go beyond reporting to require interval estimates
-and substantive interpretation [@apa2020, p. 89].
+and substantive interpretation [@apa2020].
 
 Yet a foundational psychometric problem has remained largely
 peripheral to this reform: standardized effect sizes computed from
@@ -82,7 +82,7 @@ Second, the routine application of corrections requires choices that
 applied researchers cannot easily make without software guidance.
 The classical Spearman correction yields a point estimate but does
 not by itself provide an interval estimate; the standard
-Hunter--Schmidt confidence interval [@hunter2004, p. 99] treats
+Hunter--Schmidt confidence interval [@hunter2004] treats
 reliability as known and can undercover when reliability is poorly
 estimated [@charles2005]; the Bonett *t*-distribution
 refinement [@bonett2008] and bootstrap procedures

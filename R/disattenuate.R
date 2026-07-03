@@ -108,7 +108,7 @@ disattenuate <- function(effect,
           warning(sprintf(
             paste0("Corrected correlation |r| > 1 (r = %.3f). Likely caused ",
                    "by sampling error in the reliability estimates or model ",
-                   "misspecification (Hunter & Schmidt, 2004, p. 96)."),
+                   "misspecification (Hunter & Schmidt, 2004)."),
             corrected_r), call. = FALSE)
         }
         corrected_r

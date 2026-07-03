@@ -121,7 +121,7 @@ one_replication <- function(n1, n2, delta, rho_true,
   z_crit <- stats::qnorm(0.975)
   ci_hs <- d_corrected + c(-1, 1) * z_crit * sqrt(var_d_corr)
 
-  # Bonett (2008) Eq. 11 heteroscedasticity-robust variance
+  # Bonett (2008) heteroscedasticity-robust variance
   s1sq   <- stats::var(X1); s2sq <- stats::var(X2)
   v1     <- n1 - 1L;        v2   <- n2 - 1L
   sum_sq <- s1sq + s2sq

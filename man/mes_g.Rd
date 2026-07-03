@@ -67,7 +67,7 @@ J is just under 1 for small samples and approaches 1 as n grows.
 Order matters for the variance. Since g = J·d, the sampling variance
 picks up a J^2 factor before the reliability correction is applied:
 \deqn{\text{Var}(g^*) = \frac{J^2 \cdot \text{Var}(d)}{r_{xx}}}
-(Hunter & Schmidt, 2004, p. 99; Bonett, 2008).
+(Hunter & Schmidt, 2004; Bonett, 2008).
 }
 \examples{
 set.seed(2026)
