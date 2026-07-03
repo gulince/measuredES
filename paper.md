@@ -27,16 +27,16 @@ bibliography: paper.bib
 
 `measuredES` is an R package that computes effect sizes
 (Cohen's *d* and Hedges' *g*) corrected for attenuation due to
-measurement unreliability. The package implements psychometric correction traditions
-[@hunter2004; @spearman1904] with modern interval estimation
-techniques [@charles2005; @bonett2008]. Outputs are compatible with
+measurement unreliability. It combines the classical disattenuation
+correction [@spearman1904; @hunter2004] with modern interval
+estimation [@charles2005; @bonett2008]. Outputs are compatible with
 `metafor` for meta-analysis and follow APA-7 reporting standards.
 
 # Statement of need
 
-The misreporting of effect sizes due to measurement error is a
-documented yet under-corrected problem across the behavioral
-sciences [@schmidt1996; @baugh2002]. When measures have
+The systematic underestimation of effect sizes due to measurement
+error is a documented yet rarely corrected problem across the
+behavioral sciences [@schmidt1996; @baugh2002]. When measures have
 imperfect reliability ($r_{xx} < 1$), observed standardized effect
 sizes systematically underestimate population effects:
 

@@ -10,6 +10,7 @@
 #'   \item{\code{\link{mes_d}}}{Corrected Cohen's d}
 #'   \item{\code{\link{mes_g}}}{Corrected Hedges' g}
 #'   \item{\code{\link{disattenuate}}}{General attenuation-correction engine}
+#'   \item{\code{\link{mes_ci}}}{Recompute the interval of an existing result}
 #'   \item{\code{\link{mes_meta}}}{Conversion to meta-analytic format}
 #'   \item{\code{\link{mes_report}}}{APA-7-style reporting}
 #' }
@@ -25,7 +26,7 @@
 #' @section Caveats:
 #' The correction handles random measurement error only; systematic bias
 #' is a different problem entirely. At low reliability (\eqn{r_{xx} < 0.50})
-#' the corrected estimate can blow up in ways that are hard to interpret
+#' the corrected estimate becomes unstable and hard to interpret
 #' (Charles, 2005), so treat those results with caution.
 #'
 #' @author

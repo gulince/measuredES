@@ -31,11 +31,12 @@ APA Publication Manual (7th edition). Produces both in-line text and
 tabular formats.
 }
 \details{
-APA-7 requires that effect sizes always be reported and, where possible,
+APA style calls for effect sizes to be reported and, where possible,
 accompanied by confidence intervals (American Psychological Association,
-2020). When a correction for measurement error has been applied, this
-must be stated explicitly (Wilkinson & APA Task Force on Statistical
-Inference, 1999).
+2020). In line with long-standing transparency guidelines (Wilkinson &
+APA Task Force on Statistical Inference, 1999), the inline output always
+shows the observed estimate next to the corrected one, so readers can
+see that (and how much) a correction was applied.
 }
 \examples{
 set.seed(2026)

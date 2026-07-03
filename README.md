@@ -28,10 +28,10 @@ toward zero:
 d_observed = d_true × √(r_xx)
 ```
 
-So at *r_xx* = 0.70 your effect is about 16% smaller than it really
-should be. `measuredES` reverses that shrinkage, drawing on the
-psychometric tradition (Hunter & Schmidt, 2004) and modern interval
-estimation (Bonett, 2008).
+So at *r_xx* = 0.70 the observed effect is about 16% smaller than its
+construct-level counterpart. `measuredES` reverses that shrinkage,
+drawing on the psychometric tradition (Hunter & Schmidt, 2004) and
+modern interval estimation (Bonett, 2008).
 
 ## Installation
 
