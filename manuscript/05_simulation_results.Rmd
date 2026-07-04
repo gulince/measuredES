@@ -13,8 +13,8 @@ systematic negative bias across all conditions, with the relative bias
 matching the theoretical attenuation factor
 $(\sqrt{\rho_{xx}} - 1) \times 100\%$: approximately $-22\%$ at
 $\rho_{xx} = 0.60$ and $-2.5\%$ at $\rho_{xx} = 0.95$. At
-$\rho_{xx} = 0.60$, the absolute bias ranged from $-0.045$ for
-$\delta = 0.20$ to $-0.174$ for $\delta = 0.80$, reflecting the
+$\rho_{xx} = 0.60$, the absolute bias ranged from $-0.044$ for
+$\delta = 0.20$ to $-0.178$ for $\delta = 0.80$ (Table 1), reflecting the
 multiplicative nature of the attenuation ($d_{\text{obs}} =
 \delta\sqrt{\rho_{xx}}$, so bias $= \delta(\sqrt{\rho_{xx}} - 1)$).
 This pattern confirms that neglecting measurement error consistently
@@ -31,17 +31,22 @@ uncorrected estimator in small-sample conditions ($n = 30$), a
 well-known consequence of the variance inflation introduced by the
 correction [@charles2005]. At $n = 30$, $\rho_{xx} = 0.60$, and
 $\delta = 0.80$, RMSE increased from 0.319 (uncorrected) to 0.345
-(corrected). This trade-off reversed for $n \geq 60$, where the
-corrected estimator achieved lower RMSE by eliminating the
-dominant bias component (e.g., RMSE dropped from 0.204 uncorrected
-to 0.122 corrected at $n = 240$).
+(corrected). Where the trade-off reverses depends on how much bias
+there is to remove. At $\rho_{xx} = 0.60$ and $\delta = 0.80$, the
+corrected estimator's RMSE was lower from $n = 60$ on (0.245 vs.
+0.261, widening to 0.122 vs. 0.204 at $n = 240$); at
+$\rho_{xx} = 0.75$--$0.85$ the crossover came near $n = 120$; and at
+$\rho_{xx} = 0.95$, where there is little bias to remove, the two
+estimators' RMSEs simply converged.
 
-**Effect of score distribution.** Results under the skewed
-distribution were substantively similar to those under normality.
-The correction remained unbiased, and RMSE differences between
-distributional conditions were negligible (all $< 0.01$), consistent
-with the robustness of the Spearman correction to non-normality
-documented by @hunter2004.
+**Effect of score distribution.** Point estimation under the skewed
+distribution was substantively similar to that under normality: the
+correction remained essentially unbiased, and RMSE differences
+between matched distributional conditions were small (largest
+absolute difference 0.016). This is expected, because the correction
+is a multiplicative rescaling of $d$ and its bias behavior does not
+depend on normality. Skewness did, however, affect interval
+coverage, as reported in Section 5.2.1.
 
 **Effect of reliability estimation.** When $\rho_{xx}$ was estimated
 via Cronbach's $\alpha$ rather than treated as known, the corrected
@@ -142,12 +147,10 @@ uncorrected meta-analytic estimator suffered severe coverage
 failure, and the failure worsened as more studies were pooled:
 coverage of the uncorrected estimate fell from 0.854 at $k = 5$,
 $\delta_{\mu} = 0.30$ to 0.279 at $k = 20$, $\delta_{\mu} = 0.50$
-(Table 2, heterogeneous rows).
+(Table 2, heterogeneous rows) — in the latter condition, the
+interval missed the true effect in more than 70% of replications.
 
-At $k = 20$ and $\delta_{\mu} = 0.50$, the uncorrected pooled
-estimate was contained within the 95% confidence interval in only
-27.9% of replications, a coverage failure rate of over 70%. This
-catastrophic under-coverage arises because reliability heterogeneity
+This catastrophic under-coverage arises because reliability heterogeneity
 induces between-study variance that is confounded with true
 heterogeneity in $\delta$; the random-effects model cannot separate
 these sources without correction. Conversely, the corrected estimator

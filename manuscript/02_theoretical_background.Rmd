@@ -130,12 +130,14 @@ A critical limitation of all three intervals described above is that
 they treat $\rho_{xx}$ as a known constant. When $\rho_{xx}$ is
 estimated, as is invariably the case in practice, the sampling
 variability of $\hat{\rho}_{xx}$ contributes additional uncertainty
-to $\hat{\delta}$ that the intervals do not capture. @hunter2004
-give the full variance formula:
+to $\hat{\delta}$ that the intervals do not capture. A first-order
+propagation-of-error (delta-method) argument, treating
+$d_{\text{obs}}$ and $\hat{\rho}_{xx}$ as independent, shows what is
+missing:
 
-$$\text{Var}(\hat{\delta}) =
+$$\text{Var}(\hat{\delta}) \approx
   \frac{\text{Var}(d_{\text{obs}})}{\rho_{xx}} +
-  \frac{d_{\text{obs}}^2 \cdot \text{Var}(\hat{\rho}_{xx})}{\rho_{xx}^2}.$$
+  \frac{d_{\text{obs}}^2 \, \text{Var}(\hat{\rho}_{xx})}{4\rho_{xx}^{3}}.$$
 
 The second term vanishes only when $\rho_{xx}$ is known. @charles2005
 demonstrated that this omitted term can be substantial when

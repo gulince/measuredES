@@ -111,9 +111,9 @@ Sections 2.3.4 and 5.2, the confidence intervals currently
 implemented in `measuredES` treat $\rho_{xx}$ as a fixed constant.
 Study 2 found no measurable coverage penalty with a 10-item
 $\alpha$ at the sample sizes examined, but the omitted variance
-term grows as tests shorten and samples shrink; a full
-propagation-of-error approach [@hunter2004] or a Bayesian interval
-that places a prior on $\rho_{xx}$ would capture that additional
+term grows as tests shorten and samples shrink; the delta-method
+interval sketched in Section 2.3.4 or a Bayesian interval that
+places a prior on $\rho_{xx}$ would capture that additional
 uncertainty. These extensions are planned for a future release.
 
 **Parallel-tests assumption.** The Spearman correction is exact
@@ -145,10 +145,10 @@ addressed by the Spearman correction.
 
 ## 6.5 Future Directions
 
-Several extensions are planned. First, the propagation-of-error
-variance formula of @hunter2004 could be offered as an option in
-`mes_d()` and `mes_g()`, giving wider, more conservative confidence
-intervals that account for estimated reliability. Second, a
+Several extensions are planned. First, the delta-method variance of
+Section 2.3.4 could be offered as an option in `mes_d()` and
+`mes_g()`, giving wider, more conservative confidence intervals
+that account for estimated reliability. Second, a
 Bayesian implementation with a Beta prior on $\rho_{xx}$ would
 offer coherent interval estimation under full uncertainty. Support
 for effect sizes in multilevel and structural equation models,
