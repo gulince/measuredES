@@ -73,6 +73,23 @@ Three confidence interval methods are available via `ci_method`:
 `"hunter_schmidt"` (default), `"bonett"`, and `"bootstrap"`
 (BCa; requires raw data).
 
+For bivariate correlations the interface is simpler: pass the
+observed Pearson *r*, the sample size, and one or both reliability
+coefficients.
+
+```r
+# One-sided correction (outcome reliability only)
+r_result <- mes_r(r = 0.42, n = 120, rxx = 0.85)
+
+# Two-sided correction (both variables fallible)
+r_result <- mes_r(r = 0.42, n = 120, rxx = 0.85, ryy = 0.78)
+```
+
+`mes_r()` always returns a Fisher-z confidence interval; the
+`ci_method` argument is not needed because Fisher-z is the
+standard and only analytically tractable option for corrected
+correlations.
+
 The `rxx` argument accepts whatever reliability estimate is
 appropriate for the measure: Cronbach's $\alpha$, McDonald's
 $\omega$, test--retest, or a value taken from the literature. Under

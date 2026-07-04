@@ -10,13 +10,15 @@ Authors@R: c(
     person(given = "Eren Halil", family = "Özberk",
            role = "aut",
            comment = c(ORCID = "0000-0003-2136-3081")))
-Description: Computes effect sizes (Cohen's d and Hedges' g) corrected for
-    attenuation due to measurement unreliability. Implements the classical
-    disattenuation formula of Spearman (1904) <doi:10.2307/1412159>, the
-    Hunter-Schmidt psychometric meta-analysis framework, and analytical and
-    bootstrap confidence intervals following Charles (2005)
-    <doi:10.1037/1082-989X.10.2.206> and Bonett (2008)
-    <doi:10.1037/1082-989X.13.2.99>. Produces APA-7 style reports and
+Description: Computes effect sizes corrected for attenuation due to
+    measurement unreliability: Cohen's d and Hedges' g for two-group
+    comparisons, and Pearson r for bivariate correlations. Implements the
+    classical disattenuation formula of Spearman (1904)
+    <doi:10.2307/1412159>, the Hunter-Schmidt psychometric meta-analysis
+    framework, and analytical and bootstrap confidence intervals following
+    Charles (2005) <doi:10.1037/1082-989X.10.2.206> and Bonett (2008)
+    <doi:10.1037/1082-989X.13.2.99>. Fisher-z intervals are provided for
+    corrected correlations. Produces APA-7 style reports and
     'metafor'-compatible meta-analytic data structures.
 License: GPL (>= 3)
 Encoding: UTF-8

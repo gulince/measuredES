@@ -19,7 +19,9 @@ Initial release.
   interval reflects that reliability was estimated rather than
   known. `mes_ci()` and `mes_meta()` honor it.
 * `disattenuate()`: the bare Spearman (1904) correction, for d-family
-  effect sizes and correlations.
+  effect sizes and correlations. Accepts a numeric vector for `effect`
+  so an entire column of study-level d values can be corrected in one
+  call.
 * `mes_r()`: correlation corrected for one- or two-sided
   unreliability, with a Fisher-z confidence interval whose endpoints
   are divided by the attenuation factor (exact under known

@@ -415,6 +415,23 @@ result <- mes_d(means = c(50, 56),
 `"hunter_schmidt"` (varsayılan), `"bonett"` ve `"bootstrap"` (BCa;
 ham veri gerektirir).
 
+İki değişkenli korelasyonlar için arayüz daha yalındır: gözlenen
+Pearson *r* değeri, örneklem büyüklüğü ve bir ya da her iki
+güvenirlik katsayısı doğrudan argüman olarak verilir.
+
+```r
+# Tek yönlü düzeltme (yalnızca ölçüt güvenirliği)
+r_result <- mes_r(r = 0.42, n = 120, rxx = 0.85)
+
+# İki yönlü düzeltme (her iki değişken de hatalı ölçülmüş)
+r_result <- mes_r(r = 0.42, n = 120, rxx = 0.85, ryy = 0.78)
+```
+
+`mes_r()` her zaman Fisher-z güven aralığı döndürür; düzeltilmiş
+korelasyonlar için standart ve analitik olarak uygulanabilir tek
+yöntem Fisher-z dönüşümü olduğundan `ci_method` argümanına gerek
+yoktur.
+
 `rxx` argümanı, ölçme aracı için uygun görülen herhangi bir
 güvenirlik kestirimini kabul eder: Cronbach $\alpha$'sı, McDonald
 $\omega$'sı, test--tekrar test ya da alanyazından alınan bir değer.
