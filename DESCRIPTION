@@ -37,3 +37,4 @@ VignetteBuilder: knitr
 URL: https://github.com/gulince/measuredES
 BugReports: https://github.com/gulince/measuredES/issues
 Config/roxygen2/version: 8.0.0
+Language: en-US

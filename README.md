@@ -2,6 +2,7 @@
 
 > Effect sizes corrected for measurement error, for the behavioral sciences.
 
+[![R-CMD-check](https://github.com/gulince/measuredES/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gulince/measuredES/actions/workflows/R-CMD-check.yaml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Overview
