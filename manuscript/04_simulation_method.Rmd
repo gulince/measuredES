@@ -44,7 +44,12 @@ $\rho_{xx}$ was estimated from a simulated $k = 10$ item test using
 Cronbach's $\alpha$ computed from item responses generated under the
 tau-equivalent model. The Spearman–Brown formula was used to
 determine per-item reliability such that the $k$-item composite
-achieved the target $\rho_{xx}$.
+achieved the target $\rho_{xx}$. We used $\alpha$ because it equals
+the reliability under tau-equivalence, the model that generated the
+items; with real, typically congeneric data, $\alpha$ underestimates
+$\rho_{xx}$ and $\omega$-type coefficients are preferable
+[@mcneish2018]. The package is agnostic on this point: any
+reliability estimate enters through the same `rxx` argument.
 
 ## 4.3 Study 1 and Study 2 Design
 

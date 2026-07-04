@@ -1,0 +1,1012 @@
+---
+title: "Davranış Bilimlerinde Ölçme Hatasına Göre Düzeltilmiş Etki Büyüklükleri: Bir Simülasyon Çalışması ve measuredES R Paketi"
+author:
+  - "Fazilet Gül İnce Aracı, Ölçme ve Değerlendirme Anabilim Dalı, Karamanoğlu Mehmetbey Üniversitesi (gulincegazi@gmail.com, ORCID 0000-0001-5620-6911)"
+date: "`r format(Sys.Date(), '%d.%m.%Y')`"
+output:
+  word_document:
+    fig_caption: yes
+bibliography: ../paper.bib
+csl: apa.csl
+---
+
+*Not: Bu belge, İngilizce ana metnin çalışma amaçlı Türkçe çevirisidir;
+dergiye gönderilecek metin İngilizce sürümdür.*
+
+# Öz
+
+Gözlenen etki büyüklükleri, puan güvenirliğinin kusurlu olması
+nedeniyle zayıflar (attenuation); ancak bu yanlılık araştırma
+pratiğinde nadiren düzeltilir. Bu çalışmada, Cohen *d*'sini ve Hedges
+*g*'sini klasik test kuramı çerçevesinde güvenirsizliğe göre düzelten
+ve üç güven aralığı yöntemi (Hunter--Schmidt analitik, Bonett *t*
+tabanlı ve yanlılık düzeltmeli hızlandırılmış bootstrap) sunan
+measuredES R paketini tanıtıyoruz. Paketi ve düzeltmenin kendisini
+değerlendirmek için, düzeltilmiş ve düzeltilmemiş Cohen *d*'sinin
+yanlılığını, hata kareleri ortalamasının karekökünü (RMSE) ve güven
+aralığı kapsamasını gerçek etki büyüklüğü, örneklem büyüklüğü,
+güvenirlik, dağılım biçimi ve güvenirliğin bilinmesi--kestirilmesi
+koşulları boyunca inceleyen 192 hücreli faktöriyel bir Monte Carlo
+simülasyonu (hücre başına 5.000 tekrar) yürüttük. İkinci bir
+simülasyon (hücre başına 1.000 tekrar), çalışmalar arası güvenirlik
+heterojenliğinin havuzlanmış meta-analitik kestirimlere etkisini
+inceledi. Düzeltilmemiş etki büyüklükleri evren etkisini
+$\sqrt{\rho_{xx}}$ ile orantılı biçimde küçümsedi ($\rho_{xx} = .60$
+düzeyinde yaklaşık %22); her iki analitik aralık da nominal düzeye
+yakın kapsama sağladı; Hunter--Schmidt aralığı hafifçe
+anti-konservatif, Bonett aralığı ise küçük örneklemlerde hafifçe
+konservatif yönde saptı; heterojen güvenirlikli çalışmaların
+meta-analizleri, her çalışma tek tek düzeltilmedikçe aşağı yönlü
+yanlı kaldı ve havuzlanmış kestirimin kapsaması $k = 20$ çalışmada
+0.28'e kadar düştü. Bu sonuçların raporlama pratiği ve meta-analitik
+sentez için ne anlama geldiğini ve düzeltmenin uygulamalı
+çalışmalarda hangi koşullarda savunulabilir olduğunu tartışıyoruz.
+
+**Anahtar sözcükler:** etki büyüklüğü, ölçme hatası, güvenirlik,
+zayıflama, Cohen d'si, Hedges g'si, meta-analiz, simülasyon
+çalışması, R yazılımı
+
+# 1. Giriş
+
+Standartlaştırılmış etki büyüklüklerinin raporlanması, davranış
+bilimlerinde neredeyse evrensel bir beklenti hâline gelmiş; *Amerikan
+Psikoloji Birliği Yayım Kılavuzu*'nda [@apa2020] kurallaştırılmış ve
+psikoloji, eğitim ve daha geniş sosyal bilimlerdeki editoryal
+politikalara yerleşmiştir [@wilkinson1999; @cumming2014]. Etki
+büyüklükleri bir olgunun büyüklüğünü çalışmalar arasında
+karşılaştırılabilir bir metrikte ifade eder, güç analizini ve
+araştırma planlamasını besler ve meta-analitik sentezin ham maddesini
+sağlar. Etki büyüklüğü raporlaması bu nedenle "yeni istatistik"
+reform hareketinin merkezinde yer almış [@cumming2014]; güncel
+editoryal zorunluluklar raporlamanın ötesine geçerek aralık
+kestirimi ve içerikli yorum talep eder olmuştur [@apa2020].
+
+Ne var ki temel bir psikometrik sorun bu reformun büyük ölçüde
+kıyısında kalmıştır: hatalı ölçme araçlarından hesaplanan
+standartlaştırılmış etki büyüklükleri, ilgilenilen yapıya ilişkin
+evren etkisine göre sistematik biçimde zayıflar. Spearman
+[-@spearman1904] tarafından formalize edilen bu zayıflama, klasik
+test kuramının doğrudan bir sonucudur: gözlenen puan $X$, gerçek puan
+$T$ ile bağımsız rastgele hata $E$'nin toplamı olduğunda $X$'in
+varyansı $T$'nin varyansını aşar ve $X$ üzerindeki her
+standartlaştırılmış karşılaştırma sıfıra doğru büzülür.
+Standartlaştırılmış ortalama farkı için bu ilişki şu biçimi alır:
+
+$$d_{\text{gözlenen}} = d_{\text{gerçek}} \cdot \sqrt{\rho_{xx}}$$
+
+Burada $\rho_{xx}$, bağımlı değişkenin güvenirliğidir. Aynı mantık,
+her iki değişkendeki hatanın büzülmeyi katladığı korelasyon
+katsayıları için de geçerlidir [@spearman1904].
+
+Bu zayıflamanın pratik sonuçları göz ardı edilebilir düzeyde
+değildir. Schmidt ve Hunter [-@schmidt1996], ölçme hatasını yok
+saymanın sonuçlarını personel seçiminden eğitsel değerlendirmeye ve
+klinik ölçmeye uzanan 26 araştırma senaryosu üzerinde izlemiş ve
+düzeltilmemiş etki kestirimlerinin sistematik olarak yanıltıcı
+içerik sonuçları ürettiğini göstermiştir. Hunter ve Schmidt
+[-@hunter2004], zayıflama düzeltmesi mantığını, gözlenen etki
+büyüklüklerinin sentez öncesinde örnekleme hatası, ranj daralması ve
+güvenirsizlik için düzeltildiği ve kimi zaman "psikometrik
+meta-analiz" olarak adlandırılan bütün bir meta-analiz yaklaşımının
+temeli yapmıştır. Baugh [-@baugh2002], puan güvenirliğine göre
+düzeltilmiş etki büyüklüklerinin rutin olarak raporlanmasının eğitimde
+ve psikolojide ölçme alanında standart uygulama hâline gelmesi
+gerektiğini savunmuştur; bu makale o savı çıkış noktası olarak alır.
+
+## 1.1 Yöntembilimsel uzlaşı ile yazılım desteği arasındaki boşluk
+
+Ölçme hatasına göre düzeltilmiş etki büyüklüklerinin yöntembilimsel
+gerekçesi ne yenidir ne de tartışmalıdır. Spearman düzeltmesi bir
+yüzyılı aşkın süredir ders kitabı düzeyinde bir işlemdir ve Hunter ile
+Schmidt'in psikometrik meta-analiz çerçevesi endüstri-örgüt
+psikolojisinde, eğitimde ve ilgili alanlarda binlerce uygulama
+biriktirmiştir. Yöntembilimsel uzlaşıya ayak uyduramayan şey,
+düzeltilmiş kestirimlerin uygulamalı çalışmalarda rutin olarak
+erişilebilir olmasıdır. Bu saptamayı iki gözlem destekler.
+
+Birincisi, R ekosistemindeki yaygın genel amaçlı etki büyüklüğü
+paketleri güvenirlik düzeltmesini varsayılan olarak sunmaz. Yaygın
+kullanılan `effectsize` paketi [@bensh2020] Cohen *d*'sini, Hedges
+*g*'sini ve pek çok başka indeksi hesaplar; ancak ölçme hatası
+düzeltmesini çekirdek işlevleri arasında sunmaz. Uzmanlaşmış paketler
+sorunun dar bileşenlerini kapsar: `MBESS` [@kelley2007] çeşitli etki
+büyüklükleri için güven aralıkları sağlar, `psych` [@revelle2024]
+$\omega$ katsayısı dahil güvenirlik katsayılarını hesaplar ve
+`metafor` [@viechtbauer2010] meta-analitik sentez yürütür. En yakın
+akraba, `correct_d()` işleviyle *d* için güvenirsizlik düzeltmeleri
+dahil Hunter--Schmidt artefakt düzeltmelerini psikometrik
+meta-analiz makinesinin parçası olarak sunan `psychmeta`
+[@dahlke2019] paketidir. `psychmeta` meta-analitik veri tabanlarına
+yöneliktir: `correct_d()` önceden hesaplanmış *d* değerlerini alır,
+düzeltmeyi nokta-çiftserili korelasyona dönüştürme yoluyla elde eder
+ve burada değerlendirilen değişen-varyansa-dayanıklı ya da bootstrap
+aralıklarını sunmaz. Ham veriden, formülden ya da özet
+istatistiklerden düzeltilmiş bir *d*-ailesi kestirimi hesaplamayı
+aralık kestirimi ve meta-analitik dışa aktarımla birleştiren,
+tek-çalışma iş akışına hizmet eden bir paket yoktur.
+
+İkincisi, düzeltmelerin rutin uygulanması, uygulamalı
+araştırmacıların yazılım desteği olmadan kolayca veremeyeceği
+kararlar gerektirir. Klasik Spearman düzeltmesi bir nokta kestirimi
+verir ama kendi başına bir aralık kestirimi sağlamaz; standart
+Hunter--Schmidt güven aralığı [@hunter2004] güvenirliği biliniyormuş
+gibi ele alır ve güvenirlik kötü kestirildiğinde nominalin altında
+kapsayabilir [@charles2005]; Bonett'in *t* dağılımı iyileştirmesi
+[@bonett2008] ve bootstrap yöntemleri [ayrıca bkz. @algina2003]
+seçenek sunar; ancak bunların gerçekçi koşullardaki göreli
+performansı sistematik olarak haritalanmamıştır. Bunun sonucunda,
+zayıflama düzeltmesi uygulayan az sayıdaki araştırmacı bunu çoğu kez
+aralık kestirimi olmaksızın yapar; bu da düzeltmenin çıkarımsal
+değerini sınırlar.
+
+## 1.2 Bu çalışmanın katkısı
+
+Bu boşluğu, ölçme hatasına göre düzeltilmiş *d*-ailesi etki
+büyüklüklerini klasik test kuramı çerçevesinde uygulayan measuredES
+R paketini tanıtarak ele alıyoruz. Paket; Cohen *d*'si ile Hedges
+*g*'sinin düzeltilmiş sürümlerini, genel zayıflama düzeltme motorunu
+(korelasyonlar için iki yönlü düzeltme dahil), üç güven aralığı
+yöntemini (Hunter--Schmidt analitik, Bonett ve BCa bootstrap), APA-7
+raporlama arayüzünü ve doğrudan `metafor`'a akan meta-analitik dışa
+aktarımı sağlar. Uygulama tek-işlevli iş akışlarını önceler; ham
+verinin yanı sıra özet istatistikleri de kabul eder ve bir kılavuz
+(vignette) ile yeniden üretilebilir bir test takımıyla birlikte
+gelir.
+
+Hem paketi hem de düzeltme yaklaşımının kendisini değerlendirmek
+için, bu makalede sunulan birbirine bağlı üç Monte Carlo simülasyon
+çalışması yürüttük. **Çalışma 1**, gerçek etki büyüklüğü, örneklem
+büyüklüğü, gerçek güvenirlik, güvenirlik kestirim durumu (biliniyor
+ya da $\alpha$ katsayısıyla kestiriliyor) ve dağılım biçiminin
+(normal ya da orta düzeyde çarpık) çaprazlandığı 192 hücreli
+faktöriyel desende, düzeltilmiş ve düzeltilmemiş Cohen *d*'sinin
+yanlılığını ve RMSE'sini inceledi. **Çalışma 2**, iki analitik güven
+aralığı yönteminin (Hunter--Schmidt ve Bonett) kapsama olasılığını
+ve genişliğini aynı desen faktörleri boyunca değerlendirdi; BCa
+bootstrap, hesaplama maliyeti nedeniyle simülasyonun dışında
+bırakıldı (bkz. Bölüm 2.3.3). **Çalışma 3**, analizi meta-analitik
+düzeye taşıyarak havuzlanmış etki kestirimlerinin yanlılığını,
+çalışmalar arası güvenirliğin homojen ve heterojen olduğu koşullarda
+ve sentezlenen çalışma sayısı $k \in \{5, 10, 20\}$ iken inceledi.
+
+Makalenin kalanı şöyle düzenlenmiştir. Bölüm 2 kuramsal temeli
+geliştirir: Spearman düzeltmesi ve üzerine kurulan güven aralığı
+yöntemleri. Bölüm 3 `measuredES` paketini tanıtır. Bölüm 4 simülasyon
+desenini betimler; Bölüm 5 üç çalışmanın sonuçlarını raporlar. Bölüm
+6 doğurguları, uygulama önerilerini ve sınırlılıkları tartışır; Bölüm
+7 sonuçlandırır.
+
+# 2. Kuramsal Arka Plan
+
+## 2.1 Klasik Test Kuramı ve Spearman Düzeltmesi
+
+Klasik test kuramı (KTK) çerçevesinde gözlenen puan $X$ şu biçimde
+ayrışır:
+
+$$X = T + E,$$
+
+Burada $T$ gerçek puan, $E$ rastgele ölçme hatasıdır;
+$\text{Cov}(T, E) = 0$ ve $E(E) = 0$ varsayılır [@lord1968]. $X$'in
+güvenirliği, gerçek puan varyansının toplam gözlenen puan varyansına
+oranı olarak tanımlanır:
+
+$$\rho_{xx} = \frac{\sigma^2_T}{\sigma^2_X} = \frac{\sigma^2_T}{\sigma^2_T + \sigma^2_E}.$$
+
+$\sigma^2_E > 0$ olduğu her durumda $\sigma^2_X > \sigma^2_T$
+olduğundan, gözlenen standart sapma $S_X$ gerçek puan standart
+sapması $\sigma_T$'yi aşar. Paydasında $S_X$ kullanan her
+standartlaştırılmış etki büyüklüğü, bu nedenle örtük yapıya ilişkin
+evren etkisine göre zayıflamıştır.
+
+Spearman [-@spearman1904], gözlenen kestirimi güvenirliğin
+karekökuna bölerek evren etkisini kestiren genel zayıflama
+düzeltmesini türetmiştir:
+
+$$\hat{\delta} = \frac{d_{\text{gözlenen}}}{\sqrt{\rho_{xx}}},$$
+
+Burada $\delta$ gerçek-puan standartlaştırılmış ortalama farkını,
+$d_{\text{gözlenen}}$ ise hatalı puanlardan hesaplanan alışıldık
+Cohen $d$'sini gösterir. Düzeltme, $\rho_{xx}$ bilindiğinde kesindir;
+uygulamada $\rho_{xx}$ çoğunlukla Cronbach $\alpha$'sıyla kestirilir
+[@revelle2009; @mcneish2018] ve bu, Bölüm 2.3.4'te tartışılan ek bir
+belirsizlik kaynağı doğurur.
+
+## 2.2 *d*-Ailesi Etki Büyüklükleri için Düzeltme
+
+Gerçek puan varyansları eşit iki bağımsız grup için gözlenen
+puanlara dayalı Cohen $d$'si şu eşitliği sağlar:
+
+$$d_{\text{göz}} = \frac{\bar{X}_1 - \bar{X}_2}{S_p},$$
+
+Burada $S_p$ birleştirilmiş standart sapmadır. Paralel testler modeli
+altında [@lord1968] $d_{\text{göz}}$'ün beklenen değeri yaklaşık
+olarak $\delta\sqrt{\rho_{xx}}$'tir; dolayısıyla Spearman
+düzeltmeli kestirici
+
+$$\hat{\delta} = \frac{d_{\text{göz}}}{\sqrt{\hat{\rho}_{xx}}}$$
+
+$\hat{\rho}_{xx}$, $\rho_{xx}$ için yansız olduğunda $\delta$ için
+yaklaşık yansızdır [@hunter2004; @charles2005].
+
+Hedges $g$'si [@hedges1981], $d_{\text{göz}}$'ün kendi evren
+karşılığı $\delta\sqrt{\rho_{xx}}$'e göre taşıdığı küçük örneklem
+kaynaklı yukarı yönlü yanlılığı gidermek için
+$J(\nu) = 1 - 3/(4\nu - 1)$ küçük örneklem düzeltme çarpanını
+uygular ($\nu = n_1 + n_2 - 2$):
+
+$$g = J(\nu) \cdot d_{\text{göz}}.$$
+
+Ölçme hatasına göre düzeltilmiş sürüm ise şudur:
+
+$$g^* = \frac{g}{\sqrt{\rho_{xx}}}.$$
+
+Bağımsız değişkenin de hatalı ölçüldüğü uygulamalarda (ör. regresyon
+bağlamında örtük bir yordayıcı) korelasyon için tam iki yönlü
+Spearman düzeltmesi geçerlidir:
+
+$$r_{\text{gerçek}} = \frac{r_{xy}}{\sqrt{\rho_{xx} \cdot \rho_{yy}}},$$
+
+Burada $\rho_{xx}$ ve $\rho_{yy}$ iki değişkenin güvenirlikleridir
+[@hunter2004].
+
+## 2.3 Güven Aralığı Türetimi
+
+### 2.3.1 Hunter--Schmidt Analitik Aralığı
+
+Gözlenen Cohen $d$'sinin örnekleme varyansı şu biçimde yaklaşıklanır
+[@hedges1985]:
+
+$$\widehat{\text{Var}}(d_{\text{göz}}) =
+  \frac{n_1 + n_2}{n_1 n_2} + \frac{d_{\text{göz}}^2}{2(n_1 + n_2)}.$$
+
+$\rho_{xx}$ sabit ve bilinir kabul edildiğinde, düzeltilmiş kestirici
+$\hat{\delta} = d_{\text{göz}}/\sqrt{\rho_{xx}}$'in varyansı
+
+$$\widehat{\text{Var}}(\hat{\delta}) =
+  \frac{\widehat{\text{Var}}(d_{\text{göz}})}{\rho_{xx}}$$
+
+olur. $(1-\alpha)$ güven aralığı, standart normal yaklaşımdan elde
+edilir [@hunter2004]:
+
+$$\hat{\delta} \pm z_{\alpha/2}
+  \sqrt{\widehat{\text{Var}}(\hat{\delta})}.$$
+
+### 2.3.2 Bonett İyileştirmesi
+
+Bonett [-@bonett2008], varyans homojenliği varsaymak yerine her
+grubun kendi varyansını kullanan, standartlaştırılmış ortalama
+karşılaştırmaları için değişen-varyansa-dayanıklı bir örnekleme
+varyansı türetmiştir:
+
+$$\widehat{\text{Var}}(d) =
+  \frac{d^2 \left( s_1^4/v_1 + s_2^4/v_2 \right)}
+       {2 \left( s_1^2 + s_2^2 \right)^2} +
+  \frac{s_1^2/v_1 + s_2^2/v_2}{\left( s_1^2 + s_2^2 \right)/2},$$
+
+Burada $v_i = n_i - 1$'dir. `measuredES` uygulaması bu varyansı,
+Hunter--Schmidt aralığında olduğu gibi $\rho_{xx}$'e böler ve
+$z_{\alpha/2}$ yerine $\nu = n_1 + n_2 - 2$ serbestlik dereceli
+$t_{\alpha/2,\nu}$ kritik değeriyle eşler. İki uyarı geçerlidir.
+Birincisi, Bonett bu varyansı $\sqrt{(s_1^2 + s_2^2)/2}$ ile
+standartlaştırılan bir karşılaştırma için türetir; `measuredES` ise
+birleştirilmiş standart sapmayla standartlaştırır. İki
+standartlaştırıcı $n_1 = n_2$ olduğunda çakışır; Bölüm 4'te simüle
+edilen dengeli durum budur. İkincisi, grup büyüklükleri ve varyanslar
+eşitken Bonett ve Hunter--Schmidt varyansları çakışır; bu durumda iki
+aralık yalnızca $t$ kritik değeriyle ayrışır. Bölüm 5'teki simülasyon
+sonuçlarımız, bu aralığın grup başına $n = 30$'da bile nominale yakın
+kapsama sağladığını göstermektedir.
+
+### 2.3.3 Bootstrap Aralığı
+
+Ham veri girdileri için `measuredES`, yanlılık düzeltmeli ve
+hızlandırılmış (BCa) bootstrap güven aralığı da sunar [@efron1987].
+BCa aralığı dağılım varsayımı yapmaz ve evren dağılımı çarpık
+olduğunda özellikle uygundur. Hesaplama maliyeti nedeniyle bootstrap
+aralığı ana simülasyon çalışmasına dahil edilmemiştir; analitik
+aralıklara göre performansı gelecekteki çalışmalarda özel olarak
+incelenmeyi hak etmektedir.
+
+### 2.3.4 Sınırlılık: Güvenirlik Kestirim Belirsizliği
+
+Yukarıda betimlenen her üç aralığın da kritik bir sınırlılığı,
+$\rho_{xx}$'i bilinen bir sabit olarak ele almalarıdır. Uygulamada
+neredeyse her zaman olduğu gibi $\rho_{xx}$ kestirildiğinde,
+$\hat{\rho}_{xx}$'in örnekleme değişkenliği $\hat{\delta}$'ya
+aralıkların yakalamadığı ek bir belirsizlik katar. $d_{\text{göz}}$
+ile $\hat{\rho}_{xx}$'i bağımsız kabul eden birinci dereceden bir
+hata yayılımı (delta yöntemi) argümanı, eksik olanı gösterir:
+
+$$\text{Var}(\hat{\delta}) \approx
+  \frac{\text{Var}(d_{\text{göz}})}{\rho_{xx}} +
+  \frac{d_{\text{göz}}^2 \, \text{Var}(\hat{\rho}_{xx})}{4\rho_{xx}^{3}}.$$
+
+İkinci terim yalnızca $\rho_{xx}$ bilindiğinde sıfırlanır. Charles
+[-@charles2005], bu ihmal edilen terimin $\hat{\rho}_{xx}$ küçük
+örneklemlerden kestirildiğinde ya da gerçek güvenirlik düşük
+olduğunda önemli boyutlara ulaşabileceğini göstermiştir. Bölüm 4 ve
+5'te raporlanan simülasyon çalışması, güvenirliğin bilindiği ve
+kestirildiği koşulları karşılaştırarak bu öngörüyü görgül olarak
+sınamaktadır.
+
+# 3. measuredES Paketi
+
+## 3.1 Tasarım Felsefesi
+
+`measuredES` üç ilke etrafında tasarlanmıştır. Birincisi, *varsayılan
+olarak doğruluk*: her etki büyüklüğü işlevi hem düzeltilmemiş hem de
+düzeltilmiş kestirimi döndürür; böylece düzeltme, isteğe bağlı bir
+art-işlem adımında gizlenmek yerine çıktının içinde görünür olur.
+İkincisi, *birleşik arayüz*: tek bir S3 sınıfı (`mes`), hangi etki
+büyüklüğü türü hesaplanırsa hesaplansın tutarlı `print`, `summary`,
+`plot` ve `as.data.frame` yöntemleri sağlar. Üçüncüsü, *iş akışı
+uyumluluğu*: çıktı, meta-analiz için `metafor`'a [@viechtbauer2010]
+ve makale raporlaması için APA-7 biçimli metne doğrudan akar.
+
+Paket, mevcut R ekosistemindeki bir boşluğu ele alır. `effectsize`
+[@bensh2020] temiz çıktılı ve APA raporlamalı kapsamlı bir etki
+büyüklüğü işlev takımı sunar ama ölçme hatası düzeltmesi içermez.
+`MBESS` [@kelley2007] etki büyüklükleri için merkezî-olmayan
+dağılımlara dayalı güven aralıkları sağlar ama Spearman düzeltmesini
+uygulamaz. `psych` [@revelle2024] psikometrik araç takımının parçası
+olarak korelasyonlar için tek yönlü zayıflama düzeltmesini destekler
+ama bunu standartlaştırılmış ortalama farklarına genişletmez.
+`psychmeta` [@dahlke2019] önceden hesaplanmış *d* değerlerini
+Hunter--Schmidt meta-analiz çerçevesi içinde güvenirsizliğe göre
+düzeltir; `measuredES` onu birincil çalışma düzeyinde tamamlar: girdi
+ham veri, formül ya da özet istatistiklerdir; çıktı ise analitik ya
+da bootstrap aralık seçenekli düzeltilmiş bir kestirim, APA-7 metni
+ve `metafor`'a hazır bir dışa aktarımdır.
+
+## 3.2 Temel İşlev Haritası
+
+Paket, kullanıcıya dönük altı işlev dışa aktarır:
+
+| İşlev | Açıklama |
+|---|---|
+| `mes_d()` | Zayıflamaya göre düzeltilmiş Cohen $d$'si: $d^* = d / \sqrt{\rho_{xx}}$ |
+| `mes_g()` | Hem küçük örneklem hem zayıflama düzeltmeli Hedges $g$'si: $g^* = J \cdot d / \sqrt{\rho_{xx}}$ |
+| `disattenuate()` | $d$-ailesi etki büyüklükleri ve korelasyonlar için genel düzeltme motoru |
+| `mes_ci()` | Mevcut bir `mes` nesnesinin güven aralığını farklı bir yöntemle yeniden hesaplar |
+| `mes_meta()` | `mes` nesnelerini `metafor` uyumlu biçime ($y_i$, $v_i$) dönüştürür |
+| `mes_report()` | Bir `mes` nesnesinden APA-7 biçimli satır içi metin üretir |
+
+`disattenuate()`, tüm düzeltme işlevlerinin altında yatan matematiksel
+motordur ve kullanıcıların paket dışında hesaplanmış etki
+büyüklüklerine düzeltme uygulaması gerektiğinde doğrudan
+çağrılabilir.
+
+## 3.3 Tipik İş Akışı
+
+`measuredES` ile tipik bir araştırma iş akışı üç adımda ilerler.
+
+**Adım 1: Düzeltilmiş etki büyüklüğünü hesapla.**
+
+```r
+library(measuredES)
+
+# Ham veriden
+result <- mes_d(x1 = kontrol_puanlari,
+                x2 = deney_puanlari,
+                rxx = 0.85)
+
+# Ya da özet istatistiklerden (ör. yayımlanmış bir makale)
+result <- mes_d(means = c(50, 56),
+                sds   = c(10, 11),
+                ns    = c(80, 75),
+                rxx   = 0.78)
+```
+
+`ci_method` aracılığıyla üç güven aralığı yöntemi kullanılabilir:
+`"hunter_schmidt"` (varsayılan), `"bonett"` ve `"bootstrap"` (BCa;
+ham veri gerektirir).
+
+`rxx` argümanı, ölçme aracı için uygun görülen herhangi bir
+güvenirlik kestirimini kabul eder: Cronbach $\alpha$'sı, McDonald
+$\omega$'sı, test--tekrar test ya da alanyazından alınan bir değer.
+Konjenerik ölçme altında $\alpha$ güvenirliğin yalnızca alt sınırı
+olduğundan, çoğu durumda $\omega$ türü katsayılar daha iyi bir
+girdidir [@revelle2009; @mcneish2018].
+
+**Adım 2: Meta-analize hazırla.**
+
+```r
+# Birden çok çalışmanın sonuçlarını birleştir
+meta_data <- mes_meta(calisma1, calisma2, calisma3)
+
+# Doğrudan metafor'a aktar
+library(metafor)
+rma(yi = yi, vi = vi, data = meta_data)
+```
+
+**Adım 3: APA-7 biçiminde raporla.**
+
+```r
+mes_report(result, style = "inline", language = "en")
+#> corrected d = -0.65 (observed d = -0.57), 95% CI [-1.01, -0.28];
+#> reliability r_xx = 0.78
+```
+
+## 3.4 Uygulamalı Örnek
+
+Düzeltmenin bir alanyazın sentezi düzeyinde ne yaptığını göstermek
+için, `psychmeta` [@dahlke2019] ile dağıtılan örnekleme amaçlı
+*d*-değeri veri setini yeniden analiz ediyoruz: her biri
+standartlaştırılmış ortalama farkını, iki grup büyüklüğünü ve bağımlı
+değişkenin güvenirliğini raporlayan 50 çalışma (ortalama
+$r_{yy} = .74$, ranj .64--.83). Her çalışma ham veri yerine *d* ve
+grup büyüklükleri raporladığından, özet istatistik arayüzü her
+çalışmayı birebir yeniden kurar:
+
+```r
+data("data_d_meas_multi", package = "psychmeta")
+dat <- subset(data_d_meas_multi, construct == "Y")
+
+studies <- lapply(seq_len(nrow(dat)), function(i) {
+  mes_d(means = c(dat$d[i], 0), sds = c(1, 1),
+        ns    = c(dat$n1[i], dat$n2[i]),
+        rxx   = dat$ryyi[i])
+})
+meta_df <- mes_meta(studies)
+metafor::rma(yi = yi, vi = vi, data = meta_df, method = "REML")
+```
+
+Düzeltilmemiş rastgele etkiler kestirimi $d = 0.82$, %95 GA
+[0.75, 0.89]'dur. Çalışma düzeyinde düzeltmeden sonra havuzlanmış
+kestirim 0.95 [0.88, 1.02] olur; %16'lık bu artış,
+$1/\sqrt{.74} \approx 1.16$ kuramsal beklentisiyle örtüşür.
+Düzeltilmemiş sentezi güç planlaması için kullanan bir araştırmacı,
+alanyazının yapı düzeyinde desteklediği etkinin yaklaşık altıda bir
+oranında küçüğüne göre desen kurmuş olurdu. Betiğin tamamı paket
+deposunda yer almaktadır (`analysis/04_example_reanalysis.R`).
+
+# 4. Simülasyon Çalışması
+
+## 4.1 Genel Bakış
+
+`measuredES`'in istatistiksel özelliklerini değerlendirmek için üç
+simülasyon çalışması yürütülmüştür. Çalışma 1, düzeltilmiş ve
+düzeltilmemiş etki büyüklüğü kestiricilerinin yanlılığını ve hata
+kareleri ortalamasının karekökünü (RMSE) incelemiştir. Çalışma 2,
+Hunter--Schmidt ve Bonett güven aralıklarının kapsama olasılığını ve
+genişliğini incelemiştir. Çalışma 3, güvenirlik heterojenliğinin
+meta-analitik bağlamdaki sonuçlarını incelemiştir. Tüm simülasyonlar
+R'da (sürüm 4.5.3) `parallel` paketiyle çok çekirdekli olarak
+yürütülmüş; her çalışmada yeniden üretilebilirlik için
+`set.seed(2026)` kullanılmıştır. Simülasyon kodunun tamamına
+https://github.com/gulince/measuredES adresinden erişilebilir.
+
+## 4.2 Veri Üretim Modeli
+
+### 4.2.1 Klasik Test Kuramı Parametrizasyonu
+
+Veriler standart KTK modeli $X = T + E$ altında üretilmiştir. Gerçek
+puanlar standart normal dağılımdan ($T \sim \mathcal{N}(0, 1)$) ya
+da pozitif çarpıklığı temsil etmek üzere standartlaştırılmış dört
+serbestlik dereceli ki-kare dağılımından (çarpıklık $\approx 1.41$)
+çekilmiştir. Deney grubunda gerçek puan ortalaması $\delta$ (evren
+etki büyüklüğü) kadar kaydırılmıştır: $T_2 \sim \mathcal{N}(\delta, 1)$.
+
+Hata varyansı, hedef güvenirliği tam olarak üretecek biçimde
+belirlenmiştir:
+
+$$\sigma^2_E = \frac{1 - \rho_{xx}}{\rho_{xx}},$$
+
+Bu, $\text{Var}(X) = 1/\rho_{xx}$ ve
+$\text{Var}(T)/\text{Var}(X) = \rho_{xx}$ sonucunu garanti eder. Bu
+parametrizasyon altında $d_{\text{göz}}$, $\delta\sqrt{\rho_{xx}}$'i;
+düzeltilmiş $\hat{\delta}$ ise $\delta$'yı kestirir; $d$'nin bilinen
+küçük örneklem yanlılığı bunun dışındadır [@hedges1981].
+
+### 4.2.2 Güvenirlik Kestirim Koşulları
+
+Diğer tüm faktörlerle iki güvenirlik koşulu çaprazlanmıştır.
+*Bilinen* koşulda evren $\rho_{xx}$'i düzeltme formülüne doğrudan
+verilmiştir. *Kestirilen* koşulda $\rho_{xx}$, tau-eşdeğer model
+altında üretilmiş madde yanıtlarından oluşan $k = 10$ maddelik
+simüle bir testten Cronbach $\alpha$'sıyla kestirilmiştir. Madde
+başına güvenirlik, $k$ maddelik bileşik puanın hedef $\rho_{xx}$'e
+ulaşmasını sağlayacak biçimde Spearman--Brown formülüyle
+belirlenmiştir. $\alpha$'yı, maddeleri üreten model olan
+tau-eşdeğerlik altında güvenirliğe eşit olduğu için kullandık;
+gerçek ve çoğunlukla konjenerik verilerde $\alpha$, $\rho_{xx}$'i
+küçümser ve $\omega$ türü katsayılar yeğlenmelidir [@mcneish2018].
+Paket bu konuda tarafsızdır: her güvenirlik kestirimi aynı `rxx`
+argümanından girer.
+
+## 4.3 Çalışma 1 ve Çalışma 2 Deseni
+
+Aşağıdaki faktörlerle tam çaprazlanmış faktöriyel bir desen
+kullanılmıştır:
+
+- **Evren etki büyüklüğü** ($\delta$): 0.20, 0.50, 0.80 (küçük,
+  orta, büyük; @cohen1988)
+- **Grup başına örneklem büyüklüğü** ($n$): 30, 60, 120, 240
+- **Güvenirlik** ($\rho_{xx}$): 0.60, 0.75, 0.85, 0.95
+- **Güvenirlik koşulu**: bilinen / kestirilen
+- **Puan dağılımı**: normal / çarpık
+
+Bu, $3 \times 4 \times 4 \times 2 \times 2 = 192$ koşul üretmiştir.
+Her koşul $R = 5{.}000$ kez tekrarlanmış; toplamda 960.000 simüle
+deney yürütülmüştür.
+
+Faktör düzeyleri, uç durumları zorlamak yerine gerçekçi araştırma
+koşullarını kapsayacak biçimde seçilmiştir. 0.60--0.95 güvenirlik
+değerleri, güvenirlik genellemesi çalışmalarında yayımlanmış
+psikolojik ölçme araçları için tipik olarak belgelenen aralığı kapsar
+[ör. @vacha1998]; 30--240 grup büyüklükleri küçük laboratuvar
+deneylerinden yüksek güçlü saha çalışmalarına uzanır;
+kestirilen-güvenirlik koşulundaki 10 maddelik test ise pek çok kısa
+öz-bildirim ölçeğinin uzunluğuyla örtüşür.
+
+### 4.3.1 Performans Ölçütleri
+
+**Çalışma 1 (nokta kestirimi):**
+
+- *Yanlılık*: $\hat{\delta} - \delta$
+- *Göreli yanlılık* (%): $100 \times (\hat{\delta} - \delta) / \delta$
+- *RMSE*: $\sqrt{E[(\hat{\delta} - \delta)^2]}$
+
+**Çalışma 2 (güven aralıkları):**
+
+- *Kapsama olasılığı*: $\delta$'yı içeren aralıkların oranı
+  (nominal: 0.95)
+- *Ortalama aralık genişliği*
+- *Asimetrik kaçırma oranları*: tamamı $\delta$'nın üstünde ya da
+  altında kalan aralıkların oranı
+
+Morris ve diğerlerinin [-@morris2019] raporlama önerileri
+doğrultusunda bu kestirimlerin Monte Carlo belirsizliğini not
+ediyoruz. $R = 5{.}000$ iken nominal 0.95 yakınındaki bir kapsama
+kestiriminin Monte Carlo standart hatası
+$\sqrt{0.95 \times 0.05 / 5000} \approx 0.003$'tür; yanlılık
+kestirimlerinin Monte Carlo standart hatası tüm koşullarda 0.005'in
+altında kalır. Her koşulda 5.000 tekrarın tamamı başarıyla
+tamamlanmıştır.
+
+## 4.4 Çalışma 3 Deseni
+
+Çalışma 3, çalışmalar arası güvenirlik farklarını yok saymanın
+meta-analitik sonuçlarını incelemiştir. Rastgele etkiler modeli şu
+faktörlerle simüle edilmiştir:
+
+- **Çalışma sayısı** ($k$): 5, 10, 20
+- **Ortalama evren etkisi** ($\delta_{\mu}$): 0.30, 0.50
+- **Güvenirlik örüntüsü**:
+  - *Homojen*: tüm çalışmalarda $\rho_{xx} = 0.85$
+  - *Heterojen*: $\rho_{xx} \sim \text{Beta}(8, 4)$ (ortalama
+    $\approx 0.67$, SS $\approx 0.13$); merkezi ve yayılımı,
+    güvenirlik genellemesi çalışmalarında belgelenen çalışmalar arası
+    güvenirlik değişkenliğini yansıtan bir dağılım [ör. @vacha1998]
+
+Bu, her biri $R = 1{.}000$ kez tekrarlanan $3 \times 2 \times 2 = 12$
+koşul üretmiştir. Her tekrar için $k$ birincil çalışma, örneklem
+büyüklükleri $\{40, 60, 100, 150, 250\}$ kümesinden eşit olasılıkla
+çekilerek üretilmiştir. Gerçekçi çalışmalar arası heterojenliği
+yansıtmak için gerçek etki büyüklükleri
+$\delta_i \sim \mathcal{N}(\delta_{\mu}, 0.10)$ olarak
+değişmiştir. Rastgele etkiler meta-analizi, `metafor` paketiyle
+[@viechtbauer2010] ve kısıtlanmış en çok olabilirlik (REML)
+kestirimiyle, düzeltilmemiş ve düzeltilmiş etki büyüklüklerine ayrı
+ayrı uygulanmıştır. Performans; yanlılık, RMSE ve havuzlanmış
+kestirimin %95 güven aralığının kapsama olasılığıyla
+değerlendirilmiştir. $R = 1{.}000$ iken 0.95 yakınındaki bir kapsama
+kestiriminin Monte Carlo standart hatası yaklaşık 0.007'dir. REML
+kestirimi koşul başına en fazla üç tekrarda yakınsamamıştır
+(tamamlanma oranı $\geq$ %99.7); yakınsamayan tekrarlar atılmıştır.
+
+# 5. Bulgular
+
+## 5.1 Çalışma 1: Nokta Kestirimlerinin Yanlılığı ve RMSE'si
+
+Tablo 1, düzeltilmemiş ve düzeltilmiş kestiricilerin yanlılık ve
+RMSE değerlerini, bilinen güvenirlikli normal dağılım koşullarında ve
+örneklem büyüklüğü üzerinden ortalanmış olarak tüm
+$\rho_{xx} \times \delta$ birleşimleri için raporlar; Şekil 1 her iki
+kestiricinin yanlılığını örneklem büyüklüğüne göre gösterir.
+
+**Düzeltilmemiş kestirici.** Düzeltilmemiş Cohen $d$'si tüm
+koşullarda sistematik negatif yanlılık göstermiş; göreli yanlılık,
+kuramsal zayıflama çarpanı
+$(\sqrt{\rho_{xx}} - 1) \times 100\%$ ile örtüşmüştür:
+$\rho_{xx} = 0.60$'ta yaklaşık $-\%22$ ve $\rho_{xx} = 0.95$'te
+$-\%2.5$. $\rho_{xx} = 0.60$'ta mutlak yanlılık $\delta = 0.20$ için
+$-0.044$'ten $\delta = 0.80$ için $-0.178$'e uzanmıştır (Tablo 1);
+bu, zayıflamanın çarpımsal doğasını yansıtır
+($d_{\text{göz}} = \delta\sqrt{\rho_{xx}}$, dolayısıyla yanlılık
+$= \delta(\sqrt{\rho_{xx}} - 1)$). Bu örüntü, ölçme hatasını yok
+saymanın gerçek etkiyi tutarlı biçimde küçümsettiğini doğrular.
+
+**Düzeltilmiş kestirici.** Spearman düzeltmeli kestirici tüm
+koşullarda esasen yansızdı. Mutlak yanlılık $\rho_{xx} = 0.60$,
+$\delta = 0.80$, $n = 30$ koşulunda $0.008$ olmuş ve tüm desende
+$\pm 0.026$ içinde kalmıştır. $n = 30$'daki küçük pozitif sapmalar,
+paydadaki birleştirilmiş standart sapma yoluyla giren ve Hedges
+düzeltmesinin hedeflediği, Cohen $d$'sinin bilinen küçük örneklem
+yanlılığıyla örtüşmektedir (Bölüm 2.2).
+
+**RMSE.** Düzeltilmiş kestirici, küçük örneklem koşullarında
+($n = 30$) düzeltilmemiş kestiriciden daha yüksek RMSE göstermiştir;
+bu, düzeltmenin getirdiği varyans şişmesinin iyi bilinen bir
+sonucudur [@charles2005]. $n = 30$, $\rho_{xx} = 0.60$ ve
+$\delta = 0.80$'de RMSE 0.319'dan (düzeltilmemiş) 0.345'e
+(düzeltilmiş) yükselmiştir. Bu ödünleşimin nerede tersine döndüğü,
+giderilecek yanlılığın miktarına bağlıdır. $\rho_{xx} = 0.60$ ve
+$\delta = 0.80$'de düzeltilmiş kestiricinin RMSE'si $n = 60$'tan
+itibaren daha düşüktü (0.245'e karşı 0.261; $n = 240$'ta 0.122'ye
+karşı 0.204'e açılarak); $\rho_{xx} = 0.75$--$0.85$'te kesişme
+$n = 120$ dolayına gelmiş; giderilecek yanlılığın az olduğu
+$\rho_{xx} = 0.95$'te ise iki kestiricinin RMSE'leri yalnızca
+birbirine yakınsamıştır.
+
+**Puan dağılımının etkisi.** Çarpık dağılım altındaki nokta
+kestirimi, normal dağılımdakiyle içeriksel olarak benzerdi: düzeltme
+esasen yansız kalmış ve eşleşen dağılım koşulları arasındaki RMSE
+farkları küçük olmuştur (en büyük mutlak fark 0.016). Bu
+beklenendir; çünkü düzeltme, $d$'nin çarpımsal bir yeniden
+ölçeklenmesidir ve yanlılık davranışı normalliğe bağlı değildir.
+Bununla birlikte çarpıklık, Bölüm 5.2.1'de raporlandığı gibi aralık
+kapsamasını etkilemiştir.
+
+**Güvenirlik kestiriminin etkisi.** $\rho_{xx}$ bilinen kabul edilmek
+yerine Cronbach $\alpha$'sıyla kestirildiğinde, düzeltilmiş kestirici
+esasen yansız kalmıştır (kestirilen-güvenirlik koşullarında en büyük
+$|\text{yanlılık}| = 0.021$). Çalışma 2'nin gösterdiği gibi,
+incelenen test uzunluğu ve örneklem büyüklüklerinde aralık kapsaması
+da etkilenmemiştir.
+
+## 5.2 Çalışma 2: Güven Aralığı Performansı
+
+### 5.2.1 Kapsama Olasılığı
+
+Şekil 2, her iki aralığın kapsamasını örneklem büyüklükleri,
+güvenirlik düzeyleri ve güvenirlik-kestirim koşulları boyunca
+gösterir.
+
+**Bilinen güvenirlik.** $\rho_{xx}$ bilinen kabul edildiğinde hem
+Hunter--Schmidt hem de Bonett aralıkları tüm koşullarda nominale
+yakın kapsama sağlamıştır. Hunter--Schmidt kapsaması 0.936 ile 0.959
+arasında değişmiş, ortalaması 0.948 olmuştur. Bonett kapsaması 0.938
+ile 0.963 arasında değişmiş, ortalaması 0.952 olmuştur. Bonett'in
+değişen-varyansa-dayanıklı varyansı, $t$ tabanlı kritik değerle
+birlikte, özellikle küçük örneklem düzeltmesinin en çok önem taşıdığı
+grup başına $n = 30$ koşulunda, ortalamada bir miktar daha yüksek
+kapsama üretmiştir.
+
+**Kestirilen güvenirlik.** $\rho_{xx}$'in 10 maddelik bir testten
+$\alpha$ katsayısıyla kestirilmesi ölçülebilir bir kapsama cezası
+doğurmamıştır: ortalama Hunter--Schmidt kapsaması bilinen ve
+kestirilen koşulların ikisinde de 0.948, Bonett kapsaması da benzer
+biçimde değişmeden 0.952 olmuştur. Bu test uzunluklarında ve örneklem
+büyüklüklerinde $\hat{\alpha}$'nın örnekleme varyansı, ihmal edilen
+güvenirlik-belirsizliği teriminin (Bölüm 2.3.4) fark yaratamayacağı
+kadar küçüktür. Bu bulgu genel bir serbestlik olarak okunmamalıdır:
+ihmal edilen terim testler kısaldıkça, örneklemler küçüldükçe ya da
+güvenirlik burada incelenen aralığın altına düştükçe büyür
+[@charles2005]; o durumlarda aralıklar $\hat{\rho}_{xx}$'e koşullu
+kalır ve nominalin altında kapsayabilir.
+
+**Çarpıklığın kapsamaya etkisi.** Desendeki en düşük kapsama
+değerleri, çarpık dağılımın $\delta = 0.80$ ile birleştiği
+koşullarda ortaya çıkmış; Hunter--Schmidt kapsaması 0.930'a, Bonett
+kapsaması 0.935'e düşmüştür. Düşüş mütevazı ama sistematikti ve iki
+aralığı da etkiledi; iki varyans formülü de birleştirilmiş standart
+sapmanın çarpıklık altındaki ek örnekleme değişkenliğini tam olarak
+soğuramamaktadır.
+
+### 5.2.2 Aralık Genişliği
+
+Ortalama aralık genişliği, beklendiği gibi örneklem büyüklüğüyle
+azalmıştır. Bilinen güvenirlik altında $n = 30$'da ortalama
+Hunter--Schmidt genişliği 1.18 iken $n = 240$'ta 0.41'e daralmıştır.
+Bonett aralığı, değişen-varyansa-dayanıklı varyans ile $t$ dağılımı
+kritik değerinin birleşik etkisini yansıtarak Hunter--Schmidt
+aralığından ortalamada yaklaşık %2 daha genişti. Her iki aralık da
+$\rho_{xx}$ arttıkça daralmıştır; çünkü daha yüksek güvenirlik,
+varyans şişirme çarpanı $1/\rho_{xx}$'i küçültür.
+
+### 5.2.3 Asimetrik Kaçırma Oranları
+
+Desen üzerinden ortalandığında kaçırma oranları simetrikti: alt ve
+üst kuyruk oranlarının ortalaması, nominal $\alpha/2 = 0.025$'e
+karşılık Hunter--Schmidt için 0.026 ile 0.026, Bonett için 0.024 ile
+0.024 olmuştur. Tekil hücreler nominal kuyruk oranından en çok 0.018
+sapmıştır. En büyük asimetri, $n = 240$, $\rho_{xx} = 0.60$ ve
+kestirilen güvenirlik koşulunda ortaya çıkmış; Hunter--Schmidt
+aralıklarının %4.3'ü gerçek etkinin tamamen altında, %1.6'sı ise
+tamamen üstünde kalmıştır. Bu aşağı yönlü kayma,
+$\hat{\alpha}$'da gözlediğimiz küçük yukarı yönlü yanlılıkla
+($\rho_{xx} = 0.60$'ta ortalama 0.610) tutarlıdır: bu yanlılık
+düzeltilmiş kestirimi hafifçe küçültür ve aralıklar daraldıkça
+görünür hâle gelir.
+
+## 5.3 Çalışma 3: Meta-Analitik Sonuçlar
+
+Tablo 2, havuzlanmış etki büyüklüğü kestiriminin yanlılığını,
+RMSE'sini ve kapsamasını homojen ve heterojen güvenirlik altında
+$k \in \{5, 10, 20\}$ çalışma için özetler; Şekil 3 havuzlanmış
+kestirimlerin yanlılığını gösterir.
+
+### 5.3.1 Homojen Güvenirlik
+
+Homojen güvenirlik altında (tüm çalışmalarda $\rho_{xx} = 0.85$)
+düzeltilmemiş meta-analitik kestirici, tüm birincil çalışmaların
+paylaştığı tekbiçimli zayıflamayı yansıtan mütevazı ama tutarlı bir
+negatif yanlılık göstermiştir (ranj: $-0.024$ ile $-0.041$).
+Düzeltilmemiş havuzlanmış kestirimin kapsaması 0.829 ile 0.911
+arasında kalmış; en yalın senaryoda bile nominal 0.95 düzeyinin
+belirgin altına düşmüştür. Düzeltilmiş kestirici bu yanlılığı ortadan
+kaldırmış (ranj: $-0.004$ ile $0.002$) ve kapsamayı nominale yakın
+düzeylere (0.917--0.940) geri getirmiştir. RMSE iki kestirici
+arasında benzerdi; yanlılığın giderilmesi sayesinde $k = 20$'de
+düzeltilmiş sürüm daha düşük RMSE göstermiştir.
+
+### 5.3.2 Heterojen Güvenirlik
+
+En çarpıcı sonuçlar, $\rho_{xx}$'in çalışmalar arasında Beta(8, 4)
+dağılımına göre (ortalama $\approx 0.67$) değiştiği heterojen
+güvenirlik koşulunda ortaya çıkmıştır. Bu koşulda düzeltilmemiş
+meta-analitik kestirici ağır bir kapsama başarısızlığı yaşamış ve
+başarısızlık havuzlanan çalışma sayısı arttıkça derinleşmiştir:
+düzeltilmemiş kestirimin kapsaması $k = 5$, $\delta_{\mu} = 0.30$'da
+0.854'ten $k = 20$, $\delta_{\mu} = 0.50$'de 0.279'a düşmüştür
+(Tablo 2, heterojen satırlar) — ikinci koşulda aralık, gerçek etkiyi
+tekrarların %70'inden fazlasında kaçırmıştır.
+
+Bu vahim alt-kapsamanın nedeni, güvenirlik heterojenliğinin,
+$\delta$'daki gerçek heterojenlikle karışan bir çalışmalar arası
+varyans üretmesidir; rastgele etkiler modeli bu kaynakları düzeltme
+olmaksızın ayrıştıramaz. Buna karşılık düzeltilmiş kestirici tüm
+heterojen koşullarda kapsamayı 0.920 ile 0.947 arasında korumuştur.
+
+Düzeltilmiş kestiricinin RMSE üstünlüğü heterojen güvenirlik altında
+özellikle belirgindi. $k = 20$, $\delta_{\mu} = 0.50$'de RMSE
+0.101'den (düzeltilmemiş) 0.045'e (düzeltilmiş) inmiştir: %56'lık
+bir azalma. O hâlde gerçekçi güvenirlik heterojenliği altında
+düzeltilmemiş bir meta-analiz, havuzlanmış kestirimi küçültmekle
+kalmaz: yanlış büyüklüğü, hak edilmemiş bir kesinlikle raporlar.
+
+# 6. Tartışma
+
+## 6.1 Bulguların Özeti
+
+Bu makale, ölçme hatasına göre düzeltilmiş etki büyüklüklerini
+hesaplayan bir R paketi olan `measuredES`'i tanıttı. Üç simülasyon
+çalışması, ölçme güvenirsizliğini birincil çalışmalarda ve
+meta-analitik sentezde yok saymanın istatistiksel sonuçlarını
+gösterdi.
+
+Düzeltilmiş kestirici; evren etki büyüklüğü, örneklem büyüklüğü,
+güvenirlik, puan dağılımı ve güvenirliğin bilinip kestirilmediği
+koşulların tamamında esasen yansızken, düzeltilmemiş Cohen $d$'si
+güvenirlikle ölçeklenen tutarlı bir negatif yanlılık göstermiştir:
+$\rho_{xx} = 0.60$'ta yaklaşık %22 ve $\rho_{xx} = 0.95$'te %2.5
+göreli zayıflama. Bu bir istatistik oyunundan ibaret değildir:
+$\rho_{xx} = 0.60$ iken $d = 0.40$ raporlayan bir araştırmacı büyük
+olasılıkla $\delta \approx 0.52$ büyüklüğünde bir gerçek etkiyi
+gözlemektedir; bu fark güç hesaplarını ve meta-analitik sonuçları
+değiştirecek kadar büyüktür.
+
+Her iki analitik güven aralığı da nominale yakın kapsama korumuş,
+ancak zıt yönlerde sapmıştır: Hunter--Schmidt aralığı nominal düzeyin
+hafifçe altında seyretme eğilimindeyken (ortalama kapsama 0.948),
+Bonett aralığı konservatif yönde sapmıştır (ortalama 0.952) ve bu en
+çok grup başına $n = 30$'da görünürdür. Anti-konservatif çıkarım daha
+büyük kaygıysa bu asimetri Bonett'i öne çıkarır. Güvenirliğin 10
+maddelik bir $\alpha$ ile kestirilmesi, incelenen örneklem
+büyüklüklerinde ölçülebilir bir kapsama cezası doğurmamıştır;
+güvenirlik belirsizliği yok sayıldığında öngörülen alt-kapsama
+[@charles2005] anlaşılan burada incelenenden daha kısa testler, daha
+küçük örneklemler ya da daha düşük güvenirlik gerektirmektedir.
+
+Meta-analitik simülasyon, en önemli bulguyu üretmiştir. Gerçek
+alanyazın sentezlerinde istisna değil kural olan heterojen
+güvenirlik koşulunda [@vacha1998; @mcneish2018], düzeltilmemiş
+rastgele etkiler kestirimi ağır kapsama başarısızlığı göstermiş;
+$k = 20$ ve orta-büyük evren etkisinde 0.279'a kadar düşmüştür.
+Düzeltilmiş kestirici baştan sona nominale yakın kapsama korumuştur.
+Bu, Hunter ve Schmidt'in [-@hunter2004] kuramsal gerekçelerle ileri
+sürdüğü bir noktayı görgül olarak doğrular: ölçme özellikleri
+heterojen çalışmalardan düzeltilmemiş etki büyüklüklerini havuzlamak
+yalnızca verimsiz değil, sistematik olarak yanıltıcı sonuçlar verir.
+
+## 6.2 Uygulama Önerileri
+
+Simülasyon sonuçlarına dayanarak uygulamalı araştırmacılara şu
+önerileri sunuyoruz:
+
+**1. Düzeltilmiş etki büyüklüğünü her zaman düzeltilmemiş değerle yan
+yana raporlayın.** Düzeltilmemiş $d$, gözlenen verinin betimi olarak
+yorumlanabilir kalır; ancak yapı düzeyindeki etkinin daha uygun
+kestirimi düzeltilmiş $\hat{\delta}$'dır. `mes_report()` ikisi için
+de APA-7 uyumlu metin üretir.
+
+**2. Alt-kapsama daha büyük riskse Bonett aralığını yeğleyin.**
+Hunter--Schmidt aralığı desen hücrelerinin %59'unda, Bonett aralığı
+ise %29'unda nominal kapsamanın altına düşmüştür; Bonett'in sapmaları
+konservatif yöndedir ve bedeli yaklaşık %2 ek genişliktir. İki yöntem
+arasındaki fark en çok grup başına $n < 60$ iken önemlidir.
+
+**3. Güvenirlik kestirildiğinde aralık kesinliğini abartılı
+okumayın.** Simülasyonumuz, $\hat{\rho}_{xx}$ grup başına
+$n \geq 30$ iken 10 maddelik bir $\alpha$'dan geldiğinde kapsama
+cezası bulmamıştır; ancak aralıklar $\hat{\rho}_{xx}$'i sabit kabul
+eder. Kısa testler, küçük örneklemler ya da düşük güvenirlik söz
+konusuysa kuram alt-kapsama öngörür [@charles2005]; bu durumlarda
+aralıklar gerçek belirsizliğin alt sınırları olarak okunmalıdır.
+
+**4. Etki büyüklüklerini meta-analitik sentezden önce düzeltin.**
+Simülasyon sonuçları, çalışmalar arası gerçek etki heterojenliği
+mütevazıyken bile heterojen güvenirliğin havuzlanmış kestirimin
+kapsamasını nominalin çok altına indirebildiğini göstermektedir.
+`mes_meta()` bu amaç için `metafor` uyumlu bir veri çerçevesi üretir.
+
+## 6.3 Düzeltmenin Kullanılmaması Gereken Durumlar
+
+Zayıflama düzeltmesi evrensel kabul görmüş değildir ve biz de onu
+öyle sunmuyoruz. Düzeltme, klasik gerçek puanın bilimsel ilgi konusu
+olan nicelik olduğunu varsayar. Köklü bir eleştiri, gerçek puanın
+yapının kendisi olmadığını savunur: gerçek puan, varsayımsal
+tekrarlar üzerindeki beklenen gözlenen puandan ibarettir ve ona doğru
+düzeltmek, kestirimi araştırmacının önemsediği örtük niteliğe kendi
+başına yaklaştırmaz [@borsboom2004]. Bu çerçeveyi kendi uygulaması
+için ikna edici bulmayan araştırmacılar, gözlenen etkiyi ölçme
+aracının güvenirliğiyle birlikte raporlamakla hiçbir şey kaybetmez.
+
+Düzeltmenin yanlış araç olduğu pratik durumlar da vardır. Araştırma
+sorusu, seçme kararlarında ya da betimsel kıyaslamalarda olduğu gibi
+gözlenen puanların kendisine ilişkinse, kestirilecek nicelik
+düzeltilmemiş etkidir ve onu düzeltmek kimsenin sormadığı bir soruyu
+yanıtlar. Güvenirlik kestirimi, etki büyüklüğünün geldiği
+popülasyondan ya da uygulamadan farklı bir kaynaktan geliyorsa
+düzeltme hatayı gidermek yerine içeri taşıyabilir [@charles2005]. Çok
+düşük güvenirlikte ise düzeltilmiş kestirim, keşifsel sayılması
+gerekecek kadar kararsızlaşır; `measuredES` $\rho_{xx} = 0.10$'un
+altında uyarı verir ama kararsızlık bunun epey üzerinde başlar. Bu
+sınırlar, 1. önerinin düzeltilmiş değeri tek başına değil, iki
+kestirimi yan yana istemesinin nedenidir.
+
+## 6.4 Sınırlılıklar
+
+Bu çalışmanın çeşitli sınırlılıkları not edilmelidir.
+
+**Güven aralıklarında bilinen-güvenirlik varsayımı.** Bölüm 2.3.4 ve
+5.2'de tartışıldığı gibi, `measuredES`'te hâlihazırda uygulanan güven
+aralıkları $\rho_{xx}$'i sabit bir değer olarak ele alır. Çalışma 2,
+incelenen örneklem büyüklüklerinde 10 maddelik $\alpha$ ile
+ölçülebilir bir kapsama cezası bulmamıştır; ancak ihmal edilen
+varyans terimi testler kısaldıkça ve örneklemler küçüldükçe büyür.
+Bölüm 2.3.4'te taslağı verilen delta-yöntemi aralığı ya da
+$\rho_{xx}$'e önsel dağılım atayan Bayesçi bir aralık bu ek
+belirsizliği yakalayabilir; bu genişletmeler ileri bir sürüm için
+planlanmıştır.
+
+**Paralel testler varsayımı.** Spearman düzeltmesi, tüm maddelerin
+eşit gerçek yüklere ve eşit hata varyanslarına sahip olduğu paralel
+testler modeli altında kesindir. Konjenerik ve esasen tau-eşdeğer
+modeller farklı düzeltme çarpanları üretir [@revelle2009]. Ölçme
+modeli paralel testlerden belirgin biçimde uzaklaştığında düzeltilmiş
+kestirim artık yanlılık taşıyabilir.
+
+**Tek hatalı değişken.** Bu simülasyon, bağımlı değişkenin hatalı,
+gruplama değişkeninin hatasız olduğu standart deneysel varsayıma
+odaklanmıştır. Her iki değişkenin de hatalı ölçüldüğü yarı-deneysel
+ya da korelasyonel desenlerde düzeltmeye iki güvenirlik birden girer
+ve ek belirsizlik katlanır.
+
+**Eşit varyanslı dengeli desenler.** Simüle edilen tüm koşullarda
+grup büyüklükleri ve evren varyansları eşitti. Eşit $n$, aynı
+zamanda birleştirilmiş-SS standartlaştırıcısının Bonett varyansının
+türetildiği ortalama-varyans standartlaştırıcısıyla çakıştığı
+durumdur (Bölüm 2.3.2). Vurgulanması gereken bir sonuç şudur:
+Bonett'in dayanıklı varyansının asıl işe yaraması beklenen durum —
+birleştirilmiş-SS'li $d$'nin kestirilecek nicelik olarak
+belirsizleştiği eşit olmayan grup varyansları — burada
+sınanmamıştır. Belirgin biçimde dengesiz ya da değişen varyanslı
+desenlerde iki aralığın kapsaması henüz nicelenmemiştir.
+
+**Güvenirlik ile gerçek puanların bağımsızlığı.** Simülasyon, KTK
+modelinin gerektirdiği gibi ölçme hatasının gerçek puanlarla
+ilişkisiz olduğunu varsaymıştır. Gerçek puanla ilişkilenen sistematik
+ölçme yanlılıkları (ör. onaylama eğilimi, yanıt yorgunluğu) Spearman
+düzeltmesiyle ele alınamaz.
+
+## 6.5 Gelecek Yönelimler
+
+Çeşitli genişletmeler planlanmaktadır. İlk olarak, Bölüm 2.3.4'teki
+delta-yöntemi varyansı `mes_d()` ve `mes_g()` içinde bir seçenek
+olarak sunulabilir; bu, kestirilen güvenirliği hesaba katan daha
+geniş, daha konservatif güven aralıkları sağlar. İkincisi,
+$\rho_{xx}$'e Beta önseli atayan Bayesçi bir uygulama, tam belirsizlik
+altında tutarlı aralık kestirimi sunacaktır. Üçüncüsü, $d$ ve $g$
+için Welch tipi standartlaştırıcılar, düzeltmeyi grup varyanslarının
+açıkça eşit olmadığı — birleştirilmiş-SS'li kestirilecek niceliğin
+kendisinin tartışmalı hâle geldiği — desenlere genişletir.
+Dördüncüsü, tekrarlı ölçümler için etki büyüklükleri ($d_{rm}$,
+$d_{av}$) deneysel psikoloji açısından önceliklidir; orada zayıflama
+daha karmaşıktır, çünkü iki ölçüm zamanının güvenirlikleri ile
+aralarındaki korelasyon düzeltmeye birlikte girer. Ölçme hatasının
+model düzeyinde ele alındığı çok düzeyli ve yapısal eşitlik
+modellerindeki etki büyüklükleri için destek ile örtük değişken etki
+büyüklükleri için `OpenMx` paketiyle [@neale2016] bir arayüz, doğal
+uzun vadeli genişletmelerdir.
+
+# 7. Sonuç
+
+Standartlaştırılmış etki büyüklükleri, davranış bilimlerinde birikimli
+bilimin ortak para birimidir; ölçme hatasının rutin biçimde yok
+sayılması ise bu para biriminin sistematik olarak değer kaybetmesi
+demektir. `measuredES` paketi, bağımsız gruplu desenlerde ve
+meta-analitik sentezde etki büyüklüklerini yapı düzeyinde geri
+kazanmak için pratik ve kuramsal temeli sağlam bir araç takımı sunar.
+
+Burada raporlanan simülasyon sonuçları, Spearman düzeltmesinin
+kuramın öngördüğü gibi çalıştığını — orta ve büyük örneklemlerde
+ihmal edilebilir RMSE bedeliyle yanlılığı giderdiğini — ve Bonett
+güven aralığının geniş bir koşul yelpazesinde nominale yakın kapsama
+sağladığını göstermektedir. Meta-analitik bulgular özel bir ağırlık
+taşır: çalışmalar arası heterojen güvenirlik gibi gerçekçi bir
+senaryoda, düzeltilmemiş meta-analiz gerçek etkiyi tekrarların
+%70'inden fazlasında kaçırabilmektedir. Ölçme hatası düzeltmesi ezoterik
+bir incelik değil, geçerli birikimli çıkarımın ön koşuludur.
+
+`measuredES`, GitHub üzerinden serbestçe erişilebilir durumdadır
+(https://github.com/gulince/measuredES) ve Kapsamlı R Arşiv Ağı'na
+(CRAN) gönderim için hazırlanmaktadır. Tam yeniden üretilebilirliği
+desteklemek üzere tüm simülasyon kodu ve verileri paket deposunda yer
+almaktadır.
+
+# Kaynakça
+
+::: {#refs}
+:::
+
+# Tablolar
+
+```{r tablo1, echo = FALSE}
+t1w <- read.csv("../analysis/results/table1_bias.csv")
+t1 <- do.call(rbind, lapply(c("0.2", "0.5", "0.8"), function(d) {
+  data.frame(
+    rho       = t1w$rho_true,
+    delta     = as.numeric(d),
+    bias_obs  = t1w[[paste0("bias_obs_d", d)]],
+    bias_corr = t1w[[paste0("bias_corr_d", d)]],
+    rmse_obs  = t1w[[paste0("rmse_obs_d", d)]],
+    rmse_corr = t1w[[paste0("rmse_corr_d", d)]]
+  )
+}))
+t1 <- t1[order(t1$rho, t1$delta), ]
+knitr::kable(
+  t1, row.names = FALSE, digits = 3,
+  col.names = c("$\\rho_{xx}$", "$\\delta$",
+                "Yanlılık (düzeltilmemiş)", "Yanlılık (düzeltilmiş)",
+                "RMSE (düzeltilmemiş)", "RMSE (düzeltilmiş)"),
+  caption = paste(
+    "Tablo 1. Düzeltilmemiş ve düzeltilmiş Cohen d'sinin yanlılık ve",
+    "RMSE değerleri; örneklem büyüklüğü üzerinden ortalanmış (normal",
+    "dağılım, bilinen güvenirlik).")
+)
+```
+
+```{r tablo2, echo = FALSE}
+t2 <- read.csv("../analysis/results/table3_meta.csv")
+knitr::kable(
+  t2, row.names = FALSE, digits = 3,
+  col.names = c("k", "$\\delta_{\\mu}$", "Güvenirlik örüntüsü",
+                "Yanlılık (düz.siz)", "Yanlılık (düz.li)",
+                "RMSE (düz.siz)", "RMSE (düz.li)",
+                "Kapsama (düz.siz)", "Kapsama (düz.li)"),
+  caption = paste(
+    "Tablo 2. Homojen ve heterojen çalışmalar arası güvenirlik",
+    "altında havuzlanmış rastgele etkiler kestiriminin yanlılığı,",
+    "RMSE'si ve %95 GA kapsaması.")
+)
+```
+
+# Şekiller
+
+![Şekil 1. Düzeltilmiş ve düzeltilmemiş Cohen d'sinin örneklem büyüklüğü, evren etki büyüklüğü ve güvenirliğe göre yanlılığı (normal dağılım, bilinen güvenirlik).](../analysis/figures/fig1_bias.png)
+
+![Şekil 2. Nominal %95 güven aralıklarının yöntem, örneklem büyüklüğü, güvenirlik ve güvenirlik-kestirim koşuluna göre kapsaması (normal dağılım).](../analysis/figures/fig2_coverage.png)
+
+![Şekil 3. Homojen ve heterojen çalışmalar arası güvenirlik altında havuzlanmış meta-analitik kestirimin yanlılığı.](../analysis/figures/fig3_meta_bias.png)

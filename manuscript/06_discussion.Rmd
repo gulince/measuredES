@@ -131,11 +131,16 @@ assumption. In quasi-experimental or correlational designs where
 both variables are measured with error, both reliabilities enter
 the correction, and the additional uncertainty is compounded.
 
-**Balanced designs only.** All simulated conditions used equal group
-sizes. This is also the case in which the pooled-SD standardizer
+**Balanced designs with equal population variances.** All simulated
+conditions used equal group sizes and equal population variances.
+Equal $n$ is also the case in which the pooled-SD standardizer
 coincides with the average-variance standardizer for which Bonett's
-variance is derived (Section 2.3.2). Coverage of both intervals
-under substantially unbalanced designs remains to be quantified.
+variance is derived (Section 2.3.2). One consequence deserves
+emphasis: the setting in which Bonett's robust variance should earn
+its keep — unequal group variances, where the pooled-SD $d$ itself
+becomes ambiguous as an estimand — was not stress-tested here.
+Coverage under substantially unbalanced or heteroscedastic designs
+remains to be quantified.
 
 **Independence of reliability and true scores.** The simulation
 assumed that measurement error is uncorrelated with true scores,
@@ -150,8 +155,15 @@ Section 2.3.4 could be offered as an option in `mes_d()` and
 `mes_g()`, giving wider, more conservative confidence intervals
 that account for estimated reliability. Second, a
 Bayesian implementation with a Beta prior on $\rho_{xx}$ would
-offer coherent interval estimation under full uncertainty. Support
-for effect sizes in multilevel and structural equation models,
-where measurement error is handled at the model level, and an
-interface with the `OpenMx` package [@neale2016] for
-latent-variable effect sizes are natural longer-term extensions.
+offer coherent interval estimation under full uncertainty. Third,
+Welch-type standardizers for $d$ and $g$ would extend the correction
+to designs with clearly unequal group variances, where the pooled-SD
+estimand itself is questionable. Fourth, repeated-measures effect
+sizes ($d_{rm}$, $d_{av}$) are a priority for experimental
+psychology; attenuation is more intricate there because the
+reliabilities of both measurement occasions and the correlation
+between them enter the correction jointly. Support for effect sizes
+in multilevel and structural equation models, where measurement
+error is handled at the model level, and an interface with the
+`OpenMx` package [@neale2016] for latent-variable effect sizes are
+natural longer-term extensions.

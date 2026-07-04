@@ -72,6 +72,13 @@ Three confidence interval methods are available via `ci_method`:
 `"hunter_schmidt"` (default), `"bonett"`, and `"bootstrap"`
 (BCa; requires raw data).
 
+The `rxx` argument accepts whatever reliability estimate is
+appropriate for the measure: Cronbach's $\alpha$, McDonald's
+$\omega$, test--retest, or a value taken from the literature. Under
+congeneric measurement $\alpha$ is only a lower bound on
+reliability, so $\omega$-type coefficients are often the better
+input [@revelle2009; @mcneish2018].
+
 **Step 2: Prepare for meta-analysis.**
 
 ```r
