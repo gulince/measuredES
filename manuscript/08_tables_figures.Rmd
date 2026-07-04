@@ -77,19 +77,25 @@ knitr::kable(
 
 ```{r table5, echo = FALSE}
 t5 <- read.csv("../analysis/results/substudy_design.csv")
-t5$design <- ifelse(t5$block == "B1_unbalanced",
-                    "Unbalanced 1:3", "Variance ratio 2:1")
+t5$design <- ifelse(
+  t5$block == "B1_unbalanced", "Unbalanced 1:3",
+  ifelse(t5$block == "B2_heteroscedastic", "Variance ratio 2:1",
+         ifelse(t5$pairing == "positive",
+                "Combined (pos. pair.)", "Combined (neg. pair.)")))
+t5_show <- t5[t5$block != "B3_combined" | TRUE, ]
 knitr::kable(
-  t5[, c("design", "n1", "rho", "coverage_hs", "coverage_bo",
-         "width_hs", "width_bo")],
+  t5_show[, c("design", "n1", "rho", "coverage_hs", "coverage_bo",
+              "width_hs", "width_bo")],
   row.names = FALSE, digits = 3,
   col.names = c("Design", "$n_1$", "$\\rho_{xx}$",
                 "Cov. HS", "Cov. Bonett", "Width HS", "Width Bonett"),
   caption = paste(
     "Table 5. Coverage and mean width of the Hunter-Schmidt (HS) and",
-    "Bonett intervals under unbalanced group sizes (equal variances)",
-    "and heteroscedastic true scores (balanced groups); 5,000",
-    "replications per cell.")
+    "Bonett intervals under unbalanced group sizes (equal variances;",
+    "B1), heteroscedastic true scores with balanced groups (B2), and",
+    "the combined Behrens-Fisher condition with positive or negative",
+    "pairing of variance and group size (B3); 5,000 replications per",
+    "cell. n_1 is the smaller group in all B1/B3 conditions.")
 )
 ```
 
@@ -97,15 +103,16 @@ knitr::kable(
 t6 <- read.csv("../analysis/results/substudy_correlation.csv")
 knitr::kable(
   t6[, c("rho_xy", "rel", "n", "bias_obs", "bias_corr",
-         "rmse_obs", "rmse_corr")],
+         "rmse_obs", "rmse_corr", "coverage_fisher")],
   row.names = FALSE, digits = 3,
   col.names = c("$\\rho_{xy}$", "$\\rho_{xx} = \\rho_{yy}$", "$n$",
                 "Bias (obs.)", "Bias (corr.)",
-                "RMSE (obs.)", "RMSE (corr.)"),
+                "RMSE (obs.)", "RMSE (corr.)", "Cov. (CI)"),
   caption = paste(
-    "Table 6. Bias and RMSE of the observed and two-sided-corrected",
-    "correlation when both variables are fallible; 5,000 replications",
-    "per cell.")
+    "Table 6. Bias, RMSE, and 95% CI coverage of the observed and",
+    "two-sided-corrected correlation when both variables are fallible;",
+    "5,000 replications per cell. Coverage (CI) is for the Fisher-z",
+    "interval implemented in mes_r().")
 )
 ```
 

@@ -17,11 +17,12 @@ dergiye gönderilecek metin İngilizce sürümdür.*
 
 Gözlenen etki büyüklükleri, puan güvenirliğinin kusurlu olması
 nedeniyle zayıflar (attenuation); ancak bu yanlılık araştırma
-pratiğinde nadiren düzeltilir. Bu çalışmada, Cohen *d*'sini ve Hedges
-*g*'sini klasik test kuramı çerçevesinde güvenirsizliğe göre düzelten
-ve üç güven aralığı yöntemi (Hunter--Schmidt analitik, Bonett *t*
-tabanlı ve yanlılık düzeltmeli hızlandırılmış bootstrap) sunan
-measuredES R paketini tanıtıyoruz. Paketi ve düzeltmenin kendisini
+pratiğinde nadiren düzeltilir. Bu çalışmada; Cohen *d*'sini, Hedges
+*g*'sini ve Pearson korelasyonlarını klasik test kuramı çerçevesinde
+güvenirsizliğe göre düzelten, Hunter--Schmidt, Bonett, yanlılık
+düzeltmeli hızlandırılmış bootstrap ve Fisher-z aralık yöntemleri
+ile güvenirlik-kestirim belirsizliğinin isteğe bağlı yayılımını
+sunan measuredES R paketini tanıtıyoruz. Paketi ve düzeltmenin kendisini
 değerlendirmek için, düzeltilmiş ve düzeltilmemiş Cohen *d*'sinin
 yanlılığını, hata kareleri ortalamasının karekökünü (RMSE) ve güven
 aralığı kapsamasını gerçek etki büyüklüğü, örneklem büyüklüğü,
@@ -30,7 +31,10 @@ koşulları boyunca inceleyen 192 hücreli faktöriyel bir Monte Carlo
 simülasyonu (hücre başına 5.000 tekrar) yürüttük. İkinci bir
 simülasyon (hücre başına 1.000 tekrar), çalışmalar arası güvenirlik
 heterojenliğinin havuzlanmış meta-analitik kestirimlere etkisini
-inceledi. Düzeltilmemiş etki büyüklükleri evren etkisini
+inceledi; beş odaklı alt-çalışma ise değerlendirmeyi bootstrap
+aralığına, şiddetli çarpıklığa, güvenirlik-kestirim belirsizliğine,
+birleşik Behrens--Fisher durumu dahil dengesiz ve değişen varyanslı
+desenlere ve korelasyonlar için iki yönlü düzeltmeye genişletti. Düzeltilmemiş etki büyüklükleri evren etkisini
 $\sqrt{\rho_{xx}}$ ile orantılı biçimde küçümsedi ($\rho_{xx} = .60$
 düzeyinde yaklaşık %22); her iki analitik aralık da nominal düzeye
 yakın kapsama sağladı; Hunter--Schmidt aralığı hafifçe
@@ -141,21 +145,22 @@ değerini sınırlar.
 
 ## 1.2 Bu çalışmanın katkısı
 
-Bu boşluğu, ölçme hatasına göre düzeltilmiş *d*-ailesi etki
-büyüklüklerini klasik test kuramı çerçevesinde uygulayan measuredES
-R paketini tanıtarak ele alıyoruz. Paket; Cohen *d*'si ile Hedges
-*g*'sinin düzeltilmiş sürümlerini, genel zayıflama düzeltme motorunu
-(korelasyonlar için iki yönlü düzeltme dahil), üç güven aralığı
-yöntemini (Hunter--Schmidt analitik, Bonett ve BCa bootstrap), APA-7
-raporlama arayüzünü ve doğrudan `metafor`'a akan meta-analitik dışa
-aktarımı sağlar. Uygulama tek-işlevli iş akışlarını önceler; ham
+Bu boşluğu, ölçme hatasına göre düzeltilmiş etki büyüklüklerini
+klasik test kuramı çerçevesinde uygulayan measuredES R paketini
+tanıtarak ele alıyoruz. Paket; Cohen *d*'si, Hedges *g*'si ve
+Pearson korelasyonlarının (sonuncusu Fisher-z aralığıyla)
+düzeltilmiş sürümlerini, *d* ailesi için üç güven aralığı yöntemini
+(Hunter--Schmidt analitik, Bonett ve BCa bootstrap), `rxx_se`
+argümanıyla güvenirlik-kestirim belirsizliğinin isteğe bağlı
+yayılımını, APA-7 raporlama arayüzünü ve doğrudan `metafor`'a akan
+meta-analitik dışa aktarımı sağlar. Uygulama tek-işlevli iş akışlarını önceler; ham
 verinin yanı sıra özet istatistikleri de kabul eder ve bir kılavuz
 (vignette) ile yeniden üretilebilir bir test takımıyla birlikte
 gelir.
 
 Hem paketi hem de düzeltme yaklaşımının kendisini değerlendirmek
 için, bu makalede sunulan birbirine bağlı üç Monte Carlo simülasyon
-çalışması yürüttük. **Çalışma 1**, gerçek etki büyüklüğü, örneklem
+çalışması ile beş odaklı alt-çalışma yürüttük. **Çalışma 1**, gerçek etki büyüklüğü, örneklem
 büyüklüğü, gerçek güvenirlik, güvenirlik kestirim durumu (biliniyor
 ya da $\alpha$ katsayısıyla kestiriliyor) ve dağılım biçiminin
 (normal ya da orta düzeyde çarpık) çaprazlandığı 192 hücreli
@@ -169,6 +174,10 @@ meta-analitik
 düzeye taşıyarak havuzlanmış etki kestirimlerinin yanlılığını,
 çalışmalar arası güvenirliğin homojen ve heterojen olduğu koşullarda
 ve sentezlenen çalışma sayısı $k \in \{5, 10, 20\}$ iken inceledi.
+Alt-çalışmalar (Bölüm 4.5--4.6) BCa bootstrap'ı, şiddetli
+çarpıklığı, güvenirlik-kestirim belirsizliğinin yayılmasını,
+birleşik Behrens--Fisher durumu dahil dengesiz ve değişen varyanslı
+desenleri ve korelasyonlar için iki yönlü düzeltmeyi yokladı.
 
 Makalenin kalanı şöyle düzenlenmiştir. Bölüm 2 kuramsal temeli
 geliştirir: Spearman düzeltmesi ve üzerine kurulan güven aralığı
@@ -364,12 +373,13 @@ ve `metafor`'a hazır bir dışa aktarımdır.
 
 ## 3.2 Temel İşlev Haritası
 
-Paket, kullanıcıya dönük altı işlev dışa aktarır:
+Paket, kullanıcıya dönük yedi işlev dışa aktarır:
 
 | İşlev | Açıklama |
 |---|---|
 | `mes_d()` | Zayıflamaya göre düzeltilmiş Cohen $d$'si: $d^* = d / \sqrt{\rho_{xx}}$ |
 | `mes_g()` | Hem küçük örneklem hem zayıflama düzeltmeli Hedges $g$'si: $g^* = J \cdot d / \sqrt{\rho_{xx}}$ |
+| `mes_r()` | Tek ya da iki yönlü güvenirsizliğe göre düzeltilmiş korelasyon, Fisher-z aralığıyla |
 | `disattenuate()` | $d$-ailesi etki büyüklükleri ve korelasyonlar için genel düzeltme motoru |
 | `mes_ci()` | Mevcut bir `mes` nesnesinin güven aralığını farklı bir yöntemle yeniden hesaplar |
 | `mes_meta()` | `mes` nesnelerini `metafor` uyumlu biçime ($y_i$, $v_i$) dönüştürür |
@@ -634,16 +644,18 @@ Hunter--Schmidt aralığı, $\widehat{SE}(\hat{\alpha})$'yı `rxx_se`
 üzerinden yayan aralıkla karşılaştırılmıştır (Bölüm 2.3.4).
 
 İkincisi, *desen dayanıklılığı*: (a) eşit varyanslı dengesiz gruplar
-($n_1 : n_2 = 1{:}3$, $n_1 \in \{30, 60\}$) ve (b) dengeli gruplar
+($n_1 : n_2 = 1{:}3$, $n_1 \in \{30, 60\}$), (b) dengeli gruplar
 altında değişen varyanslı gerçek puanlar (gerçek puan varyans oranı
-2:1, iki grupta eşit güvenirlik); her ikisi
+2:1, iki grupta eşit güvenirlik) ve (c) birleşik Behrens--Fisher
+koşulu — 1:3 dengesizlik *ve* 2:1 varyans heterojenliği; büyük
+varyans ya büyük grupla (pozitif eşleşme) ya da küçük grupla
+(negatif eşleşme) eşleştirilmiştir. Her blok
 $\rho_{xx} \in \{0.60, 0.85\}$ ile $\delta = 0.50$'de çaprazlanmış
-($R = 5{.}000$), Hunter--Schmidt ile Bonett karşılaştırılmıştır. İki
-blokta da evren etkisi, kuruluş gereği birleştirilmiş
-standartlaştırıcıyla çakışan ortalama gerçek puan standart sapması
-üzerinde tanımlanmıştır. Birleşik durum — hem dengesiz *hem* değişen
-varyanslı, birleştirilmiş-SS'li kestirilecek niceliğin kendisinin
-belirsizleştiği koşul — bu çalışmanın kapsamı dışındadır.
+($R = 5{.}000$), Hunter--Schmidt ile Bonett karşılaştırılmıştır.
+Evren etkisi baştan sona, birleştirilmiş-SS kestiricisinin
+hedeflediği parametre olan birleştirilmiş standart sapmanın evren
+değeri üzerinde tanımlanmıştır; böylece kapsama, aralık davranışını
+kestirilecek nicelik belirsizliğinden ayrıştırır.
 
 Üçüncüsü, *şiddetli çarpıklık*: Bölüm 4.5'teki bootstrap
 karşılaştırması, standartlaştırılmış $\chi^2(1)$ dağılımından
@@ -657,7 +669,10 @@ $\rho_{xy} \in \{0.30, 0.50\}$ korelasyonlu iki değişkenli gerçek
 puanlar, eşit derecede hatalı iki ölçme aracıyla gözlenmiş
 ($\rho_{xx} = \rho_{yy} \in \{0.70, 0.85\}$; $n \in \{100, 250\}$;
 $R = 5{.}000$) ve gözlenen korelasyon Bölüm 2.2'deki iki yönlü
-Spearman formülüyle düzeltilmiştir.
+Spearman formülüyle düzeltilmiştir. Her tekrar ayrıca `mes_r()`'nin
+uyguladığı Fisher-z aralığını — gözlenen korelasyonun Fisher-z
+aralığının uçlarının zayıflama çarpanına bölünmüş hâli — hesaplamış
+ve kapsaması nokta düzeltmesiyle birlikte değerlendirilmiştir.
 
 # 5. Bulgular
 
@@ -855,10 +870,23 @@ Dengeli grup büyüklüklerinin birleştirilmiş-varyans yöntemlerini
 varyans heterojenliğine karşı koruduğu bilinir ve bu koruma burada
 görülmektedir; Bonett'in üstünlüğü buna bağlı olarak mütevazı ama
 tutarlıdır ve tam da varyansının tasarlandığı yerde ortaya
-çıkmaktadır. Birleşik koşul — hem dengesiz *hem* değişen varyanslı,
-birleştirilmiş-SS'li etki büyüklüğünün kendisinin kestirilecek
-nicelik olarak belirsizleştiği durum — test edilmemiştir ve
-sınırlılık olarak işaretlenmiştir.
+çıkmaktadır. Birleşik Behrens--Fisher koşulu — 1:3 dengesizlik *ve* 2:1 varyans
+heterojenliği aynı anda — yöntemler arasındaki en keskin ayrışmayı
+üretmiş ve bu ayrışma, büyük varyansın hangi grupta bulunduğuna göre
+belirlenmiştir. *Büyük* varyans *büyük* grupta yer aldığında (pozitif
+eşleşme), her iki aralık da aşırı kapsamıştır: Hunter--Schmidt
+0.977--0.982, Bonett 0.966--0.972. *Büyük* varyans *küçük* grupta
+yer aldığında (negatif eşleşme) — havuzlanmış-varyans yöntemleri için
+en tehlikeli düzenleme — Hunter--Schmidt iki örneklem büyüklüğünde ve
+iki güvenirlik düzeyinde de nominal düzeyin yaklaşık beş yüzde puan
+altına inerek 0.898--0.908'e gerilemiştir. Bonett kısmen
+toparlanmıştır: 0.928--0.938, hâlâ nominalin altında ama belirgin
+biçimde daha yakın; negatif eşleşme altındaki daha geniş aralığı
+(HS'den ortalama %11 geniş) ise heterojenlik-dayanıklı varyansının
+yükselen belirsizliği doğru biçimde saptadığını yansıtmaktadır.
+Negatif eşleşme sonucu, bu makaledeki Bonett'i tercih etmek için en
+güçlü görgül kanıttır: Hunter--Schmidt aralığının alt-kapsamasının
+marjinal değil pratik öneme sahip olduğu tek koşul burasıdır.
 
 ## 5.3 Çalışma 3: Meta-Analitik Sonuçlar
 
@@ -919,10 +947,14 @@ tanıdık RMSE ödünleşimi korelasyon ölçeğinde yeniden ortaya
 RMSE göstermiş, yalnızca en küçük örneklemdeki en zayıf etkide
 ($\rho_{xy} = 0.30$, $n = 100$) hafifçe yüksek kalmıştır. Bu
 koşullarda hiçbir tekrar $[-1, 1]$ dışında düzeltilmiş korelasyon
-üretmemiştir. `disattenuate()`'in korelasyonlar için uyguladığı
-nokta düzeltmesi böylece görgül olarak sağlamdır; paketin
-korelasyonlar için henüz sunmadığı şey aralık makinesidir ve bu bir
-sınırlılık olarak kalmaktadır.
+üretmemiştir. Nokta düzeltmesi böylece görgül olarak sağlamdır. `mes_r()`'nin
+eklediği Fisher-z güven aralığı tüm sekiz hücrede mükemmel kapsama
+göstermiştir: 0.946 ile 0.953, tamamı nominal 0.95'in Monte Carlo
+standart hatası içinde; hiçbir tekrar herhangi bir koşulda $[-1, 1]$
+dışında düzeltilmiş korelasyon üretmemiştir. Her iki yanı hatalı
+ölçen uygulamalı araştırmacılar artık tek bir `mes_r()` çağrısıyla
+düzeltilmiş nokta kestirimi ve güven aralığına birlikte
+ulaşabilmektedir.
 
 # 6. Tartışma
 
@@ -990,7 +1022,11 @@ konservatif yöndedir ve bedeli yaklaşık %2 ek genişliktir. Bonett
 ayrıca gerçek puan varyans heterojenliği altında da nominalde ya da
 üzerinde kalmış, Hunter--Schmidt orada hafifçe kaymıştır (Bölüm
 5.2.6). İki yöntem arasındaki fark en çok grup başına $n < 60$ iken
-önemlidir.
+önemlidir. En güçlü görgül kanıt birleşik Behrens--Fisher koşulundan
+gelmiştir: küçük grup büyük varyansı taşıdığında (negatif eşleşme),
+Hunter--Schmidt kapsaması 0.898--0.908'e düşerken Bonett 0.928--0.938'de
+kalmıştır. Grup büyüklükleri ve varyanslar aynı yönde eşitsizse Bonett
+açıkça daha güvenli seçimdir.
 
 **3. Güvenirlik kestirildiğinde aralık kesinliğini abartılı
 okumayın.** Simülasyonumuz, $\hat{\rho}_{xx}$ grup başına
@@ -1054,25 +1090,29 @@ modeller farklı düzeltme çarpanları üretir [@revelle2009]. Ölçme
 modeli paralel testlerden belirgin biçimde uzaklaştığında düzeltilmiş
 kestirim artık yanlılık taşıyabilir.
 
-**Korelasyonlar için aralık makinesi.** Korelasyonel alt-çalışma
-(Bölüm 5.4), her iki değişken hatalıyken iki yönlü nokta
-düzeltmesinin kuramın öngördüğü gibi davrandığını doğrulamıştır.
-Ancak paket, düzeltilmiş korelasyonlar için güven aralığı ya da
-meta-analitik varyans sunmamaktadır; korelasyonel desenlerdeki
-araştırmacılar doğrulanmış bir nokta kestirimi alır ama çıkarım için
-başka kaynaklara yönelmek zorundadır.
+**Korelasyonlar için aralık makinesi.** `mes_r()` işlevi, iki yönlü
+düzeltilmiş korelasyonu Fisher-z güven aralığıyla birlikte
+sunmaktadır. Bölüm 5.4'teki alt-çalışma sekiz koşulda 0.946--0.953
+kapsamasını doğrulamıştır (tamamı nominal 0.95'in Monte Carlo standart
+hatası içinde). Düzeltilmiş korelasyonlar için meta-analitik varyans
+henüz uygulanmamıştır; havuzlanmış düzeltilmiş korelasyona ihtiyaç
+duyan araştırmacılar şimdilik nokta kestirimleri dışa aktararak kendi
+varyanslarını sağlamalıdır.
 
-**Dengesiz-değişen varyanslı birleşik desenler.** Ana faktöriyel
-eşit grup büyüklükleri ve eşit evren varyansları kullanmıştır.
-Desen-dayanıklılığı alt-çalışması (Bölüm 5.2.6) iki varsayımı ayrı
-ayrı gevşetmiş — eşit varyanslı 1:3 dengesizlik ve dengeli gruplarla
-2:1 varyans heterojenliği — ve iki aralık da nominale yakın kalmış;
-Bonett, değişen varyans altında beklenen mütevazı üstünlüğünü
-göstermiştir. Daha büyük varyansın daha küçük grupla eşleşebildiği
-ve birleştirilmiş-SS'li etki büyüklüğünün kendisinin kestirilecek
-nicelik olarak belirsizleştiği birleşik koşul simüle edilmemiştir;
-orası, Welch tipi standartlaştırıcıların (Bölüm 6.5) daha ilkeli
-çözüm hâline geldiği yerdir.
+**Dengesiz-değişen varyanslı birleşik desenler.** Ana faktöriyel eşit
+grup büyüklükleri ve eşit evren varyansları kullanmıştır.
+Desen-dayanıklılığı alt-çalışması (Bölüm 5.2.6) bunu dengeli olmayan
+gruplara (1:3; B1), dengeli gruplarla varyans heterojenliğine (2:1;
+B2) ve — birleşik Behrens--Fisher koşulunda — ikisine birden, varyans
+ile grup büyüklüğünün pozitif ya da negatif eşleşmesiyle (B3)
+genişletmiştir. Birleşik negatif eşleşme koşulu (küçük grup büyük
+varyansı taşır), makalenin tamamındaki tek pratik öneme sahip
+alt-kapsamayı üretmiştir: Hunter--Schmidt 0.898--0.908, Bonett ise
+0.928--0.938. Bu sonuçlar birleştirilmiş-SS ölçeğinde
+yorumlanmaktadır; eşleşme bu denli ağır olduğunda Welch tipi
+standartlaştırıcılar (Bölüm 6.5) kestirilecek nicelik sorununun
+kendisi için daha ilkeli bir yaklaşımı temsil eder ve
+birleştirilmiş-SS düzeltmesi yaklaşık sayılmalıdır.
 
 **Güvenirlik ile gerçek puanların bağımsızlığı.** Simülasyon, KTK
 modelinin gerektirdiği gibi ölçme hatasının gerçek puanlarla

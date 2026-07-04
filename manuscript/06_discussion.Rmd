@@ -65,7 +65,12 @@ deviations were on the conservative side, at the cost of roughly
 2% additional width. It also held at or above nominal coverage
 under true-score variance heterogeneity, where Hunter–Schmidt
 slipped slightly (Section 5.2.6). The difference between the two is
-largest when $n < 60$ per group.
+largest when $n < 60$ per group. The strongest empirical case came
+from the combined Behrens–Fisher condition: when the smaller group
+carried the larger variance (negative pairing), Hunter–Schmidt
+coverage fell to 0.898–0.908 while Bonett remained at 0.928–0.938.
+In designs where groups are both unequal in size and unequal in
+variance, Bonett is clearly the safer choice.
 
 **3. Do not over-read interval precision when reliability is
 estimated.** Our simulation found no coverage penalty when
@@ -132,25 +137,28 @@ tau-equivalent models yield different correction factors
 from parallel tests, the corrected estimate may retain residual
 bias.
 
-**Interval machinery for correlations.** The correlational
-sub-study (Section 5.4) confirmed that the two-sided point
-correction behaves as theory predicts when both variables are
-fallible. The package does not, however, provide confidence
-intervals or meta-analytic variances for corrected correlations;
-researchers in correlational designs get a validated point estimate
-but must turn elsewhere for inference.
+**Interval machinery for correlations.** The `mes_r()` function
+provides the two-sided corrected correlation together with a
+Fisher-z confidence interval. The sub-study in Section 5.4 confirmed
+coverage of 0.946–0.953 across eight conditions, all within Monte
+Carlo standard error of the nominal 0.95. Meta-analytic variance for
+corrected correlations is not yet implemented; researchers who need a
+pooled corrected correlation must currently export the point estimates
+and supply their own variance.
 
 **Unbalanced heteroscedastic designs.** The main factorial used
 equal group sizes and equal population variances. The
-design-robustness sub-study (Section 5.2.6) relaxed each assumption
-separately — 1:3 imbalance with equal variances, and 2:1 variance
-heterogeneity with balanced groups — and both intervals remained
-near-nominal, with Bonett showing its expected modest edge under
-heteroscedasticity. The combined condition, in which the larger
-variance can be paired with the smaller group and the pooled-SD
-effect size itself becomes ambiguous as an estimand, was not
-simulated; it is the setting where Welch-type standardizers
-(Section 6.5) become the more principled solution.
+design-robustness sub-study (Section 5.2.6) extended this to
+unbalanced groups (1:3; B1), variance heterogeneity with balanced
+groups (2:1; B2), and the combined Behrens–Fisher condition with
+positive and negative pairing of variance and group size (B3). The
+combined negative-pairing condition (smaller group carries the larger
+variance) produced the only practically consequential under-coverage
+in the entire paper: Hunter–Schmidt 0.898–0.908, Bonett 0.928–0.938.
+These results are interpreted on the pooled-SD scale; when the
+pairing is this severe, Welch-type standardizers (Section 6.5)
+represent a more principled approach to the estimand itself, and the
+pooled-SD correction should be treated as approximate.
 
 **Independence of reliability and true scores.** The simulation
 assumed that measurement error is uncorrelated with true scores,

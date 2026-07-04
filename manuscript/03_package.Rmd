@@ -31,12 +31,13 @@ interval, APA-7 text, and a `metafor`-ready export.
 
 ## 3.2 Core Function Map
 
-The package exports six user-facing functions:
+The package exports seven user-facing functions:
 
 | Function | Description |
 |---|---|
 | `mes_d()` | Cohen's $d$ corrected for attenuation: $d^* = d / \sqrt{\rho_{xx}}$ |
 | `mes_g()` | Hedges' $g$ with both small-sample and attenuation correction: $g^* = J \cdot d / \sqrt{\rho_{xx}}$ |
+| `mes_r()` | Correlation corrected for one- or two-sided unreliability, with a Fisher-z interval |
 | `disattenuate()` | General correction engine for $d$-family effect sizes and correlations |
 | `mes_ci()` | Recomputes the confidence interval of an existing `mes` object with a different method |
 | `mes_meta()` | Converts `mes` objects to `metafor`-compatible format ($y_i$, $v_i$) |

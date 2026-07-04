@@ -77,6 +77,7 @@ positive" sign.
 |---|---|
 | `mes_d()` | Cohen's *d* with reliability correction |
 | `mes_g()` | Hedges' *g* with reliability correction |
+| `mes_r()` | Correlation corrected for unreliability, with a Fisher-z CI |
 | `disattenuate()` | The bare math behind the correction (d and r) |
 | `mes_ci()` | Re-run the CI on an existing `mes` object with a different method |
 | `mes_meta()` | Build a `metafor`-ready data frame (`yi`, `vi`, `sei`, `ni`) from one or more `mes` objects |

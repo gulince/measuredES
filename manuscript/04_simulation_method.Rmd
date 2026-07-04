@@ -163,16 +163,18 @@ $\hat{\alpha}$ with the interval that additionally propagates
 $\widehat{SE}(\hat{\alpha})$ through `rxx_se` (Section 2.3.4).
 
 Second, *design robustness*: (a) unbalanced groups with equal
-variances ($n_1 : n_2 = 1{:}3$, $n_1 \in \{30, 60\}$) and (b)
+variances ($n_1 : n_2 = 1{:}3$, $n_1 \in \{30, 60\}$), (b)
 heteroscedastic true scores under balanced groups (true-score
-variance ratio 2:1, equal reliability in both groups), each crossed
-with $\rho_{xx} \in \{0.60, 0.85\}$ at $\delta = 0.50$
-($R = 5{,}000$), comparing Hunter--Schmidt and Bonett. In both
-blocks the population effect is defined on the average true-score
-standard deviation, which coincides with the pooled standardizer by
-construction. The combined case — unbalanced *and* heteroscedastic,
-where the pooled-SD estimand itself becomes ambiguous — remains
-outside the present scope.
+variance ratio 2:1, equal reliability in both groups), and (c) the
+combined Behrens--Fisher condition — 1:3 imbalance *and* 2:1
+variance heterogeneity, with the larger variance paired either with
+the larger group (positive pairing) or with the smaller group
+(negative pairing). Each block was crossed with
+$\rho_{xx} \in \{0.60, 0.85\}$ at $\delta = 0.50$ ($R = 5{,}000$),
+comparing Hunter--Schmidt and Bonett. Throughout, the population
+effect is defined on the population value of the pooled standard
+deviation, the parameter the pooled-SD estimator targets, so
+coverage isolates interval behavior from estimand ambiguity.
 
 Third, *severe skewness*: the bootstrap comparison of Section 4.5
 was repeated with scores generated from a standardized $\chi^2(1)$
@@ -186,4 +188,7 @@ scores with $\rho_{xy} \in \{0.30, 0.50\}$ were observed through two
 equally fallible measures ($\rho_{xx} = \rho_{yy} \in \{0.70,
 0.85\}$; $n \in \{100, 250\}$; $R = 5{,}000$), and the observed
 correlation was corrected with the two-sided Spearman formula of
-Section 2.2.
+Section 2.2. Each replicate also computed the Fisher-z interval
+that `mes_r()` implements — the Fisher-z interval of the observed
+correlation with endpoints divided by the attenuation factor — so
+its coverage could be evaluated alongside the point correction.

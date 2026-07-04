@@ -67,10 +67,9 @@ run_a <- function(cell) {
 # (B2, balanced n). delta is defined on the average true-score SD,
 # which equals the pooled/population SD in both blocks by design.
 
-gen_het <- function(n1, n2, delta, rho, sdT1 = 1, sdT2 = 1) {
-  sbar <- sqrt((sdT1^2 + sdT2^2) / 2)
-  T1 <- rnorm(n1, 0,            sdT1)
-  T2 <- rnorm(n2, delta * sbar, sdT2)
+gen_het_target <- function(n1, n2, mean_diff, rho, sdT1 = 1, sdT2 = 1) {
+  T1 <- rnorm(n1, 0,         sdT1)
+  T2 <- rnorm(n2, mean_diff, sdT2)
   E1 <- rnorm(n1, 0, sdT1 * sqrt((1 - rho) / rho))
   E2 <- rnorm(n2, 0, sdT2 * sqrt((1 - rho) / rho))
   list(X1 = T1 + E1, X2 = T2 + E2)
@@ -78,25 +77,38 @@ gen_het <- function(n1, n2, delta, rho, sdT1 = 1, sdT2 = 1) {
 
 cells_b <- rbind(
   expand.grid(block = "B1_unbalanced", n1 = c(30L, 60L), ratio_n = 3L,
-              var_ratio = 1, rho = c(0.60, 0.85),
+              var_ratio = 1, pairing = "none", rho = c(0.60, 0.85),
               stringsAsFactors = FALSE),
   expand.grid(block = "B2_heteroscedastic", n1 = c(30L, 60L), ratio_n = 1L,
-              var_ratio = 2, rho = c(0.60, 0.85),
-              stringsAsFactors = FALSE)
+              var_ratio = 2, pairing = "none", rho = c(0.60, 0.85),
+              stringsAsFactors = FALSE),
+  expand.grid(block = "B3_combined", n1 = c(30L, 60L), ratio_n = 3L,
+              var_ratio = 2, pairing = c("positive", "negative"),
+              rho = c(0.60, 0.85), stringsAsFactors = FALSE)
 )
 cells_b$cell_id <- seq_len(nrow(cells_b))
 DELTA_B <- 0.50
 R_B     <- 5000L
 
+# In B3, delta is defined on the population pooled SD (the parameter the
+# pooled-d estimator targets), so coverage isolates interval behavior:
+# positive pairing = larger variance in the LARGER group,
+# negative pairing = larger variance in the SMALLER group.
 run_b <- function(cell) {
   set.seed(20280000 + cell$cell_id)
   n1 <- cell$n1; n2 <- cell$n1 * cell$ratio_n
-  sdT2 <- sqrt(cell$var_ratio)
+  if (cell$pairing == "negative") {
+    sdT1 <- sqrt(cell$var_ratio); sdT2 <- 1   # big variance, small group
+  } else {
+    sdT1 <- 1; sdT2 <- sqrt(cell$var_ratio)
+  }
+  sd_pool <- sqrt(((n1 - 1) * sdT1^2 + (n2 - 1) * sdT2^2) /
+                    (n1 + n2 - 2))
   out <- matrix(NA_real_, R_B, 4,
                 dimnames = list(NULL, c("cov_hs", "wid_hs",
                                         "cov_bo", "wid_bo")))
   for (r in seq_len(R_B)) {
-    dat <- gen_het(n1, n2, DELTA_B, cell$rho, 1, sdT2)
+    dat <- gen_het_target(n1, n2, DELTA_B * sd_pool, cell$rho, sdT1, sdT2)
     X1 <- dat$X1; X2 <- dat$X2
     Sp    <- pooled_sd_fast(X1, X2)
     d_obs <- (mean(X2) - mean(X1)) / Sp
@@ -108,7 +120,8 @@ run_b <- function(cell) {
                   ci_bo[1] <= DELTA_B && DELTA_B <= ci_bo[2],
                   ci_bo[2] - ci_bo[1])
   }
-  data.frame(cell[, c("block", "n1", "ratio_n", "var_ratio", "rho")],
+  data.frame(cell[, c("block", "n1", "ratio_n", "var_ratio",
+                      "pairing", "rho")],
              coverage_hs = mean(out[, "cov_hs"]),
              coverage_bo = mean(out[, "cov_bo"]),
              width_hs    = mean(out[, "wid_hs"]),
@@ -180,6 +193,7 @@ R_D <- 5000L
 run_d <- function(cell) {
   set.seed(20300000 + cell$cell_id)
   r_obs <- r_cor <- numeric(R_D)
+  cov_r <- logical(R_D)
   sigE  <- sqrt((1 - cell$rel) / cell$rel)
   for (r in seq_len(R_D)) {
     Tx <- rnorm(cell$n)
@@ -187,14 +201,16 @@ run_d <- function(cell) {
     X  <- Tx + rnorm(cell$n, 0, sigE)
     Y  <- Ty + rnorm(cell$n, 0, sigE)
     r_obs[r] <- stats::cor(X, Y)
-    r_cor[r] <- suppressWarnings(
-      disattenuate(r_obs[r], rxx = cell$rel, ryy = cell$rel, type = "r"))
+    fit <- mes_r(r_obs[r], n = cell$n, rxx = cell$rel, ryy = cell$rel)
+    r_cor[r] <- fit$estimate
+    cov_r[r] <- fit$ci[1] <= cell$rho_xy && cell$rho_xy <= fit$ci[2]
   }
   data.frame(cell[, c("rho_xy", "rel", "n")],
              bias_obs  = mean(r_obs) - cell$rho_xy,
              bias_corr = mean(r_cor) - cell$rho_xy,
              rmse_obs  = sqrt(mean((r_obs - cell$rho_xy)^2)),
              rmse_corr = sqrt(mean((r_cor - cell$rho_xy)^2)),
+             coverage_fisher = mean(cov_r),
              pct_gt1   = 100 * mean(abs(r_cor) > 1))
 }
 
@@ -206,7 +222,7 @@ parallel::clusterEvalQ(cl, {
   source("analysis/00_helpers.R")
 })
 parallel::clusterExport(cl, c("DELTA_A", "R_A", "B_SE", "se_alpha_boot",
-                              "DELTA_B", "R_B", "gen_het",
+                              "DELTA_B", "R_B", "gen_het_target",
                               "DELTA_C", "R_C", "B_C", "gen_extreme",
                               "R_D"))
 

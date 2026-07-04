@@ -96,19 +96,21 @@ which limits the inferential value of the correction.
 ## 1.2 The present contribution
 
 We address this gap by introducing the measuredES R package, which
-implements measurement-corrected *d*-family effect sizes under
-classical test theory. The package provides corrected versions of
-Cohen's *d* and Hedges' *g*, the general disattenuation engine
-(including the two-sided correction for correlations), three
-confidence-interval methods (Hunter--Schmidt analytical, Bonett, and
-BCa bootstrap), an APA-7 reporting interface, and a meta-analytic
-export that feeds `metafor` directly. The implementation favors
-single-function workflows, accepts summary statistics as well as raw
-data, and ships with a vignette and a reproducible test suite.
+implements measurement-corrected effect sizes under classical test
+theory. The package provides corrected versions of Cohen's *d*,
+Hedges' *g*, and Pearson correlations (the latter with a Fisher-z
+interval), three confidence-interval methods for the *d* family
+(Hunter--Schmidt analytical, Bonett, and BCa bootstrap), optional
+propagation of reliability-estimation uncertainty through the
+`rxx_se` argument, an APA-7 reporting interface, and a
+meta-analytic export that feeds `metafor` directly. The
+implementation favors single-function workflows, accepts summary
+statistics as well as raw data, and ships with a vignette and a
+reproducible test suite.
 
 To evaluate both the package and the broader correction approach, we
-conducted three connected Monte Carlo simulation studies, presented
-in this article. **Study 1** examined the bias and root-mean-square
+conducted three connected Monte Carlo simulation studies and five
+focused sub-studies, presented in this article. **Study 1** examined the bias and root-mean-square
 error of corrected and uncorrected Cohen's *d* across a 192-cell
 factorial design crossing true effect size, sample size, true
 reliability, reliability estimation status (known versus estimated
@@ -121,7 +123,11 @@ a focused sub-study (Section 5.2.4). **Study 3** moved the
 analysis to the meta-analytic level,
 examining the bias of pooled effect estimates under homogeneous
 versus heterogeneous between-study reliability, with the number of
-synthesized studies $k \in \{5, 10, 20\}$.
+synthesized studies $k \in \{5, 10, 20\}$. The sub-studies
+(Sections 4.5--4.6) probed the BCa bootstrap, severe skewness, the
+propagation of reliability-estimation uncertainty, unbalanced and
+heteroscedastic designs including the combined Behrens--Fisher
+case, and the two-sided correction for correlations.
 
 The remainder of this article is organized as follows. Section 2
 develops the theoretical foundation: Spearman's correction and the
