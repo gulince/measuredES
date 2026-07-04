@@ -23,8 +23,11 @@ underestimates the true effect.
 **Corrected estimator.** The Spearman-corrected estimator was
 essentially unbiased across all conditions. Absolute bias was
 $0.008$ at $\rho_{xx} = 0.60$, $\delta = 0.80$, $n = 30$, and stayed
-within $\pm 0.026$ across the full design, a negligible deviation
-attributable to sampling variability in the pooled standard deviation.
+within $\pm 0.026$ across the full design. The small positive
+deviations at $n = 30$ match the known small-sample bias of Cohen's
+$d$, which enters through the pooled standard deviation in the
+denominator and is the quantity the Hedges correction targets
+(Section 2.2).
 
 **RMSE.** The corrected estimator showed higher RMSE than the
 uncorrected estimator in small-sample conditions ($n = 30$), a

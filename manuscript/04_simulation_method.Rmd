@@ -30,10 +30,10 @@ Error variance was set to reproduce the target reliability exactly:
 $$\sigma^2_E = \frac{1 - \rho_{xx}}{\rho_{xx}},$$
 
 which ensures $\text{Var}(X) = 1/\rho_{xx}$ and
-$\text{Var}(T)/\text{Var}(X) = \rho_{xx}$. Under this parameterization,
-the expected value of the uncorrected $d_{\text{obs}}$ is
-$\delta \sqrt{\rho_{xx}}$, and the expected value of the corrected
-$\hat{\delta}$ is $\delta$.
+$\text{Var}(T)/\text{Var}(X) = \rho_{xx}$. Under this
+parameterization, $d_{\text{obs}}$ estimates $\delta \sqrt{\rho_{xx}}$
+and the corrected $\hat{\delta}$ estimates $\delta$, up to the usual
+small-sample bias of $d$ [@hedges1981].
 
 ### 4.2.2 Reliability Estimation Conditions
 

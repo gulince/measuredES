@@ -80,7 +80,7 @@ meta_data <- mes_meta(study1_result, study2_result, study3_result)
 
 # Pass directly to metafor
 library(metafor)
-rma(yi = meta_data$yi, vi = meta_data$vi, data = meta_data)
+rma(yi = yi, vi = vi, data = meta_data)
 ```
 
 **Step 3: Report in APA-7 format.**
