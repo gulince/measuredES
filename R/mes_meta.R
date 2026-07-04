@@ -126,8 +126,7 @@ mes_meta <- function(..., study_id = NULL) {
       sei   = if (!is.na(vi)) sqrt(vi) else NA_real_,
       ni    = if (!is.null(obj$n$total)) obj$n$total else NA_integer_,
       rxx   = rxx_val,
-      type  = obj$type,
-      stringsAsFactors = FALSE
+      type  = obj$type
     )
   }
 

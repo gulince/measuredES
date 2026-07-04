@@ -88,21 +88,24 @@ summary.mes <- function(object, ...) {
 #' @export
 as.data.frame.mes <- function(x, row.names = NULL, optional = FALSE, ...) {
 
+  ci_low  <- if (!is.null(x$ci)) x$ci[1L] else NA_real_
+  ci_high <- if (!is.null(x$ci)) x$ci[2L] else NA_real_
+  n_total <- if ("total" %in% names(x$n)) x$n$total
+             else if (length(x$n) > 0L) sum(unlist(x$n))
+             else NA_integer_
+
   data.frame(
-    type            = x$type,
-    raw_estimate    = x$raw_estimate,
+    type               = x$type,
+    raw_estimate       = x$raw_estimate,
     corrected_estimate = x$estimate,
-    ci_low          = if (!is.null(x$ci)) x$ci[1L] else NA_real_,
-    ci_high         = if (!is.null(x$ci)) x$ci[2L] else NA_real_,
-    ci_method       = x$ci_method,
-    conf_level      = x$conf_level,
-    reliability_dv  = if ("rxx" %in% names(x$reliability))
-                        x$reliability$rxx else NA_real_,
-    n_total         = if ("total" %in% names(x$n))
-                        x$n$total else
-                        if (length(x$n) > 0) sum(unlist(x$n)) else NA_integer_,
-    interpretation  = x$interpretation,
-    stringsAsFactors = FALSE
+    ci_low             = ci_low,
+    ci_high            = ci_high,
+    ci_method          = x$ci_method,
+    conf_level         = x$conf_level,
+    reliability_dv     = if ("rxx" %in% names(x$reliability))
+                           x$reliability$rxx else NA_real_,
+    n_total            = n_total,
+    interpretation     = x$interpretation
   )
 }
 

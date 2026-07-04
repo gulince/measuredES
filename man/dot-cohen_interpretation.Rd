@@ -7,7 +7,8 @@
 .cohen_interpretation(d, type = "d")
 }
 \description{
-Rough Cohen (1988) size label. Treat the cutoffs as ballpark figures,
-not hard rules: context always matters (Lakens, 2013).
+Rough Cohen (1988) size label. Vectorized: accepts a numeric vector and
+returns a character vector of the same length. Treat the cutoffs as
+ballpark figures, not hard rules: context always matters (Lakens, 2013).
 }
 \keyword{internal}

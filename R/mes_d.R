@@ -176,8 +176,9 @@ mes_d <- function(x1 = NULL,
     Sp <- sqrt(((n1 - 1) * s1^2 + (n2 - 1) * s2^2) / (n1 + n2 - 2))
   }
 
-  if (Sp == 0) {
-    stop("Pooled standard deviation is zero; effect size is undefined.",
+  if (Sp < .Machine$double.eps) {
+    stop("Pooled standard deviation is zero or near-zero; the effect size is undefined. ",
+         "Check that the two groups have non-constant scores.",
          call. = FALSE)
   }
 
@@ -332,16 +333,16 @@ mes_d <- function(x1 = NULL,
   group_id <- c(rep(1L, length(x1)), rep(2L, length(x2)))
 
   stat_fn <- function(data, indices) {
-    d_resampled <- data[indices, , drop = FALSE]
-    g1 <- d_resampled$value[d_resampled$group == 1L]
-    g2 <- d_resampled$value[d_resampled$group == 2L]
+    boot_sample <- data[indices, , drop = FALSE]
+    grp1 <- boot_sample$value[boot_sample$group == 1L]
+    grp2 <- boot_sample$value[boot_sample$group == 2L]
 
-    if (length(g1) < 2L || length(g2) < 2L) return(NA_real_)
+    if (length(grp1) < 2L || length(grp2) < 2L) return(NA_real_)
 
-    Sp <- .pooled_sd(g1, g2)
-    if (Sp == 0) return(NA_real_)
+    Sp <- .pooled_sd(grp1, grp2)
+    if (Sp < .Machine$double.eps) return(NA_real_)
 
-    d <- (mean(g1) - mean(g2)) / Sp
+    d <- (mean(grp1) - mean(grp2)) / Sp
     d / sqrt(rxx)
   }
 

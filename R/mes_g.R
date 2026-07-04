@@ -183,13 +183,13 @@ mes_g <- function(x1 = NULL,
   group_id <- c(rep(1L, length(x1)), rep(2L, length(x2)))
 
   stat_fn <- function(data, indices) {
-    rs <- data[indices, , drop = FALSE]
-    g1 <- rs$value[rs$group == 1L]
-    g2 <- rs$value[rs$group == 2L]
-    if (length(g1) < 2L || length(g2) < 2L) return(NA_real_)
-    Sp <- .pooled_sd(g1, g2)
-    if (Sp == 0) return(NA_real_)
-    d <- (mean(g1) - mean(g2)) / Sp
+    boot_sample <- data[indices, , drop = FALSE]
+    grp1 <- boot_sample$value[boot_sample$group == 1L]
+    grp2 <- boot_sample$value[boot_sample$group == 2L]
+    if (length(grp1) < 2L || length(grp2) < 2L) return(NA_real_)
+    Sp <- .pooled_sd(grp1, grp2)
+    if (Sp < .Machine$double.eps) return(NA_real_)
+    d <- (mean(grp1) - mean(grp2)) / Sp
     (J * d) / sqrt(rxx)
   }
 
