@@ -13,12 +13,13 @@ and Hedges' \emph{g} under classical test theory (CTT).
 \section{Core functions}{
 
 \describe{
-  \item{\code{\link{mes_d}}}{Corrected Cohen's d}
-  \item{\code{\link{mes_g}}}{Corrected Hedges' g}
-  \item{\code{\link{disattenuate}}}{General attenuation-correction engine}
-  \item{\code{\link{mes_ci}}}{Recompute the interval of an existing result}
-  \item{\code{\link{mes_meta}}}{Conversion to meta-analytic format}
-  \item{\code{\link{mes_report}}}{APA-7-style reporting}
+  \item{\code{\link{mes_d}}}{Corrected Cohen's d (raw data, summary stats, or formula)}
+  \item{\code{\link{mes_g}}}{Corrected Hedges' g (small-sample bias removed first)}
+  \item{\code{\link{mes_r}}}{Corrected Pearson r with Fisher-z confidence interval}
+  \item{\code{\link{disattenuate}}}{The bare Spearman correction; accepts vectors}
+  \item{\code{\link{mes_ci}}}{Swap the CI method on an existing result}
+  \item{\code{\link{mes_meta}}}{Export to a \code{metafor}-ready data frame}
+  \item{\code{\link{mes_report}}}{APA-7-style inline text or table}
 }
 }
 

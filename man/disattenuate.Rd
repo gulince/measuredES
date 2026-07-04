@@ -7,26 +7,29 @@
 disattenuate(effect, rxx, ryy = NULL, type = c("d", "r"))
 }
 \arguments{
-\item{effect}{Observed effect-size value (numeric scalar).}
+\item{effect}{Observed effect size. May be a single value or a numeric
+vector (e.g., a column of \emph{d} values from a study database).
+\code{NA} elements pass through as \code{NA}.}
 
-\item{rxx}{Reliability of the dependent variable (or of the single scale),
-\eqn{r_{xx} \in (0, 1]}.}
+\item{rxx}{Reliability of the dependent variable (or first variable when
+\code{type = "r"}). Must be a single value in \eqn{(0, 1]}.}
 
-\item{ryy}{Reliability of the second variable (used only when
-\code{type = "r"} for two-variable correction).}
+\item{ryy}{Reliability of the second variable; used only when
+\code{type = "r"} for a two-sided correction. Omit for the one-sided
+correction.}
 
 \item{type}{Effect-size type:
 \itemize{
   \item \code{"d"}: Standardized mean difference (Cohen's d / Hedges' g).
     Divides by \eqn{\sqrt{r_{xx}}}.
-  \item \code{"r"}: Correlation coefficient. Divides by
-    \eqn{\sqrt{r_{xx} \cdot r_{yy}}}. \code{measuredES} doesn't ship a
-    dedicated correlation wrapper; for a full workflow see
-    \code{psych::correct.cor()}.
+  \item \code{"r"}: Pearson correlation. Divides by
+    \eqn{\sqrt{r_{xx} \cdot r_{yy}}}. For a full workflow that also
+    returns a Fisher-z confidence interval, use \code{\link{mes_r}}.
 }}
 }
 \value{
-The corrected effect size (numeric scalar).
+A numeric vector of corrected effect sizes with the same length
+  as \code{effect}.
 }
 \description{
 The math behind every \code{mes_*()} function. Under classical test
@@ -55,10 +58,13 @@ treat \code{rxx} as a known constant; for the full uncertainty you'd
 need a Bayesian model or a bootstrap that resamples reliability too.
 }
 \examples{
-# Reliability correction for Cohen's d (alpha = 0.80)
+# Single value: Cohen's d at rxx = 0.80
 disattenuate(effect = 0.50, rxx = 0.80, type = "d")
 
-# Two-sided correction for Pearson r
+# Vector of d values (e.g., from a study database column)
+disattenuate(effect = c(0.20, 0.45, 0.63, 0.80), rxx = 0.75, type = "d")
+
+# Two-sided correction for a Pearson r
 disattenuate(effect = 0.30, rxx = 0.85, ryy = 0.78, type = "r")
 
 }

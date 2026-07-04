@@ -23,10 +23,9 @@ Encoding: UTF-8
 Depends: R (>= 4.0.0)
 Imports:
     stats,
-    boot,
-    graphics,
-    utils
+    graphics
 Suggests:
+    boot,
     metafor,
     testthat (>= 3.0.0),
     knitr,

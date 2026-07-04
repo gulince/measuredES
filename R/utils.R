@@ -147,22 +147,19 @@
 #' Verbal interpretation of effect-size magnitude (Cohen's guidelines)
 #'
 #' @description
-#' Rough Cohen (1988) size label. Treat the cutoffs as ballpark figures,
-#' not hard rules: context always matters (Lakens, 2013).
+#' Rough Cohen (1988) size label. Vectorized: accepts a numeric vector and
+#' returns a character vector of the same length. Treat the cutoffs as
+#' ballpark figures, not hard rules: context always matters (Lakens, 2013).
 #'
 #' @keywords internal
 .cohen_interpretation <- function(d, type = "d") {
+  if (!type %in% c("d", "g")) return(rep(NA_character_, length(d)))
   ad <- abs(d)
-  if (type %in% c("d", "g")) {
-    if (ad < 0.20) "negligible"
-    else if (ad < 0.50) "small"
-    else if (ad < 0.80) "medium"
-    else "large"
-  } else NA_character_
+  ifelse(ad < 0.20, "negligible",
+    ifelse(ad < 0.50, "small",
+      ifelse(ad < 0.80, "medium", "large")))
 }
 
 
-# variables used in ggplot2::aes() inside plot.mes(); keeps R CMD check quiet
-#' @importFrom utils globalVariables
-utils::globalVariables(c("estimate", "label", "lower", "upper",
-                         ".data"))
+# Suppress R CMD check NOTEs for ggplot2 aes() variable names used in plot.mes()
+utils::globalVariables(c("estimate", "label", "lower", "upper", ".data"))

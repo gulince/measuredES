@@ -29,22 +29,25 @@
 #' treat \code{rxx} as a known constant; for the full uncertainty you'd
 #' need a Bayesian model or a bootstrap that resamples reliability too.
 #'
-#' @param effect Observed effect-size value (numeric scalar).
-#' @param rxx Reliability of the dependent variable (or of the single scale),
-#'   \eqn{r_{xx} \in (0, 1]}.
-#' @param ryy Reliability of the second variable (used only when
-#'   \code{type = "r"} for two-variable correction).
+#' @param effect Observed effect size. May be a single value or a numeric
+#'   vector (e.g., a column of \emph{d} values from a study database).
+#'   \code{NA} elements pass through as \code{NA}.
+#' @param rxx Reliability of the dependent variable (or first variable when
+#'   \code{type = "r"}). Must be a single value in \eqn{(0, 1]}.
+#' @param ryy Reliability of the second variable; used only when
+#'   \code{type = "r"} for a two-sided correction. Omit for the one-sided
+#'   correction.
 #' @param type Effect-size type:
 #'   \itemize{
 #'     \item \code{"d"}: Standardized mean difference (Cohen's d / Hedges' g).
 #'       Divides by \eqn{\sqrt{r_{xx}}}.
-#'     \item \code{"r"}: Correlation coefficient. Divides by
-#'       \eqn{\sqrt{r_{xx} \cdot r_{yy}}}. \code{measuredES} doesn't ship a
-#'       dedicated correlation wrapper; for a full workflow see
-#'       \code{psych::correct.cor()}.
+#'     \item \code{"r"}: Pearson correlation. Divides by
+#'       \eqn{\sqrt{r_{xx} \cdot r_{yy}}}. For a full workflow that also
+#'       returns a Fisher-z confidence interval, use \code{\link{mes_r}}.
 #'   }
 #'
-#' @return The corrected effect size (numeric scalar).
+#' @return A numeric vector of corrected effect sizes with the same length
+#'   as \code{effect}.
 #'
 #' @references
 #' Hunter, J. E., & Schmidt, F. L. (2004). \emph{Methods of meta-analysis:
@@ -62,10 +65,13 @@
 #' \emph{Educational and Psychological Measurement}, 62, 254--263.
 #'
 #' @examples
-#' # Reliability correction for Cohen's d (alpha = 0.80)
+#' # Single value: Cohen's d at rxx = 0.80
 #' disattenuate(effect = 0.50, rxx = 0.80, type = "d")
 #'
-#' # Two-sided correction for Pearson r
+#' # Vector of d values (e.g., from a study database column)
+#' disattenuate(effect = c(0.20, 0.45, 0.63, 0.80), rxx = 0.75, type = "d")
+#'
+#' # Two-sided correction for a Pearson r
 #' disattenuate(effect = 0.30, rxx = 0.85, ryy = 0.78, type = "r")
 #'
 #' @export
@@ -76,45 +82,37 @@ disattenuate <- function(effect,
 
   type <- match.arg(type)
 
-  if (length(effect) != 1L || !is.numeric(effect) || is.na(effect)) {
-    stop("'effect' must be a single numeric value.", call. = FALSE)
+  if (!is.numeric(effect)) {
+    stop("'effect' must be a numeric vector.", call. = FALSE)
   }
 
   .check_reliability(rxx)
 
-  corrected <- switch(
-    type,
-
-    "d" = {
-      if (!is.null(ryy)) {
-        warning("'ryy' is ignored when type = \"d\"; the d-family ",
-                "correction uses only the outcome reliability 'rxx'.",
-                call. = FALSE)
-      }
-      effect / sqrt(rxx)
-    },
-
-    "r" = {
-      if (is.null(ryy)) {
-        warning("'ryy' not supplied; applying a one-sided correction that ",
-                "treats the second variable as measured without error. ",
-                "If both variables are fallible, pass 'ryy' explicitly.",
-                call. = FALSE)
-        effect / sqrt(rxx)
-      } else {
-        .check_reliability(ryy)
-        corrected_r <- effect / sqrt(rxx * ryy)
-        if (abs(corrected_r) > 1) {
-          warning(sprintf(
-            paste0("Corrected correlation |r| > 1 (r = %.3f). Likely caused ",
-                   "by sampling error in the reliability estimates or model ",
-                   "misspecification (Hunter & Schmidt, 2004)."),
-            corrected_r), call. = FALSE)
-        }
-        corrected_r
-      }
+  if (type == "d") {
+    if (!is.null(ryy)) {
+      warning("'ryy' is ignored when type = \"d\"; the d-family ",
+              "correction uses only the outcome reliability 'rxx'.",
+              call. = FALSE)
     }
-  )
+    effect / sqrt(rxx)
 
-  corrected
+  } else {
+    if (is.null(ryy)) {
+      warning("'ryy' not supplied; applying a one-sided correction that ",
+              "treats the second variable as measured without error. ",
+              "If both variables are fallible, pass 'ryy' explicitly.",
+              call. = FALSE)
+      effect / sqrt(rxx)
+    } else {
+      .check_reliability(ryy)
+      corrected_r <- effect / sqrt(rxx * ryy)
+      out_of_bounds <- !is.na(corrected_r) & abs(corrected_r) > 1
+      if (any(out_of_bounds)) {
+        warning(sprintf(
+          "%d corrected correlation(s) have |r*| > 1, likely caused by sampling error in the reliability estimates or model misspecification (Hunter & Schmidt, 2004).",
+          sum(out_of_bounds)), call. = FALSE)
+      }
+      corrected_r
+    }
+  }
 }
