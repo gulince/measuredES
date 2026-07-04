@@ -50,11 +50,12 @@ mes_ci <- function(object,
          call. = FALSE)
   }
 
-  n1  <- object$n$n1
-  n2  <- object$n$n2
-  rxx <- object$reliability$rxx
-  s1  <- object$extras$s1
-  s2  <- object$extras$s2
+  n1     <- object$n$n1
+  n2     <- object$n$n2
+  rxx    <- object$reliability$rxx
+  rxx_se <- object$reliability$rxx_se
+  s1     <- object$extras$s1
+  s2     <- object$extras$s2
 
   # for g objects: Var(g*) = J^2 * Var(d) / rxx, with d_raw and J from extras
   if (object$type == "g") {
@@ -70,14 +71,14 @@ mes_ci <- function(object,
   }
 
   d_ci <- if (method == "hunter_schmidt") {
-    .hs_ci_d(d_raw, rxx, n1, n2, conf_level)
+    .hs_ci_d(d_raw, rxx, n1, n2, conf_level, rxx_se)
   } else if (method == "bonett") {
     if (is.null(s1) || is.null(s2)) {
       stop("Bonett's variance needs the two group SDs (s1, s2). The 'mes' ",
            "object doesn't carry them; recompute with mes_d/mes_g.",
            call. = FALSE)
     }
-    .bonett_ci_d(d_raw, rxx, n1, n2, s1, s2, conf_level)
+    .bonett_ci_d(d_raw, rxx, n1, n2, s1, s2, conf_level, rxx_se)
   } else {
     stop("Bootstrap CI requires raw data; use mes_d(..., ci_method = ",
          "'bootstrap') or mes_g(..., ci_method = 'bootstrap') instead.",

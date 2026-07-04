@@ -121,6 +121,27 @@ $\hat{\alpha}$ (mean 0.610 at $\rho_{xx} = 0.60$), which shrinks the
 corrected estimate slightly and becomes visible once intervals are
 narrow.
 
+### 5.2.4 Bootstrap Sub-Study
+
+Table 3 reports the focused sub-study described in Section 4.5. Two
+results stand out. First, all three intervals held near-nominal
+coverage in every cell: BCa coverage ranged from 0.940 to 0.961
+(mean 0.951), Hunter--Schmidt from 0.937 to 0.958 (mean 0.947), and
+Bonett from 0.943 to 0.963 (mean 0.955); with a Monte Carlo standard
+error of about 0.007, the differences among methods are within
+simulation noise. Second — and contrary to what the assumption-free
+construction of BCa might suggest — the bootstrap did not repair the
+mild undercoverage that skewness produces at $\delta = 0.80$: in the
+skewed $\delta = 0.80$ cells, mean coverage was 0.946 for BCa
+against 0.946 for Hunter--Schmidt and 0.951 for Bonett. The extra
+sampling variability of the pooled standard deviation under skewness
+enters the bootstrap distribution just as it enters the analytical
+variances. In width, BCa sat between the analytical intervals (on
+average 2.1% wider than Hunter--Schmidt, with Bonett 3.0% wider). At
+roughly a thousand times the computation, BCa therefore offered no
+measurable advantage in these conditions; we regard it as a
+robustness check for irregular data rather than a default choice.
+
 ## 5.3 Study 3: Meta-Analytic Consequences
 
 Table 2 summarizes the bias, RMSE, and coverage of the pooled

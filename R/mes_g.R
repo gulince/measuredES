@@ -54,6 +54,7 @@
 mes_g <- function(x1 = NULL,
                   x2 = NULL,
                   rxx,
+                  rxx_se = NULL,
                   means = NULL,
                   sds = NULL,
                   ns = NULL,
@@ -69,6 +70,13 @@ mes_g <- function(x1 = NULL,
 
   if (conf_level <= 0 || conf_level >= 1) {
     stop("'conf_level' must be in (0, 1).", call. = FALSE)
+  }
+
+  if (!is.null(rxx_se)) {
+    if (length(rxx_se) != 1L || !is.numeric(rxx_se) ||
+        is.na(rxx_se) || rxx_se <= 0) {
+      stop("'rxx_se' must be a single positive number.", call. = FALSE)
+    }
   }
 
   # resolve the formula early: the bootstrap path needs x1/x2
@@ -100,9 +108,14 @@ mes_g <- function(x1 = NULL,
   g_raw       <- J * d_obj$raw_estimate
   g_corrected <- g_raw / sqrt(rxx)
 
-  # Var(g*) = J^2 * Var(d) / rxx
+  # Var(g*) = J^2 * (Var(d) / rxx + delta-method term when rxx_se given)
   ci_vals <- NULL
   if (ci) {
+    if (ci_method == "bootstrap" && !is.null(rxx_se)) {
+      warning("'rxx_se' is ignored for bootstrap intervals: resampling ",
+              "holds rxx fixed. Use an analytical ci_method to propagate ",
+              "reliability uncertainty.", call. = FALSE)
+    }
     if (ci_method == "bootstrap" && !is.null(x1) && !is.null(x2)) {
       ci_vals <- .boot_ci_g(x1, x2, rxx, J, conf_level, n_boot)
     } else {
@@ -126,7 +139,12 @@ mes_g <- function(x1 = NULL,
         crit <- stats::qnorm(1 - (1 - conf_level) / 2)
       }
 
-      var_g_corrected <- (J^2) * var_d / rxx
+      var_dstar <- var_d / rxx
+      if (!is.null(rxx_se)) {
+        var_dstar <- var_dstar +
+          d_obj$raw_estimate^2 * rxx_se^2 / (4 * rxx^3)
+      }
+      var_g_corrected <- (J^2) * var_dstar
       se <- sqrt(var_g_corrected)
       ci_vals <- c(g_corrected - crit * se, g_corrected + crit * se)
     }
@@ -139,7 +157,8 @@ mes_g <- function(x1 = NULL,
     ci_method    = if (ci) ci_method else NA_character_,
     conf_level   = conf_level,
     type         = "g",
-    reliability  = list(rxx = rxx),
+    reliability  = if (is.null(rxx_se)) list(rxx = rxx)
+                   else list(rxx = rxx, rxx_se = rxx_se),
     n            = list(n1 = as.integer(n1), n2 = as.integer(n2),
                         total = as.integer(n1 + n2)),
     call         = call_,

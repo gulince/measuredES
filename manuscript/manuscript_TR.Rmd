@@ -162,9 +162,10 @@ ya da $\alpha$ katsayısıyla kestiriliyor) ve dağılım biçiminin
 faktöriyel desende, düzeltilmiş ve düzeltilmemiş Cohen *d*'sinin
 yanlılığını ve RMSE'sini inceledi. **Çalışma 2**, iki analitik güven
 aralığı yönteminin (Hunter--Schmidt ve Bonett) kapsama olasılığını
-ve genişliğini aynı desen faktörleri boyunca değerlendirdi; BCa
-bootstrap, hesaplama maliyeti nedeniyle simülasyonun dışında
-bırakıldı (bkz. Bölüm 2.3.3). **Çalışma 3**, analizi meta-analitik
+ve genişliğini aynı desen faktörleri boyunca değerlendirdi; tam
+faktöriyel için fazla maliyetli olan BCa bootstrap, odaklı bir
+alt-çalışmada değerlendirildi (Bölüm 5.2.4). **Çalışma 3**, analizi
+meta-analitik
 düzeye taşıyarak havuzlanmış etki kestirimlerinin yanlılığını,
 çalışmalar arası güvenirliğin homojen ve heterojen olduğu koşullarda
 ve sentezlenen çalışma sayısı $k \in \{5, 10, 20\}$ iken inceledi.
@@ -301,11 +302,11 @@ kapsama sağladığını göstermektedir.
 
 Ham veri girdileri için `measuredES`, yanlılık düzeltmeli ve
 hızlandırılmış (BCa) bootstrap güven aralığı da sunar [@efron1987].
-BCa aralığı dağılım varsayımı yapmaz ve evren dağılımı çarpık
-olduğunda özellikle uygundur. Hesaplama maliyeti nedeniyle bootstrap
-aralığı ana simülasyon çalışmasına dahil edilmemiştir; analitik
-aralıklara göre performansı gelecekteki çalışmalarda özel olarak
-incelenmeyi hak etmektedir.
+BCa aralığı dağılım varsayımı yapmaz ve bu nedenle evren dağılımı
+çarpık olduğunda doğal adaydır. Hesaplama maliyeti onu tam
+faktöriyelin dışında bırakır; ancak odaklı bir alt-çalışma (Bölüm
+4.5 ve 5.2.4), varsayımsız kuruluşunun tam da işe yaraması beklenen
+koşullarda onu analitik aralıklarla karşılaştırmaktadır.
 
 ### 2.3.4 Sınırlılık: Güvenirlik Kestirim Belirsizliği
 
@@ -324,10 +325,13 @@ $$\text{Var}(\hat{\delta}) \approx
 İkinci terim yalnızca $\rho_{xx}$ bilindiğinde sıfırlanır. Charles
 [-@charles2005], bu ihmal edilen terimin $\hat{\rho}_{xx}$ küçük
 örneklemlerden kestirildiğinde ya da gerçek güvenirlik düşük
-olduğunda önemli boyutlara ulaşabileceğini göstermiştir. Bölüm 4 ve
-5'te raporlanan simülasyon çalışması, güvenirliğin bilindiği ve
-kestirildiği koşulları karşılaştırarak bu öngörüyü görgül olarak
-sınamaktadır.
+olduğunda önemli boyutlara ulaşabileceğini göstermiştir. `measuredES`
+bu düzeltmeyi uygular: güvenirlik kestiriminin standart hatası
+`rxx_se` argümanıyla verildiğinde, yukarıdaki delta-yöntemi terimi
+`mes_d()` ve `mes_g()`'nin analitik varyanslarına eklenir ve aralık
+buna göre genişler. Bölüm 4 ve 5'te raporlanan simülasyon çalışması,
+güvenirliğin bilindiği ve kestirildiği koşulları karşılaştırarak
+temel öngörüyü görgül olarak sınamaktadır.
 
 # 3. measuredES Paketi
 
@@ -406,7 +410,10 @@ güvenirlik kestirimini kabul eder: Cronbach $\alpha$'sı, McDonald
 $\omega$'sı, test--tekrar test ya da alanyazından alınan bir değer.
 Konjenerik ölçme altında $\alpha$ güvenirliğin yalnızca alt sınırı
 olduğundan, çoğu durumda $\omega$ türü katsayılar daha iyi bir
-girdidir [@revelle2009; @mcneish2018].
+girdidir [@revelle2009; @mcneish2018]. Güvenirlik kestiriminin
+standart hatası da biliniyorsa `rxx_se` olarak verilebilir; analitik
+aralıklar bu belirsizliği Bölüm 2.3.4'teki delta-yöntemi terimiyle
+yayar.
 
 **Adım 2: Meta-analize hazırla.**
 
@@ -469,7 +476,8 @@ simülasyon çalışması yürütülmüştür. Çalışma 1, düzeltilmiş ve
 düzeltilmemiş etki büyüklüğü kestiricilerinin yanlılığını ve hata
 kareleri ortalamasının karekökünü (RMSE) incelemiştir. Çalışma 2,
 Hunter--Schmidt ve Bonett güven aralıklarının kapsama olasılığını ve
-genişliğini incelemiştir. Çalışma 3, güvenirlik heterojenliğinin
+genişliğini incelemiş; odaklı bir alt-çalışma BCa bootstrap'ı da
+eklemiştir (Bölüm 4.5). Çalışma 3, güvenirlik heterojenliğinin
 meta-analitik bağlamdaki sonuçlarını incelemiştir. Tüm simülasyonlar
 R'da (sürüm 4.5.3) `parallel` paketiyle çok çekirdekli olarak
 yürütülmüş; her çalışmada yeniden üretilebilirlik için
@@ -594,6 +602,21 @@ değerlendirilmiştir. $R = 1{.}000$ iken 0.95 yakınındaki bir kapsama
 kestiriminin Monte Carlo standart hatası yaklaşık 0.007'dir. REML
 kestirimi koşul başına en fazla üç tekrarda yakınsamamıştır
 (tamamlanma oranı $\geq$ %99.7); yakınsamayan tekrarlar atılmıştır.
+
+## 4.5 Bootstrap Alt-Çalışması
+
+BCa bootstrap'ı tam faktöriyelin içinde koşmak elverişsizdir (192
+hücrede 5.000 tekrar $\times$ 999 yeniden örnekleme); bu yüzden onu,
+varsayımsız kuruluşunun en çok önem taşıması beklenen koşulları
+hedefleyen odaklı bir alt-çalışmada değerlendirdik. Alt-çalışma;
+dağılımı (normal, çarpık), grup başına $n$'yi (30, 60),
+$\rho_{xx}$'i (0.60, 0.85) ve $\delta$'yı (0.50, 0.80) bilinen
+güvenirlik altında çaprazlamış; hücre başına $R = 1{.}000$ tekrar ve
+tekrar başına $B = 999$ yeniden örnekleme kullanmıştır. Her tekrarda,
+paketin kendi bootstrap koduyla hesaplanan BCa aralığı, aynı veri
+üzerindeki Hunter--Schmidt ve Bonett aralıklarıyla karşılaştırılmış;
+böylece üç yöntem bağımsız koşular yerine eşleştirilmiş olarak
+kıyaslanmıştır. Her hücrede 1.000 tekrarın tamamı tamamlanmıştır.
 
 # 5. Bulgular
 
@@ -720,6 +743,28 @@ $\hat{\alpha}$'da gözlediğimiz küçük yukarı yönlü yanlılıkla
 düzeltilmiş kestirimi hafifçe küçültür ve aralıklar daraldıkça
 görünür hâle gelir.
 
+### 5.2.4 Bootstrap Alt-Çalışması
+
+Tablo 3, Bölüm 4.5'te betimlenen odaklı alt-çalışmayı raporlar. İki
+sonuç öne çıkmaktadır. Birincisi, üç aralık da her hücrede nominale
+yakın kapsama korumuştur: BCa kapsaması 0.940 ile 0.961 arasında
+(ortalama 0.951), Hunter--Schmidt 0.937 ile 0.958 arasında (ortalama
+0.947), Bonett 0.943 ile 0.963 arasında (ortalama 0.955) değişmiştir;
+yaklaşık 0.007'lik Monte Carlo standart hatasıyla yöntemler
+arasındaki farklar simülasyon gürültüsünün içindedir. İkincisi — ve
+BCa'nın varsayımsız kuruluşunun düşündürebileceğinin aksine —
+bootstrap, çarpıklığın $\delta = 0.80$'de ürettiği hafif
+alt-kapsamayı onarmamıştır: çarpık $\delta = 0.80$ hücrelerinde
+ortalama kapsama BCa için 0.946, Hunter--Schmidt için 0.946, Bonett
+için 0.951 olmuştur. Birleştirilmiş standart sapmanın çarpıklık
+altındaki ek örnekleme değişkenliği, analitik varyanslara girdiği
+gibi bootstrap dağılımına da girmektedir. Genişlikte BCa iki analitik
+aralığın arasında kalmıştır (Hunter--Schmidt'ten ortalama %2.1 geniş;
+Bonett %3.0 geniş). Yaklaşık bin kat hesaplama karşılığında BCa bu
+koşullarda ölçülebilir bir avantaj sunmamıştır; onu varsayılan seçim
+değil, düzensiz veriler için bir sağlamlık kontrolü olarak
+görüyoruz.
+
 ## 5.3 Çalışma 3: Meta-Analitik Sonuçlar
 
 Tablo 2, havuzlanmış etki büyüklüğü kestiriminin yanlılığını,
@@ -792,7 +837,11 @@ ancak zıt yönlerde sapmıştır: Hunter--Schmidt aralığı nominal düzeyin
 hafifçe altında seyretme eğilimindeyken (ortalama kapsama 0.948),
 Bonett aralığı konservatif yönde sapmıştır (ortalama 0.952) ve bu en
 çok grup başına $n = 30$'da görünürdür. Anti-konservatif çıkarım daha
-büyük kaygıysa bu asimetri Bonett'i öne çıkarır. Güvenirliğin 10
+büyük kaygıysa bu asimetri Bonett'i öne çıkarır. Odaklı bir
+alt-çalışmada değerlendirilen BCa bootstrap, iki analitik aralıkla
+başa baş performans göstermiş — çarpıklık altında bile onların hafif
+alt-kapsamasını onarmamış — ve bunu çok daha yüksek hesaplama
+maliyetiyle yapmıştır (Bölüm 5.2.4). Güvenirliğin 10
 maddelik bir $\alpha$ ile kestirilmesi, incelenen örneklem
 büyüklüklerinde ölçülebilir bir kapsama cezası doğurmamıştır;
 güvenirlik belirsizliği yok sayıldığında öngörülen alt-kapsama
@@ -870,16 +919,16 @@ kestirimi yan yana istemesinin nedenidir.
 
 Bu çalışmanın çeşitli sınırlılıkları not edilmelidir.
 
-**Güven aralıklarında bilinen-güvenirlik varsayımı.** Bölüm 2.3.4 ve
-5.2'de tartışıldığı gibi, `measuredES`'te hâlihazırda uygulanan güven
-aralıkları $\rho_{xx}$'i sabit bir değer olarak ele alır. Çalışma 2,
-incelenen örneklem büyüklüklerinde 10 maddelik $\alpha$ ile
-ölçülebilir bir kapsama cezası bulmamıştır; ancak ihmal edilen
+**Güven aralıklarında güvenirlik belirsizliği.** Varsayılan olarak
+güven aralıkları $\rho_{xx}$'i sabit bir değer olarak ele alır.
+Çalışma 2, incelenen örneklem büyüklüklerinde 10 maddelik $\alpha$
+ile ölçülebilir bir kapsama cezası bulmamıştır; ancak ihmal edilen
 varyans terimi testler kısaldıkça ve örneklemler küçüldükçe büyür.
-Bölüm 2.3.4'te taslağı verilen delta-yöntemi aralığı ya da
-$\rho_{xx}$'e önsel dağılım atayan Bayesçi bir aralık bu ek
-belirsizliği yakalayabilir; bu genişletmeler ileri bir sürüm için
-planlanmıştır.
+Bölüm 2.3.4'teki delta-yöntemi düzeltmesi `rxx_se` argümanıyla
+kullanılabilir durumdadır; ne var ki bu aralığın sonlu-örneklem
+kapsaması bu simülasyonun parçası değildi ve kullanıcıdan güvenirlik
+kestirimi için savunulabilir bir standart hata ister. $\rho_{xx}$'e
+önsel atayan Bayesçi bir aralık gelecekteki iş olarak durmaktadır.
 
 **Paralel testler varsayımı.** Spearman düzeltmesi, tüm maddelerin
 eşit gerçek yüklere ve eşit hata varyanslarına sahip olduğu paralel
@@ -913,16 +962,15 @@ düzeltmesiyle ele alınamaz.
 
 ## 6.5 Gelecek Yönelimler
 
-Çeşitli genişletmeler planlanmaktadır. İlk olarak, Bölüm 2.3.4'teki
-delta-yöntemi varyansı `mes_d()` ve `mes_g()` içinde bir seçenek
-olarak sunulabilir; bu, kestirilen güvenirliği hesaba katan daha
-geniş, daha konservatif güven aralıkları sağlar. İkincisi,
-$\rho_{xx}$'e Beta önseli atayan Bayesçi bir uygulama, tam belirsizlik
-altında tutarlı aralık kestirimi sunacaktır. Üçüncüsü, $d$ ve $g$
+Çeşitli genişletmeler planlanmaktadır. İlk olarak, $\rho_{xx}$'e
+Beta önseli atayan Bayesçi bir uygulama, tam belirsizlik altında
+tutarlı aralık kestirimi sunacak ve `rxx_se` delta-yöntemi aralığının
+simülasyona dayalı değerlendirmesini de beraberinde getirecektir.
+İkincisi, $d$ ve $g$
 için Welch tipi standartlaştırıcılar, düzeltmeyi grup varyanslarının
 açıkça eşit olmadığı — birleştirilmiş-SS'li kestirilecek niceliğin
 kendisinin tartışmalı hâle geldiği — desenlere genişletir.
-Dördüncüsü, tekrarlı ölçümler için etki büyüklükleri ($d_{rm}$,
+Üçüncüsü, tekrarlı ölçümler için etki büyüklükleri ($d_{rm}$,
 $d_{av}$) deneysel psikoloji açısından önceliklidir; orada zayıflama
 daha karmaşıktır, çünkü iki ölçüm zamanının güvenirlikleri ile
 aralarındaki korelasyon düzeltmeye birlikte girer. Ölçme hatasının
@@ -1000,6 +1048,24 @@ knitr::kable(
     "Tablo 2. Homojen ve heterojen çalışmalar arası güvenirlik",
     "altında havuzlanmış rastgele etkiler kestiriminin yanlılığı,",
     "RMSE'si ve %95 GA kapsaması.")
+)
+```
+
+```{r tablo3, echo = FALSE}
+t3 <- read.csv("../analysis/results/simulation_bootstrap.csv")
+t3 <- t3[, c("dist", "n", "rho", "delta",
+             "coverage_bca", "coverage_hs", "coverage_bo",
+             "width_bca", "width_hs", "width_bo")]
+knitr::kable(
+  t3, row.names = FALSE, digits = 3,
+  col.names = c("Dağılım", "$n$", "$\\rho_{xx}$", "$\\delta$",
+                "Kaps. BCa", "Kaps. HS", "Kaps. Bonett",
+                "Gen. BCa", "Gen. HS", "Gen. Bonett"),
+  caption = paste(
+    "Tablo 3. Bootstrap alt-çalışmasında BCa, Hunter-Schmidt (HS) ve",
+    "Bonett aralıklarının kapsaması ve ortalama genişliği (hücre",
+    "başına 1.000 tekrar, her birinde 999 yeniden örnekleme, bilinen",
+    "güvenirlik).")
 )
 ```
 

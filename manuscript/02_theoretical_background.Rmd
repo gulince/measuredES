@@ -121,10 +121,11 @@ interval attains near-nominal coverage even at $n = 30$ per group.
 For raw data inputs, `measuredES` also provides a bias-corrected and
 accelerated (BCa) bootstrap confidence interval [@efron1987].
 The BCa interval makes no distributional assumptions and is
-particularly appropriate when the population distribution is skewed.
-Due to computational cost, the bootstrap interval is not included in
-the main simulation study; its performance relative to the analytical
-intervals warrants dedicated investigation in future work.
+therefore a natural candidate when the population distribution is
+skewed. Its computational cost rules it out of the full factorial,
+but a focused sub-study (Sections 4.5 and 5.2.4) compares it with
+the analytical intervals in exactly the conditions where its
+assumption-free construction should pay off.
 
 ### 2.3.4 Limitation: Reliability Estimation Uncertainty
 
@@ -144,7 +145,11 @@ $$\text{Var}(\hat{\delta}) \approx
 The second term vanishes only when $\rho_{xx}$ is known. @charles2005
 demonstrated that this omitted term can be substantial when
 $\hat{\rho}_{xx}$ is estimated from small samples or when the
-true reliability is low. The simulation study reported in Sections
-4 and 5 tests this prediction empirically by comparing conditions
-in which reliability is known versus estimated.
+true reliability is low. `measuredES` implements the correction:
+when the standard error of the reliability estimate is supplied
+through the `rxx_se` argument, the delta-method term above is added
+to the analytical variances of `mes_d()` and `mes_g()`, widening the
+interval accordingly. The simulation study reported in Sections
+4 and 5 tests the underlying prediction empirically by comparing
+conditions in which reliability is known versus estimated.
 

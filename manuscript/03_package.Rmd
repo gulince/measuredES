@@ -77,7 +77,10 @@ appropriate for the measure: Cronbach's $\alpha$, McDonald's
 $\omega$, test--retest, or a value taken from the literature. Under
 congeneric measurement $\alpha$ is only a lower bound on
 reliability, so $\omega$-type coefficients are often the better
-input [@revelle2009; @mcneish2018].
+input [@revelle2009; @mcneish2018]. When the standard error of the
+reliability estimate is also known, it can be passed as `rxx_se`;
+the analytical intervals then propagate that uncertainty through
+the delta-method term of Section 2.3.4.
 
 **Step 2: Prepare for meta-analysis.**
 

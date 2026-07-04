@@ -25,7 +25,11 @@ interval tended to sit slightly below the nominal level (mean
 coverage 0.948), while the Bonett interval erred on the
 conservative side (mean 0.952), most visibly at $n = 30$ per group.
 When anti-conservative inference is the greater concern, this
-asymmetry favors Bonett. Estimating reliability with a 10-item
+asymmetry favors Bonett. The BCa bootstrap, evaluated in a focused
+sub-study, performed on par with both analytical intervals —
+including under skewness, where it did not repair their mild
+undercoverage — at a far higher computational cost (Section 5.2.4).
+Estimating reliability with a 10-item
 coefficient $\alpha$ produced no measurable coverage penalty at the
 sample sizes studied; the undercoverage predicted when reliability
 uncertainty is ignored [@charles2005] evidently requires shorter
@@ -106,15 +110,16 @@ estimates side by side rather than for the corrected value alone.
 
 Several limitations of the present work should be noted.
 
-**Known-reliability assumption in CIs.** As discussed in
-Sections 2.3.4 and 5.2, the confidence intervals currently
-implemented in `measuredES` treat $\rho_{xx}$ as a fixed constant.
-Study 2 found no measurable coverage penalty with a 10-item
-$\alpha$ at the sample sizes examined, but the omitted variance
-term grows as tests shorten and samples shrink; the delta-method
-interval sketched in Section 2.3.4 or a Bayesian interval that
-places a prior on $\rho_{xx}$ would capture that additional
-uncertainty. These extensions are planned for a future release.
+**Reliability uncertainty in CIs.** By default the confidence
+intervals treat $\rho_{xx}$ as a fixed constant. Study 2 found no
+measurable coverage penalty with a 10-item $\alpha$ at the sample
+sizes examined, but the omitted variance term grows as tests
+shorten and samples shrink. The delta-method correction of Section
+2.3.4 is available through the `rxx_se` argument; its finite-sample
+coverage, however, was not part of the present simulation, and it
+requires the user to supply a defensible standard error for the
+reliability estimate. A Bayesian interval with a prior on
+$\rho_{xx}$ remains future work.
 
 **Parallel-tests assumption.** The Spearman correction is exact
 under the parallel-tests model, in which all items have equal true
@@ -150,15 +155,14 @@ addressed by the Spearman correction.
 
 ## 6.5 Future Directions
 
-Several extensions are planned. First, the delta-method variance of
-Section 2.3.4 could be offered as an option in `mes_d()` and
-`mes_g()`, giving wider, more conservative confidence intervals
-that account for estimated reliability. Second, a
+Several extensions are planned. First, a
 Bayesian implementation with a Beta prior on $\rho_{xx}$ would
-offer coherent interval estimation under full uncertainty. Third,
+offer coherent interval estimation under full uncertainty and a
+simulation-based evaluation of the `rxx_se` delta-method interval
+alongside it. Second,
 Welch-type standardizers for $d$ and $g$ would extend the correction
 to designs with clearly unequal group variances, where the pooled-SD
-estimand itself is questionable. Fourth, repeated-measures effect
+estimand itself is questionable. Third, repeated-measures effect
 sizes ($d_{rm}$, $d_{av}$) are a priority for experimental
 psychology; attenuation is more intricate there because the
 reliabilities of both measurement occasions and the correlation

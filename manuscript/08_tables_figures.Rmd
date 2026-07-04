@@ -39,6 +39,24 @@ knitr::kable(
 )
 ```
 
+```{r table3, echo = FALSE}
+t3 <- read.csv("../analysis/results/simulation_bootstrap.csv")
+t3 <- t3[, c("dist", "n", "rho", "delta",
+             "coverage_bca", "coverage_hs", "coverage_bo",
+             "width_bca", "width_hs", "width_bo")]
+knitr::kable(
+  t3, row.names = FALSE, digits = 3,
+  col.names = c("Distribution", "$n$", "$\\rho_{xx}$", "$\\delta$",
+                "Cov. BCa", "Cov. HS", "Cov. Bonett",
+                "Width BCa", "Width HS", "Width Bonett"),
+  caption = paste(
+    "Table 3. Coverage and mean width of the BCa bootstrap,",
+    "Hunter-Schmidt (HS), and Bonett intervals in the bootstrap",
+    "sub-study (1,000 replications per cell, 999 resamples each,",
+    "known reliability).")
+)
+```
+
 # Figures
 
 ![Figure 1. Bias of the corrected and uncorrected Cohen's d by sample size, population effect size, and reliability (normal distribution, known reliability).](../analysis/figures/fig1_bias.png)

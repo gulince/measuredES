@@ -116,8 +116,8 @@ via coefficient $\alpha$), and distributional form (normal versus
 moderately skewed). **Study 2** evaluated the coverage probability
 and width of the two analytical confidence-interval procedures
 (Hunter--Schmidt and Bonett) across the same design factors; the
-BCa bootstrap was excluded from the simulation because of its
-computational cost (see Section 2.3.3). **Study 3** moved the
+BCa bootstrap, too costly for the full factorial, was evaluated in
+a focused sub-study (Section 5.2.4). **Study 3** moved the
 analysis to the meta-analytic level,
 examining the bias of pooled effect estimates under homogeneous
 versus heterogeneous between-study reliability, with the number of

@@ -134,13 +134,14 @@ fit_bonett$ci
    the package issues a warning. Treat anything in that range as
    exploratory at best.
 
-4. **Reliability is treated as a known constant.** All three CI
+4. **Reliability is treated as a known constant by default.** The CI
    methods plug $r_{xx}$ in as if you measured it without error.
    When $r_{xx}$ is itself an estimate (e.g., a sample Cronbach's
-   $\alpha$), the true interval is wider than what comes back. The
-   bootstrap option doesn't help here either, because it holds
-   $r_{xx}$ fixed across replicates; a Bayesian model that puts a
-   prior on $r_{xx}$ would be the right tool.
+   $\alpha$), the true interval is wider than what comes back. If
+   you know the standard error of your reliability estimate, pass it
+   as `rxx_se`: the analytical intervals then add the delta-method
+   term for that extra uncertainty. The bootstrap option cannot help
+   here, because it holds $r_{xx}$ fixed across replicates.
 
 5. **Disattenuation is not universally accepted.** There is a
    methodological tradition (Borsboom, Mellenbergh, & van Heerden,

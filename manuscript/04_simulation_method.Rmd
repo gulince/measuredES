@@ -6,7 +6,8 @@ Three simulation studies were conducted to evaluate the statistical
 properties of `measuredES`. Study 1 examined the bias and root mean
 square error (RMSE) of the corrected and uncorrected effect-size
 estimators. Study 2 examined the coverage probability and width of
-the Hunter–Schmidt and Bonett confidence intervals. Study 3 examined
+the Hunter–Schmidt and Bonett confidence intervals, with a focused
+sub-study adding the BCa bootstrap (Section 4.5). Study 3 examined
 the consequences of reliability heterogeneity in a meta-analytic
 context. All simulations were implemented in R (version 4.5.3) using
 the `parallel` package for multi-core execution. Each study used
@@ -130,3 +131,18 @@ Carlo standard error of a coverage estimate near 0.95 is
 approximately 0.007. REML estimation failed to converge in at most
 three replications per condition (completion rate $\geq$ 99.7%);
 non-converged replications were discarded.
+
+## 4.5 Bootstrap Sub-Study
+
+Running the BCa bootstrap inside the full factorial is prohibitive
+(5,000 replications $\times$ 999 resamples across 192 cells), so we
+evaluated it in a focused sub-study targeting the conditions where
+its assumption-free construction should matter most. The sub-study
+crossed distribution (normal, skewed), $n$ per group (30, 60),
+$\rho_{xx}$ (0.60, 0.85), and $\delta$ (0.50, 0.80) under known
+reliability, with $R = 1{,}000$ replications per cell and $B = 999$
+resamples per replication. On every replicate, the BCa interval —
+computed by the package's own bootstrap code — was compared with
+the Hunter--Schmidt and Bonett intervals on the same data, so the
+three methods are compared pairwise rather than across independent
+runs. All 1,000 replications completed in every cell.

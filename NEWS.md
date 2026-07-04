@@ -13,6 +13,11 @@ Initial release.
   approximation, Bonett's (2008) heteroscedasticity-robust variance
   with a t critical value, and the BCa bootstrap with a percentile
   fallback.
+* Optional `rxx_se` argument in `mes_d()` and `mes_g()`: supplying
+  the standard error of the reliability estimate adds the
+  first-order delta-method term to the analytical variances, so the
+  interval reflects that reliability was estimated rather than
+  known. `mes_ci()` and `mes_meta()` honor it.
 * `disattenuate()`: the bare Spearman (1904) correction, for d-family
   effect sizes and correlations.
 * `mes_ci()`: recompute the confidence interval of an existing `mes`
@@ -33,8 +38,9 @@ Initial release.
   variance-explained indices (eta-squared, omega-squared) and IRT-based
   reliability were considered during development and dropped: the
   methodological literature is too thin to support them as defaults.
-* All confidence-interval methods treat the reliability coefficient as
-  a known constant; when it is itself estimated, the intervals are
-  narrower than the full uncertainty warrants (see the vignette).
+* By default the confidence intervals treat the reliability
+  coefficient as a known constant; when it is itself estimated, pass
+  `rxx_se` to propagate that uncertainty (the bootstrap always holds
+  `rxx` fixed).
 * `disattenuate(type = "r", ryy = NULL)` warns that the one-sided
   correction treats the second variable as error-free.

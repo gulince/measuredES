@@ -26,6 +26,13 @@
 #' @param x1 Numeric vector for group 1 (raw-data path).
 #' @param x2 Numeric vector for group 2 (raw-data path).
 #' @param rxx Reliability of the dependent variable (\eqn{r_{xx} \in (0, 1]}).
+#' @param rxx_se Optional standard error of the reliability estimate. When
+#'   supplied, the analytical intervals (Hunter-Schmidt, Bonett) add the
+#'   first-order delta-method term
+#'   \eqn{d^2 \, \mathrm{Var}(\hat{r}_{xx}) / (4 r_{xx}^3)} to the variance,
+#'   so the interval reflects that the reliability itself was estimated.
+#'   Ignored (with a warning) for bootstrap intervals, which resample the
+#'   cases but hold \code{rxx} fixed.
 #' @param means Length-2 numeric vector; \code{c(M1, M2)} (summary path).
 #' @param sds Length-2 numeric vector; \code{c(SD1, SD2)} (summary path).
 #' @param ns Length-2 integer vector; \code{c(n1, n2)} (summary path).
@@ -92,6 +99,7 @@
 mes_d <- function(x1 = NULL,
                   x2 = NULL,
                   rxx,
+                  rxx_se = NULL,
                   means = NULL,
                   sds = NULL,
                   ns = NULL,
@@ -107,6 +115,13 @@ mes_d <- function(x1 = NULL,
 
   if (conf_level <= 0 || conf_level >= 1) {
     stop("'conf_level' must be in (0, 1).", call. = FALSE)
+  }
+
+  if (!is.null(rxx_se)) {
+    if (length(rxx_se) != 1L || !is.numeric(rxx_se) ||
+        is.na(rxx_se) || rxx_se <= 0) {
+      stop("'rxx_se' must be a single positive number.", call. = FALSE)
+    }
   }
 
   # strict = FALSE: disattenuate() below already warns on very low rxx
@@ -171,6 +186,11 @@ mes_d <- function(x1 = NULL,
   if (!ci) {
     ci_vals <- NULL
   } else if (ci_method == "bootstrap") {
+    if (!is.null(rxx_se)) {
+      warning("'rxx_se' is ignored for bootstrap intervals: resampling ",
+              "holds rxx fixed. Use an analytical ci_method to propagate ",
+              "reliability uncertainty.", call. = FALSE)
+    }
     if (raw_data_path) {
       ci_vals <- .boot_ci_d(x1, x2, rxx,
                             conf_level = conf_level, n_boot = n_boot)
@@ -178,12 +198,12 @@ mes_d <- function(x1 = NULL,
       warning("Bootstrap requires raw data; falling back to Hunter-Schmidt.",
               call. = FALSE)
       ci_method <- "hunter_schmidt"
-      ci_vals   <- .hs_ci_d(d_raw, rxx, n1, n2, conf_level)
+      ci_vals   <- .hs_ci_d(d_raw, rxx, n1, n2, conf_level, rxx_se)
     }
   } else if (ci_method == "hunter_schmidt") {
-    ci_vals <- .hs_ci_d(d_raw, rxx, n1, n2, conf_level)
+    ci_vals <- .hs_ci_d(d_raw, rxx, n1, n2, conf_level, rxx_se)
   } else if (ci_method == "bonett") {
-    ci_vals <- .bonett_ci_d(d_raw, rxx, n1, n2, s1, s2, conf_level)
+    ci_vals <- .bonett_ci_d(d_raw, rxx, n1, n2, s1, s2, conf_level, rxx_se)
   }
 
   d_corrected <- disattenuate(d_raw, rxx = rxx, type = "d")
@@ -195,7 +215,8 @@ mes_d <- function(x1 = NULL,
     ci_method    = if (ci) ci_method else NA_character_,
     conf_level   = conf_level,
     type         = "d",
-    reliability  = list(rxx = rxx),
+    reliability  = if (is.null(rxx_se)) list(rxx = rxx)
+                   else list(rxx = rxx, rxx_se = rxx_se),
     n            = list(n1 = as.integer(n1), n2 = as.integer(n2),
                         total = as.integer(n1 + n2)),
     call         = call_,
@@ -216,20 +237,24 @@ mes_d <- function(x1 = NULL,
 #' \deqn{Var(d^*) = \frac{Var(d)}{r_{xx}}}
 #'
 #' @section Note:
-#' Reliability is treated as a known constant here. If you estimated it
-#' from the same sample (e.g., Cronbach's alpha), the true interval is
-#' wider than what comes back from this formula. The bootstrap option
-#' resamples the cases but holds \code{rxx} fixed, so it doesn't capture
-#' that extra uncertainty either; a Bayesian model would.
+#' By default reliability is treated as a known constant. If \code{rxx_se}
+#' is supplied, the first-order delta-method term
+#' \eqn{d^2 \, \mathrm{Var}(\hat{r}_{xx}) / (4 r_{xx}^3)} is added to the
+#' variance, which widens the interval to reflect that the reliability was
+#' estimated rather than known.
 #'
 #' @keywords internal
-.hs_ci_d <- function(d_raw, rxx, n1, n2, conf_level) {
+.hs_ci_d <- function(d_raw, rxx, n1, n2, conf_level, rxx_se = NULL) {
 
   # Sampling variance of observed d (Hedges & Olkin, 1985)
   var_d <- (n1 + n2) / (n1 * n2) + d_raw^2 / (2 * (n1 + n2))
 
   # Approximate variance of corrected d (Hunter & Schmidt, 2004)
   var_d_corrected <- var_d / rxx
+  if (!is.null(rxx_se)) {
+    var_d_corrected <- var_d_corrected +
+      d_raw^2 * rxx_se^2 / (4 * rxx^3)
+  }
 
   d_corrected <- d_raw / sqrt(rxx)
   z <- stats::qnorm(1 - (1 - conf_level) / 2)
@@ -261,7 +286,8 @@ mes_d <- function(x1 = NULL,
 #' approximation for the pooled-SD d.
 #'
 #' @keywords internal
-.bonett_ci_d <- function(d_raw, rxx, n1, n2, s1, s2, conf_level) {
+.bonett_ci_d <- function(d_raw, rxx, n1, n2, s1, s2, conf_level,
+                         rxx_se = NULL) {
 
   df <- n1 + n2 - 2L
   v1 <- n1 - 1L; v2 <- n2 - 1L
@@ -274,6 +300,10 @@ mes_d <- function(x1 = NULL,
 
   var_d <- term1 + term2
   var_d_corrected <- var_d / rxx
+  if (!is.null(rxx_se)) {
+    var_d_corrected <- var_d_corrected +
+      d_raw^2 * rxx_se^2 / (4 * rxx^3)
+  }
 
   d_corrected <- d_raw / sqrt(rxx)
   t_crit <- stats::qt(1 - (1 - conf_level) / 2, df = df)

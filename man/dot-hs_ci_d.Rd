@@ -4,7 +4,7 @@
 \alias{.hs_ci_d}
 \title{Hunter-Schmidt analytical CI for corrected d}
 \usage{
-.hs_ci_d(d_raw, rxx, n1, n2, conf_level)
+.hs_ci_d(d_raw, rxx, n1, n2, conf_level, rxx_se = NULL)
 }
 \description{
 Sampling variance from Hedges & Olkin (1985), then divided by rxx
@@ -15,11 +15,11 @@ Treating reliability as fixed, the corrected variance is:
 }
 \section{Note}{
 
-Reliability is treated as a known constant here. If you estimated it
-from the same sample (e.g., Cronbach's alpha), the true interval is
-wider than what comes back from this formula. The bootstrap option
-resamples the cases but holds \code{rxx} fixed, so it doesn't capture
-that extra uncertainty either; a Bayesian model would.
+By default reliability is treated as a known constant. If \code{rxx_se}
+is supplied, the first-order delta-method term
+\eqn{d^2 \, \mathrm{Var}(\hat{r}_{xx}) / (4 r_{xx}^3)} is added to the
+variance, which widens the interval to reflect that the reliability was
+estimated rather than known.
 }
 
 \keyword{internal}

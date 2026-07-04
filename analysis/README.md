@@ -27,6 +27,9 @@ source("analysis/03_analysis_tables_figures.R")
 
 # Worked example (manuscript Section 3.4; requires psychmeta)
 source("analysis/04_example_reanalysis.R")
+
+# Bootstrap sub-study (manuscript Section 5.2.4)   # ~10 minutes
+source("analysis/05_simulation_bootstrap.R")
 ```
 
 ## Outputs
@@ -55,6 +58,8 @@ cores used should be reported alongside manuscript results.
   of a coverage estimate near .95 is then about 0.003 (about 0.007 for
   Study 3 at R = 1,000), small enough that the reported differences
   between methods are not simulation noise.
-- Bootstrap-BCa CI is excluded from the main simulation due to
-  computational cost (5,000 replications x 2,000 resamples per cell is
-  prohibitive across 192 conditions).
+- Bootstrap-BCa CI is too costly for the full factorial (5,000
+  replications x 999 resamples across 192 conditions), so it is
+  evaluated in the focused sub-study of
+  `05_simulation_bootstrap.R` (16 cells, paired against the
+  analytical intervals on the same replicates).

@@ -8,6 +8,7 @@ mes_d(
   x1 = NULL,
   x2 = NULL,
   rxx,
+  rxx_se = NULL,
   means = NULL,
   sds = NULL,
   ns = NULL,
@@ -25,6 +26,14 @@ mes_d(
 \item{x2}{Numeric vector for group 2 (raw-data path).}
 
 \item{rxx}{Reliability of the dependent variable (\eqn{r_{xx} \in (0, 1]}).}
+
+\item{rxx_se}{Optional standard error of the reliability estimate. When
+supplied, the analytical intervals (Hunter-Schmidt, Bonett) add the
+first-order delta-method term
+\eqn{d^2 \, \mathrm{Var}(\hat{r}_{xx}) / (4 r_{xx}^3)} to the variance,
+so the interval reflects that the reliability itself was estimated.
+Ignored (with a warning) for bootstrap intervals, which resample the
+cases but hold \code{rxx} fixed.}
 
 \item{means}{Length-2 numeric vector; \code{c(M1, M2)} (summary path).}
 

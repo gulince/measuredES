@@ -4,7 +4,7 @@
 \alias{.bonett_ci_d}
 \title{Bonett (2008) CI for corrected d}
 \usage{
-.bonett_ci_d(d_raw, rxx, n1, n2, s1, s2, conf_level)
+.bonett_ci_d(d_raw, rxx, n1, n2, s1, s2, conf_level, rxx_se = NULL)
 }
 \description{
 Bonett's (2008) heteroscedasticity-robust sampling variance for the

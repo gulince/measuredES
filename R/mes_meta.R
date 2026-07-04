@@ -105,7 +105,12 @@ mes_meta <- function(..., study_id = NULL) {
       }
       var_d <- (n1 + n2) / (n1 * n2) +
                d_underlying^2 / (2 * (n1 + n2))
-      (J^2) * var_d / obj$reliability$rxx
+      var_dstar <- var_d / obj$reliability$rxx
+      if (!is.null(obj$reliability$rxx_se)) {
+        var_dstar <- var_dstar + d_underlying^2 *
+          obj$reliability$rxx_se^2 / (4 * obj$reliability$rxx^3)
+      }
+      (J^2) * var_dstar
     } else NA_real_
 
     rxx_val <- if (!is.null(obj$reliability$rxx))
