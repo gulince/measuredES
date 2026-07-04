@@ -618,6 +618,47 @@ paketin kendi bootstrap koduyla hesaplanan BCa aralığı, aynı veri
 böylece üç yöntem bağımsız koşular yerine eşleştirilmiş olarak
 kıyaslanmıştır. Her hücrede 1.000 tekrarın tamamı tamamlanmıştır.
 
+## 4.6 Ek Alt-Çalışmalar
+
+Dört ek alt-çalışma, değerlendirmeyi ana faktöriyelin ötesine
+genişletmektedir.
+
+Birincisi, *güvenirlik-belirsizliği aralığı*. Test uzunluğu ($k = 4$
+ya da $10$ madde), grup başına $n$ (30, 60) ve $\rho_{xx}$ (0.60,
+0.85) değerlerinin $\delta = 0.50$'de çaprazlandığı desende
+($R = 2{.}000$) her tekrar, $\alpha$'yı madde verisinden kestirmiş
+ve standart hatasını kişiler üzerinde parametrik olmayan bootstrap
+ile ($B = 200$) kestirmiştir — uygulamacı bir araştırmacının
+izleyebileceği yol. Ardından $\hat{\alpha}$'da değerlenen yalın
+Hunter--Schmidt aralığı, $\widehat{SE}(\hat{\alpha})$'yı `rxx_se`
+üzerinden yayan aralıkla karşılaştırılmıştır (Bölüm 2.3.4).
+
+İkincisi, *desen dayanıklılığı*: (a) eşit varyanslı dengesiz gruplar
+($n_1 : n_2 = 1{:}3$, $n_1 \in \{30, 60\}$) ve (b) dengeli gruplar
+altında değişen varyanslı gerçek puanlar (gerçek puan varyans oranı
+2:1, iki grupta eşit güvenirlik); her ikisi
+$\rho_{xx} \in \{0.60, 0.85\}$ ile $\delta = 0.50$'de çaprazlanmış
+($R = 5{.}000$), Hunter--Schmidt ile Bonett karşılaştırılmıştır. İki
+blokta da evren etkisi, kuruluş gereği birleştirilmiş
+standartlaştırıcıyla çakışan ortalama gerçek puan standart sapması
+üzerinde tanımlanmıştır. Birleşik durum — hem dengesiz *hem* değişen
+varyanslı, birleştirilmiş-SS'li kestirilecek niceliğin kendisinin
+belirsizleştiği koşul — bu çalışmanın kapsamı dışındadır.
+
+Üçüncüsü, *şiddetli çarpıklık*: Bölüm 4.5'teki bootstrap
+karşılaştırması, standartlaştırılmış $\chi^2(1)$ dağılımından
+(çarpıklık $\approx 2.83$; ana desendeki çarpık koşulun yaklaşık iki
+katı) üretilen puanlarla $\delta = 0.80$, $n \in \{30, 60\}$,
+$\rho_{xx} \in \{0.60, 0.85\}$ için yinelenmiştir ($R = 1{.}000$,
+$B = 999$).
+
+Dördüncüsü, *korelasyonlar için iki yönlü düzeltme*:
+$\rho_{xy} \in \{0.30, 0.50\}$ korelasyonlu iki değişkenli gerçek
+puanlar, eşit derecede hatalı iki ölçme aracıyla gözlenmiş
+($\rho_{xx} = \rho_{yy} \in \{0.70, 0.85\}$; $n \in \{100, 250\}$;
+$R = 5{.}000$) ve gözlenen korelasyon Bölüm 2.2'deki iki yönlü
+Spearman formülüyle düzeltilmiştir.
+
 # 5. Bulgular
 
 ## 5.1 Çalışma 1: Nokta Kestirimlerinin Yanlılığı ve RMSE'si
@@ -765,6 +806,60 @@ koşullarda ölçülebilir bir avantaj sunmamıştır; onu varsayılan seçim
 değil, düzensiz veriler için bir sağlamlık kontrolü olarak
 görüyoruz.
 
+Şiddetli çarpıklık tabloyu her yöntem için değiştirmekte ama
+sıralamayı değiştirmemektedir. Puanlar standartlaştırılmış
+$\chi^2(1)$ dağılımını izlediğinde (çarpıklık $\approx 2.83$; Bölüm
+4.6) üç aralık da bozulmuştur: Hunter--Schmidt kapsaması
+0.911--0.937'ye, BCa 0.921--0.937'ye, Bonett 0.920--0.944'e
+düşmüştür. BCa, Hunter--Schmidt'e göre en fazla yaklaşık bir puan
+kazandırmış (en kötü hücrede 0.924'e karşı 0.911) ve bunu %4--8
+daha geniş aralıklarla yapmıştır; Bonett ise baştan sona ona eşit ya
+da üstün kalmıştır. Dikkat çekici biçimde kapsama
+$\rho_{xx} = 0.85$'te 0.60'takinden *daha kötüydü*: seyreltecek
+ölçme gürültüsü azaldıkça gerçek puanların çarpıklığı gözlenen
+puanlara daha eksiksiz geçmektedir. Pratik sonuç yönteme özgü değil,
+ayıltıcıdır: puanlar bu kadar çarpıksa burada incelenen hiçbir
+aralığa nominal düzeyde güvenilemez; güvenirlik düzeltmesinden önce
+dönüşüm ya da dağılıma özgü yöntemler gelmelidir.
+
+### 5.2.5 Güvenirlik Belirsizliğinin Yayılması (`rxx_se`)
+
+Tablo 4, güvenirlik-belirsizliği aralığının alt-çalışmasını
+raporlar. İki bulgu öne çıkmaktadır. Birincisi, $\hat{\alpha}$'nın
+bootstrap standart hatası iyi kalibredir: ortalaması her hücrede
+$\hat{\alpha}$'nın görgül örnekleme değişimini yüzde birkaç
+içinde izlemiştir (ör. $k = 4$ madde, $n = 30$,
+$\rho_{xx} = 0.60$'ta 0.089'a karşı 0.089). İkincisi,
+$\hat{\alpha}$'da değerlenen yalın aralık kuramın
+düşündürebileceğinden daha dayanıklı çıkmıştır: $n = 30$'da 4
+maddelik testle bile kapsaması 0.946 ile 0.960 arasında kalmıştır.
+Belirsizliğin `rxx_se` ile yayılması kapsamayı en fazla yarım puan
+yukarı itmiş ve hiçbir hücrede aşırıya kaçmamıştır (en yüksek
+0.962). Bu desen içinde delta-yöntemi terimi doğru kalibre ama
+nadiren belirleyicidir; değeri, bu alt-çalışmanın ulaşmadığı
+koşullardadır — çok düşük güvenirlik, çok kısa testler ya da küçük
+kalibrasyon örneklemlerinden aktarılan güvenirlik kestirimleri.
+
+### 5.2.6 Dengesiz ve Değişen Varyanslı Desenler
+
+Tablo 5, desen-dayanıklılığı alt-çalışmasını raporlar. Eşit
+varyanslı 1:3 grup dengesizliği altında iki aralık da nominale yakın
+kapsama korumuştur (Hunter--Schmidt 0.947--0.956; Bonett
+0.953--0.958); bu, Bölüm 2.3.2'de tartışılan standartlaştırıcı
+uyuşmazlığının evren varyansları eşitken önemsiz olduğunu doğrular.
+Dengeli gruplar altında gerçek puan varyans heterojenliğinde (2:1)
+Hunter--Schmidt nominalin hafifçe altına kaymış (0.944--0.950),
+Bonett ise nominalde ya da üzerinde kalmıştır (0.948--0.962); en
+büyük fark grup başına $n = 30$'dadır (0.950'ye karşı 0.962).
+Dengeli grup büyüklüklerinin birleştirilmiş-varyans yöntemlerini
+varyans heterojenliğine karşı koruduğu bilinir ve bu koruma burada
+görülmektedir; Bonett'in üstünlüğü buna bağlı olarak mütevazı ama
+tutarlıdır ve tam da varyansının tasarlandığı yerde ortaya
+çıkmaktadır. Birleşik koşul — hem dengesiz *hem* değişen varyanslı,
+birleştirilmiş-SS'li etki büyüklüğünün kendisinin kestirilecek
+nicelik olarak belirsizleştiği durum — test edilmemiştir ve
+sınırlılık olarak işaretlenmiştir.
+
 ## 5.3 Çalışma 3: Meta-Analitik Sonuçlar
 
 Tablo 2, havuzlanmış etki büyüklüğü kestiriminin yanlılığını,
@@ -810,6 +905,24 @@ Düzeltilmiş kestiricinin RMSE üstünlüğü heterojen güvenirlik altında
 bir azalma. O hâlde gerçekçi güvenirlik heterojenliği altında
 düzeltilmemiş bir meta-analiz, havuzlanmış kestirimi küçültmekle
 kalmaz: yanlış büyüklüğü, hak edilmemiş bir kesinlikle raporlar.
+
+## 5.4 Korelasyonlar için İki Yönlü Düzeltme
+
+Tablo 6, her iki değişkenin de ölçme hatası taşıdığı korelasyonel
+alt-çalışmayı raporlar. Gözlenen korelasyon tam olarak klasik
+kuramın öngördüğü gibi — $\sqrt{\rho_{xx}\rho_{yy}}$ çarpanıyla —
+zayıflamıştır (ör. güvenirlikler 0.70 iken $\rho_{xy} = 0.50$ için
+$-0.152$'lik yanlılık); iki yönlü düzeltme ise her hücrede esasen
+yansızdır (tüm $|\text{yanlılık}| \leq 0.003$). Çalışma 1'den
+tanıdık RMSE ödünleşimi korelasyon ölçeğinde yeniden ortaya
+çıkmıştır: düzeltilmiş kestirim sekiz hücrenin altısında daha düşük
+RMSE göstermiş, yalnızca en küçük örneklemdeki en zayıf etkide
+($\rho_{xy} = 0.30$, $n = 100$) hafifçe yüksek kalmıştır. Bu
+koşullarda hiçbir tekrar $[-1, 1]$ dışında düzeltilmiş korelasyon
+üretmemiştir. `disattenuate()`'in korelasyonlar için uyguladığı
+nokta düzeltmesi böylece görgül olarak sağlamdır; paketin
+korelasyonlar için henüz sunmadığı şey aralık makinesidir ve bu bir
+sınırlılık olarak kalmaktadır.
 
 # 6. Tartışma
 
@@ -873,8 +986,11 @@ de APA-7 uyumlu metin üretir.
 **2. Alt-kapsama daha büyük riskse Bonett aralığını yeğleyin.**
 Hunter--Schmidt aralığı desen hücrelerinin %59'unda, Bonett aralığı
 ise %29'unda nominal kapsamanın altına düşmüştür; Bonett'in sapmaları
-konservatif yöndedir ve bedeli yaklaşık %2 ek genişliktir. İki yöntem
-arasındaki fark en çok grup başına $n < 60$ iken önemlidir.
+konservatif yöndedir ve bedeli yaklaşık %2 ek genişliktir. Bonett
+ayrıca gerçek puan varyans heterojenliği altında da nominalde ya da
+üzerinde kalmış, Hunter--Schmidt orada hafifçe kaymıştır (Bölüm
+5.2.6). İki yöntem arasındaki fark en çok grup başına $n < 60$ iken
+önemlidir.
 
 **3. Güvenirlik kestirildiğinde aralık kesinliğini abartılı
 okumayın.** Simülasyonumuz, $\hat{\rho}_{xx}$ grup başına
@@ -920,15 +1036,16 @@ kestirimi yan yana istemesinin nedenidir.
 Bu çalışmanın çeşitli sınırlılıkları not edilmelidir.
 
 **Güven aralıklarında güvenirlik belirsizliği.** Varsayılan olarak
-güven aralıkları $\rho_{xx}$'i sabit bir değer olarak ele alır.
-Çalışma 2, incelenen örneklem büyüklüklerinde 10 maddelik $\alpha$
-ile ölçülebilir bir kapsama cezası bulmamıştır; ancak ihmal edilen
-varyans terimi testler kısaldıkça ve örneklemler küçüldükçe büyür.
-Bölüm 2.3.4'teki delta-yöntemi düzeltmesi `rxx_se` argümanıyla
-kullanılabilir durumdadır; ne var ki bu aralığın sonlu-örneklem
-kapsaması bu simülasyonun parçası değildi ve kullanıcıdan güvenirlik
-kestirimi için savunulabilir bir standart hata ister. $\rho_{xx}$'e
-önsel atayan Bayesçi bir aralık gelecekteki iş olarak durmaktadır.
+güven aralıkları $\rho_{xx}$'i sabit bir değer olarak ele alır. Ne
+ana çalışma (10 madde) ne de özel alt-çalışma ($n = 30$'da 4
+maddeye kadar; Bölüm 5.2.5), incelenen güvenirliklerde yalın aralık
+için kayda değer bir kapsama cezası bulmuştur; test edildiği yerde
+`rxx_se` delta-yöntemi terimi de doğru kalibre çıkmıştır. Test
+edilmeyen bölge, terimin en çok önem taşıması gereken rejimdir —
+0.60'ın epey altındaki güvenirlikler, çok kısa testler ya da küçük
+dış kalibrasyon örneklemlerinden aktarılan kestirimler.
+$\rho_{xx}$'e önsel atayan Bayesçi bir aralık gelecekteki iş olarak
+durmaktadır.
 
 **Paralel testler varsayımı.** Spearman düzeltmesi, tüm maddelerin
 eşit gerçek yüklere ve eşit hata varyanslarına sahip olduğu paralel
@@ -937,22 +1054,25 @@ modeller farklı düzeltme çarpanları üretir [@revelle2009]. Ölçme
 modeli paralel testlerden belirgin biçimde uzaklaştığında düzeltilmiş
 kestirim artık yanlılık taşıyabilir.
 
-**Tek hatalı değişken.** Bu simülasyon, bağımlı değişkenin hatalı,
-gruplama değişkeninin hatasız olduğu standart deneysel varsayıma
-odaklanmıştır. Her iki değişkenin de hatalı ölçüldüğü yarı-deneysel
-ya da korelasyonel desenlerde düzeltmeye iki güvenirlik birden girer
-ve ek belirsizlik katlanır.
+**Korelasyonlar için aralık makinesi.** Korelasyonel alt-çalışma
+(Bölüm 5.4), her iki değişken hatalıyken iki yönlü nokta
+düzeltmesinin kuramın öngördüğü gibi davrandığını doğrulamıştır.
+Ancak paket, düzeltilmiş korelasyonlar için güven aralığı ya da
+meta-analitik varyans sunmamaktadır; korelasyonel desenlerdeki
+araştırmacılar doğrulanmış bir nokta kestirimi alır ama çıkarım için
+başka kaynaklara yönelmek zorundadır.
 
-**Eşit varyanslı dengeli desenler.** Simüle edilen tüm koşullarda
-grup büyüklükleri ve evren varyansları eşitti. Eşit $n$, aynı
-zamanda birleştirilmiş-SS standartlaştırıcısının Bonett varyansının
-türetildiği ortalama-varyans standartlaştırıcısıyla çakıştığı
-durumdur (Bölüm 2.3.2). Vurgulanması gereken bir sonuç şudur:
-Bonett'in dayanıklı varyansının asıl işe yaraması beklenen durum —
-birleştirilmiş-SS'li $d$'nin kestirilecek nicelik olarak
-belirsizleştiği eşit olmayan grup varyansları — burada
-sınanmamıştır. Belirgin biçimde dengesiz ya da değişen varyanslı
-desenlerde iki aralığın kapsaması henüz nicelenmemiştir.
+**Dengesiz-değişen varyanslı birleşik desenler.** Ana faktöriyel
+eşit grup büyüklükleri ve eşit evren varyansları kullanmıştır.
+Desen-dayanıklılığı alt-çalışması (Bölüm 5.2.6) iki varsayımı ayrı
+ayrı gevşetmiş — eşit varyanslı 1:3 dengesizlik ve dengeli gruplarla
+2:1 varyans heterojenliği — ve iki aralık da nominale yakın kalmış;
+Bonett, değişen varyans altında beklenen mütevazı üstünlüğünü
+göstermiştir. Daha büyük varyansın daha küçük grupla eşleşebildiği
+ve birleştirilmiş-SS'li etki büyüklüğünün kendisinin kestirilecek
+nicelik olarak belirsizleştiği birleşik koşul simüle edilmemiştir;
+orası, Welch tipi standartlaştırıcıların (Bölüm 6.5) daha ilkeli
+çözüm hâline geldiği yerdir.
 
 **Güvenirlik ile gerçek puanların bağımsızlığı.** Simülasyon, KTK
 modelinin gerektirdiği gibi ölçme hatasının gerçek puanlarla
@@ -1066,6 +1186,58 @@ knitr::kable(
     "Bonett aralıklarının kapsaması ve ortalama genişliği (hücre",
     "başına 1.000 tekrar, her birinde 999 yeniden örnekleme, bilinen",
     "güvenirlik).")
+)
+```
+
+```{r tablo4, echo = FALSE}
+t4 <- read.csv("../analysis/results/substudy_rxxse.csv")
+knitr::kable(
+  t4[, c("k_items", "n", "rho", "coverage_naive", "coverage_se",
+         "mean_se_hat", "emp_sd_alpha")],
+  row.names = FALSE, digits = 3,
+  col.names = c("$k$ madde", "$n$", "$\\rho_{xx}$",
+                "Kapsama (yalın)", "Kapsama (`rxx_se`)",
+                "Ort. $\\widehat{SE}(\\hat{\\alpha})$",
+                "Görgül $SD(\\hat{\\alpha})$"),
+  caption = paste(
+    "Tablo 4. Kestirilen alfada değerlenen Hunter-Schmidt aralığının",
+    "rxx_se delta-yöntemi terimi olmadan (yalın) ve terimle",
+    "kapsaması (hücre başına 2.000 tekrar; alfanın bootstrap SE'si,",
+    "B = 200).")
+)
+```
+
+```{r tablo5, echo = FALSE}
+t5 <- read.csv("../analysis/results/substudy_design.csv")
+t5$design <- ifelse(t5$block == "B1_unbalanced",
+                    "Dengesiz 1:3", "Varyans oranı 2:1")
+knitr::kable(
+  t5[, c("design", "n1", "rho", "coverage_hs", "coverage_bo",
+         "width_hs", "width_bo")],
+  row.names = FALSE, digits = 3,
+  col.names = c("Desen", "$n_1$", "$\\rho_{xx}$",
+                "Kaps. HS", "Kaps. Bonett", "Gen. HS", "Gen. Bonett"),
+  caption = paste(
+    "Tablo 5. Dengesiz grup büyüklükleri (eşit varyanslar) ve değişen",
+    "varyanslı gerçek puanlar (dengeli gruplar) altında",
+    "Hunter-Schmidt (HS) ve Bonett aralıklarının kapsaması ve",
+    "ortalama genişliği; hücre başına 5.000 tekrar.")
+)
+```
+
+```{r tablo6, echo = FALSE}
+t6 <- read.csv("../analysis/results/substudy_correlation.csv")
+knitr::kable(
+  t6[, c("rho_xy", "rel", "n", "bias_obs", "bias_corr",
+         "rmse_obs", "rmse_corr")],
+  row.names = FALSE, digits = 3,
+  col.names = c("$\\rho_{xy}$", "$\\rho_{xx} = \\rho_{yy}$", "$n$",
+                "Yanlılık (göz.)", "Yanlılık (düz.)",
+                "RMSE (göz.)", "RMSE (düz.)"),
+  caption = paste(
+    "Tablo 6. Her iki değişken hatalıyken gözlenen ve iki yönlü",
+    "düzeltilmiş korelasyonun yanlılığı ve RMSE'si; hücre başına",
+    "5.000 tekrar.")
 )
 ```
 

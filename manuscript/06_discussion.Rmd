@@ -62,8 +62,10 @@ is the more appropriate estimate of the construct-level effect.
 risk.** The Hunter–Schmidt interval fell below nominal coverage in
 59% of design cells and the Bonett interval in 29%; Bonett's
 deviations were on the conservative side, at the cost of roughly
-2% additional width. The difference between the two is largest when
-$n < 60$ per group.
+2% additional width. It also held at or above nominal coverage
+under true-score variance heterogeneity, where Hunter–Schmidt
+slipped slightly (Section 5.2.6). The difference between the two is
+largest when $n < 60$ per group.
 
 **3. Do not over-read interval precision when reliability is
 estimated.** Our simulation found no coverage penalty when
@@ -111,15 +113,16 @@ estimates side by side rather than for the corrected value alone.
 Several limitations of the present work should be noted.
 
 **Reliability uncertainty in CIs.** By default the confidence
-intervals treat $\rho_{xx}$ as a fixed constant. Study 2 found no
-measurable coverage penalty with a 10-item $\alpha$ at the sample
-sizes examined, but the omitted variance term grows as tests
-shorten and samples shrink. The delta-method correction of Section
-2.3.4 is available through the `rxx_se` argument; its finite-sample
-coverage, however, was not part of the present simulation, and it
-requires the user to supply a defensible standard error for the
-reliability estimate. A Bayesian interval with a prior on
-$\rho_{xx}$ remains future work.
+intervals treat $\rho_{xx}$ as a fixed constant. Neither the main
+study (10 items) nor the dedicated sub-study (down to 4 items at
+$n = 30$; Section 5.2.5) found a material coverage penalty for the
+naive interval at the reliabilities examined, and the `rxx_se`
+delta-method term proved correctly calibrated where it was tested.
+What remains untested is the regime in which the term should
+matter most — reliabilities well below 0.60, very short tests, or
+reliability estimates imported from small external calibration
+samples. A Bayesian interval with a prior on $\rho_{xx}$ remains
+future work.
 
 **Parallel-tests assumption.** The Spearman correction is exact
 under the parallel-tests model, in which all items have equal true
@@ -129,23 +132,25 @@ tau-equivalent models yield different correction factors
 from parallel tests, the corrected estimate may retain residual
 bias.
 
-**Single fallible variable.** The current simulation focused on
-the case in which the dependent variable is fallible and the
-grouping variable is error-free, the standard experimental
-assumption. In quasi-experimental or correlational designs where
-both variables are measured with error, both reliabilities enter
-the correction, and the additional uncertainty is compounded.
+**Interval machinery for correlations.** The correlational
+sub-study (Section 5.4) confirmed that the two-sided point
+correction behaves as theory predicts when both variables are
+fallible. The package does not, however, provide confidence
+intervals or meta-analytic variances for corrected correlations;
+researchers in correlational designs get a validated point estimate
+but must turn elsewhere for inference.
 
-**Balanced designs with equal population variances.** All simulated
-conditions used equal group sizes and equal population variances.
-Equal $n$ is also the case in which the pooled-SD standardizer
-coincides with the average-variance standardizer for which Bonett's
-variance is derived (Section 2.3.2). One consequence deserves
-emphasis: the setting in which Bonett's robust variance should earn
-its keep — unequal group variances, where the pooled-SD $d$ itself
-becomes ambiguous as an estimand — was not stress-tested here.
-Coverage under substantially unbalanced or heteroscedastic designs
-remains to be quantified.
+**Unbalanced heteroscedastic designs.** The main factorial used
+equal group sizes and equal population variances. The
+design-robustness sub-study (Section 5.2.6) relaxed each assumption
+separately — 1:3 imbalance with equal variances, and 2:1 variance
+heterogeneity with balanced groups — and both intervals remained
+near-nominal, with Bonett showing its expected modest edge under
+heteroscedasticity. The combined condition, in which the larger
+variance can be paired with the smaller group and the pooled-SD
+effect size itself becomes ambiguous as an estimand, was not
+simulated; it is the setting where Welch-type standardizers
+(Section 6.5) become the more principled solution.
 
 **Independence of reliability and true scores.** The simulation
 assumed that measurement error is uncorrelated with true scores,

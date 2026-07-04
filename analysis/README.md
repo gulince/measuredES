@@ -30,6 +30,11 @@ source("analysis/04_example_reanalysis.R")
 
 # Bootstrap sub-study (manuscript Section 5.2.4)   # ~10 minutes
 source("analysis/05_simulation_bootstrap.R")
+
+# Review-response sub-studies: rxx_se coverage, unbalanced and
+# heteroscedastic designs, severe skewness, two-sided correlation
+# correction (manuscript Sections 5.2.4-5.2.6, 5.4)   # ~5 minutes
+source("analysis/06_simulation_substudies.R")
 ```
 
 ## Outputs

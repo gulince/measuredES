@@ -57,6 +57,58 @@ knitr::kable(
 )
 ```
 
+```{r table4, echo = FALSE}
+t4 <- read.csv("../analysis/results/substudy_rxxse.csv")
+knitr::kable(
+  t4[, c("k_items", "n", "rho", "coverage_naive", "coverage_se",
+         "mean_se_hat", "emp_sd_alpha")],
+  row.names = FALSE, digits = 3,
+  col.names = c("$k$ items", "$n$", "$\\rho_{xx}$",
+                "Coverage (naive)", "Coverage (`rxx_se`)",
+                "Mean $\\widehat{SE}(\\hat{\\alpha})$",
+                "Empirical $SD(\\hat{\\alpha})$"),
+  caption = paste(
+    "Table 4. Coverage of the Hunter-Schmidt interval evaluated at",
+    "the estimated alpha, without (naive) and with the rxx_se",
+    "delta-method term (2,000 replications per cell; bootstrap SE of",
+    "alpha with B = 200).")
+)
+```
+
+```{r table5, echo = FALSE}
+t5 <- read.csv("../analysis/results/substudy_design.csv")
+t5$design <- ifelse(t5$block == "B1_unbalanced",
+                    "Unbalanced 1:3", "Variance ratio 2:1")
+knitr::kable(
+  t5[, c("design", "n1", "rho", "coverage_hs", "coverage_bo",
+         "width_hs", "width_bo")],
+  row.names = FALSE, digits = 3,
+  col.names = c("Design", "$n_1$", "$\\rho_{xx}$",
+                "Cov. HS", "Cov. Bonett", "Width HS", "Width Bonett"),
+  caption = paste(
+    "Table 5. Coverage and mean width of the Hunter-Schmidt (HS) and",
+    "Bonett intervals under unbalanced group sizes (equal variances)",
+    "and heteroscedastic true scores (balanced groups); 5,000",
+    "replications per cell.")
+)
+```
+
+```{r table6, echo = FALSE}
+t6 <- read.csv("../analysis/results/substudy_correlation.csv")
+knitr::kable(
+  t6[, c("rho_xy", "rel", "n", "bias_obs", "bias_corr",
+         "rmse_obs", "rmse_corr")],
+  row.names = FALSE, digits = 3,
+  col.names = c("$\\rho_{xy}$", "$\\rho_{xx} = \\rho_{yy}$", "$n$",
+                "Bias (obs.)", "Bias (corr.)",
+                "RMSE (obs.)", "RMSE (corr.)"),
+  caption = paste(
+    "Table 6. Bias and RMSE of the observed and two-sided-corrected",
+    "correlation when both variables are fallible; 5,000 replications",
+    "per cell.")
+)
+```
+
 # Figures
 
 ![Figure 1. Bias of the corrected and uncorrected Cohen's d by sample size, population effect size, and reliability (normal distribution, known reliability).](../analysis/figures/fig1_bias.png)

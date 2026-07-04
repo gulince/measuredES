@@ -146,3 +146,44 @@ computed by the package's own bootstrap code — was compared with
 the Hunter--Schmidt and Bonett intervals on the same data, so the
 three methods are compared pairwise rather than across independent
 runs. All 1,000 replications completed in every cell.
+
+## 4.6 Additional Sub-Studies
+
+Four further sub-studies extend the evaluation beyond the main
+factorial.
+
+First, the *reliability-uncertainty interval*. In a design crossing
+test length ($k = 4$ or $10$ items), $n$ per group (30, 60), and
+$\rho_{xx}$ (0.60, 0.85) at $\delta = 0.50$ ($R = 2{,}000$), each
+replicate estimated $\alpha$ from the item data and estimated its
+standard error by a nonparametric bootstrap over persons
+($B = 200$) — the procedure an applied researcher could follow. We
+then compared the naive Hunter--Schmidt interval evaluated at
+$\hat{\alpha}$ with the interval that additionally propagates
+$\widehat{SE}(\hat{\alpha})$ through `rxx_se` (Section 2.3.4).
+
+Second, *design robustness*: (a) unbalanced groups with equal
+variances ($n_1 : n_2 = 1{:}3$, $n_1 \in \{30, 60\}$) and (b)
+heteroscedastic true scores under balanced groups (true-score
+variance ratio 2:1, equal reliability in both groups), each crossed
+with $\rho_{xx} \in \{0.60, 0.85\}$ at $\delta = 0.50$
+($R = 5{,}000$), comparing Hunter--Schmidt and Bonett. In both
+blocks the population effect is defined on the average true-score
+standard deviation, which coincides with the pooled standardizer by
+construction. The combined case — unbalanced *and* heteroscedastic,
+where the pooled-SD estimand itself becomes ambiguous — remains
+outside the present scope.
+
+Third, *severe skewness*: the bootstrap comparison of Section 4.5
+was repeated with scores generated from a standardized $\chi^2(1)$
+distribution (skewness $\approx 2.83$, roughly twice that of the
+main design's skewed condition) at $\delta = 0.80$,
+$n \in \{30, 60\}$, $\rho_{xx} \in \{0.60, 0.85\}$ ($R = 1{,}000$,
+$B = 999$).
+
+Fourth, the *two-sided correction for correlations*: bivariate true
+scores with $\rho_{xy} \in \{0.30, 0.50\}$ were observed through two
+equally fallible measures ($\rho_{xx} = \rho_{yy} \in \{0.70,
+0.85\}$; $n \in \{100, 250\}$; $R = 5{,}000$), and the observed
+correlation was corrected with the two-sided Spearman formula of
+Section 2.2.
