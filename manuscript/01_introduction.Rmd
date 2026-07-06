@@ -109,7 +109,7 @@ statistics as well as raw data, and ships with a vignette and a
 reproducible test suite.
 
 To evaluate both the package and the broader correction approach, we
-conducted three connected Monte Carlo simulation studies and five
+conducted three connected Monte Carlo simulation studies and six
 focused sub-studies, presented in this article. **Study 1** examined the bias and root-mean-square
 error of corrected and uncorrected Cohen's *d* across a 192-cell
 factorial design crossing true effect size, sample size, true
@@ -127,7 +127,8 @@ synthesized studies $k \in \{5, 10, 20\}$. The sub-studies
 (Sections 4.5--4.6) probed the BCa bootstrap, severe skewness, the
 propagation of reliability-estimation uncertainty, unbalanced and
 heteroscedastic designs including the combined Behrens--Fisher
-case, and the two-sided correction for correlations.
+case, the two-sided correction for correlations, and the
+meta-analytic pooling of corrected correlations.
 
 The remainder of this article is organized as follows. Section 2
 develops the theoretical foundation: Spearman's correction and the

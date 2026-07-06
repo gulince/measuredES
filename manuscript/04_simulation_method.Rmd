@@ -149,7 +149,7 @@ runs. All 1,000 replications completed in every cell.
 
 ## 4.6 Additional Sub-Studies
 
-Four further sub-studies extend the evaluation beyond the main
+Five further sub-studies extend the evaluation beyond the main
 factorial.
 
 First, the *reliability-uncertainty interval*. In a design crossing
@@ -192,3 +192,19 @@ Section 2.2. Each replicate also computed the Fisher-z interval
 that `mes_r()` implements — the Fisher-z interval of the observed
 correlation with endpoints divided by the attenuation factor — so
 its coverage could be evaluated alongside the point correction.
+
+Fifth, the *meta-analytic pooling of corrected correlations*:
+mirroring Study 3's design (Section 4.4) but for `mes_r()`/
+`mes_meta()` rather than `mes_d()`, $k \in \{5, 10, 20\}$ studies
+were simulated with mean true correlation
+$\rho_{xy,\mu} \in \{0.30, 0.50\}$ (between-study heterogeneity
+$SD = 0.10$, truncated to $[-0.90, 0.90]$) and reliability either
+homogeneous ($\rho_{xx} = \rho_{yy} = 0.85$ for all studies) or
+heterogeneous (Beta(8, 4), as in Study 3), with each study's sample
+size drawn from the same $\{40, 60, 100, 150, 250\}$ set. Each
+replicate called `mes_r()` on every simulated study and pooled the
+resulting objects with the package's own `mes_meta()` — directly
+exercising the correlation variance formula
+$(1-r^2)^2/[(n-1)\rho_{xx}\rho_{yy}]$ added to that function in
+response to review — through `metafor::rma()` (REML), exactly as
+Study 3 did for *d*. $R = 1{,}000$ replications per condition.

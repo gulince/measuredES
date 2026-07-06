@@ -30,7 +30,10 @@ Initial release.
   object with a different method; the confidence level is inherited
   from the object rather than silently reset.
 * `mes_meta()`: convert one or more `mes` objects into a
-  `metafor`-ready data frame (`yi`, `vi`, `sei`, `ni`).
+  `metafor`-ready data frame (`yi`, `vi`, `sei`, `ni`). Now also accepts
+  `mes_r()` objects, using the large-sample variance
+  `(1 - r^2)^2 / ((n - 1) * rxx * ryy)` to populate `vi`/`sei` for
+  corrected correlations.
 * `mes_report()`: APA-7 inline text (English and Turkish) and tabular
   output.
 * S3 methods for the `mes` class: `print()`, `summary()`, `plot()`

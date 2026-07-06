@@ -31,10 +31,11 @@ koşulları boyunca inceleyen 192 hücreli faktöriyel bir Monte Carlo
 simülasyonu (hücre başına 5.000 tekrar) yürüttük. İkinci bir
 simülasyon (hücre başına 1.000 tekrar), çalışmalar arası güvenirlik
 heterojenliğinin havuzlanmış meta-analitik kestirimlere etkisini
-inceledi; beş odaklı alt-çalışma ise değerlendirmeyi bootstrap
+inceledi; altı odaklı alt-çalışma ise değerlendirmeyi bootstrap
 aralığına, şiddetli çarpıklığa, güvenirlik-kestirim belirsizliğine,
 birleşik Behrens--Fisher durumu dahil dengesiz ve değişen varyanslı
-desenlere ve korelasyonlar için iki yönlü düzeltmeye genişletti. Düzeltilmemiş etki büyüklükleri evren etkisini
+desenlere, korelasyonlar için iki yönlü düzeltmeye ve düzeltilmiş
+korelasyonların meta-analitik havuzlanmasına genişletti. Düzeltilmemiş etki büyüklükleri evren etkisini
 $\sqrt{\rho_{xx}}$ ile orantılı biçimde küçümsedi ($\rho_{xx} = .60$
 düzeyinde yaklaşık %22); her iki analitik aralık da nominal düzeye
 yakın kapsama sağladı; Hunter--Schmidt aralığı hafifçe
@@ -42,7 +43,10 @@ anti-konservatif, Bonett aralığı ise küçük örneklemlerde hafifçe
 konservatif yönde saptı; heterojen güvenirlikli çalışmaların
 meta-analizleri, her çalışma tek tek düzeltilmedikçe aşağı yönlü
 yanlı kaldı ve havuzlanmış kestirimin kapsaması $k = 20$ çalışmada
-0.28'e kadar düştü. Bu sonuçların raporlama pratiği ve meta-analitik
+*d* için 0.28'e (korelasyonlar için 0.00'a) kadar düştü. Her çalışmanın
+tek tek düzeltilmesi *d* için kapsamayı neredeyse nominal düzeye
+geri getirdi; havuzlanmış korelasyonlarda ise kapsama yalnızca
+0.88--0.92 aralığına ulaştı. Bu sonuçların raporlama pratiği ve meta-analitik
 sentez için ne anlama geldiğini ve düzeltmenin uygulamalı
 çalışmalarda hangi koşullarda savunulabilir olduğunu tartışıyoruz.
 
@@ -160,7 +164,7 @@ gelir.
 
 Hem paketi hem de düzeltme yaklaşımının kendisini değerlendirmek
 için, bu makalede sunulan birbirine bağlı üç Monte Carlo simülasyon
-çalışması ile beş odaklı alt-çalışma yürüttük. **Çalışma 1**, gerçek etki büyüklüğü, örneklem
+çalışması ile altı odaklı alt-çalışma yürüttük. **Çalışma 1**, gerçek etki büyüklüğü, örneklem
 büyüklüğü, gerçek güvenirlik, güvenirlik kestirim durumu (biliniyor
 ya da $\alpha$ katsayısıyla kestiriliyor) ve dağılım biçiminin
 (normal ya da orta düzeyde çarpık) çaprazlandığı 192 hücreli
@@ -177,7 +181,8 @@ ve sentezlenen çalışma sayısı $k \in \{5, 10, 20\}$ iken inceledi.
 Alt-çalışmalar (Bölüm 4.5--4.6) BCa bootstrap'ı, şiddetli
 çarpıklığı, güvenirlik-kestirim belirsizliğinin yayılmasını,
 birleşik Behrens--Fisher durumu dahil dengesiz ve değişen varyanslı
-desenleri ve korelasyonlar için iki yönlü düzeltmeyi yokladı.
+desenleri, korelasyonlar için iki yönlü düzeltmeyi ve düzeltilmiş
+korelasyonların meta-analitik havuzlanmasını yokladı.
 
 Makalenin kalanı şöyle düzenlenmiştir. Bölüm 2 kuramsal temeli
 geliştirir: Spearman düzeltmesi ve üzerine kurulan güven aralığı
@@ -647,7 +652,7 @@ kıyaslanmıştır. Her hücrede 1.000 tekrarın tamamı tamamlanmıştır.
 
 ## 4.6 Ek Alt-Çalışmalar
 
-Dört ek alt-çalışma, değerlendirmeyi ana faktöriyelin ötesine
+Beş ek alt-çalışma, değerlendirmeyi ana faktöriyelin ötesine
 genişletmektedir.
 
 Birincisi, *güvenirlik-belirsizliği aralığı*. Test uzunluğu ($k = 4$
@@ -690,6 +695,22 @@ Spearman formülüyle düzeltilmiştir. Her tekrar ayrıca `mes_r()`'nin
 uyguladığı Fisher-z aralığını — gözlenen korelasyonun Fisher-z
 aralığının uçlarının zayıflama çarpanına bölünmüş hâli — hesaplamış
 ve kapsaması nokta düzeltmesiyle birlikte değerlendirilmiştir.
+
+Beşincisi, *düzeltilmiş korelasyonların meta-analitik havuzlanması*:
+Çalışma 3'ün deseni (Bölüm 4.4) `mes_d()` yerine `mes_r()`/
+`mes_meta()` için yinelenmiş; $k \in \{5, 10, 20\}$ çalışma, ortalama
+gerçek korelasyon $\rho_{xy,\mu} \in \{0.30, 0.50\}$ (çalışmalar
+arası heterojenlik $SD = 0.10$, $[-0.90, 0.90]$'a kırpılmış) ve
+güvenirlik ya homojen ($\rho_{xx} = \rho_{yy} = 0.85$, tüm
+çalışmalarda) ya da heterojen (Beta(8, 4), Çalışma 3'teki gibi) olacak
+şekilde, her çalışmanın örneklem büyüklüğü aynı $\{40, 60, 100, 150,
+250\}$ kümesinden çekilerek simüle edilmiştir. Her tekrarda, simüle
+edilen her çalışma için `mes_r()` çağrılmış ve elde edilen nesneler
+paketin kendi `mes_meta()` işleviyle — incelemeye yanıt olarak bu
+işleve eklenen $(1-r^2)^2/[(n-1)\rho_{xx}\rho_{yy}]$ korelasyon
+varyansı formülünü doğrudan yoklayarak — havuzlanmış, ardından
+Çalışma 3'ün *d* için yaptığı gibi `metafor::rma()` (REML) ile
+birleştirilmiştir. Koşul başına $R = 1{.}000$ tekrar.
 
 # 5. Bulgular
 
@@ -973,6 +994,54 @@ dışında düzeltilmiş korelasyon üretmemiştir. Her iki yanı hatalı
 düzeltilmiş nokta kestirimi ve güven aralığına birlikte
 ulaşabilmektedir.
 
+## 5.5 Düzeltilmiş Korelasyonların Meta-Analitik Havuzlanması
+
+Tablo 7, Çalışma 3'ün meta-analitik değerlendirmesini (Bölüm 5.3)
+korelasyonlara genişletir; `mes_r()` kestirimleri, `mes_meta()`'nın
+düzeltilmiş korelasyonlar için hesapladığı
+$(1-r^2)^2/[(n-1)\rho_{xx}\rho_{yy}]$ varyansı üzerinden, gerçek bir
+`metafor::rma()` rastgele etkiler analiziyle havuzlanmıştır.
+
+Homojen güvenirlik altında, düzeltilmemiş havuzlanmış korelasyon
+gerçek korelasyonla birlikte büyüyen $-0.039$ ile $-0.066$ arası bir
+yanlılık taşımış ve kapsaması, en küçük gerçek etki ve en az
+çalışma sayısında 0.836'dan, $k = 20$, $\rho_{xy,\mu} = 0.50$'de
+0.336'ya düşmüştür — daralan bir meta-analitik aralığın giderek
+kapsayamadığı bir zayıflama yanlılığı. Düzeltilmiş kestiricinin
+yanlılığı küçük kalmış (0.007 ile 0.013) ve kapsaması 0.884 ile
+0.922 arasında tutunmuştur.
+
+Heterojen güvenirlik, Çalışma 3'ün örüntüsünü daha uç bir biçimde
+yinelemiştir: düzeltilmemiş havuzlanmış korelasyonun kapsaması,
+$k = 5$, $\rho_{xy,\mu} = 0.30$'da 0.599'dan, $k = 20$,
+$\rho_{xy,\mu} = 0.50$'de tam olarak 0.000'a çökmüştür — tek bir
+tekrarın aralığı bile gerçek korelasyonu kapsamamıştır. Düzeltilmiş
+kestirici kapsamayı yine 0.902 ile 0.922 arasında tutmuş ve her
+heterojen hücrede RMSE'yi düzeltilmemiş havuzlanmış kestirime göre
+kabaca yarı ile üçte iki oranında azaltmıştır (ör. $k = 5$,
+$\rho_{xy,\mu} = 0.50$'de 0.169'dan 0.079'a).
+
+Düzeltilmiş kestiricinin kapsaması ise on iki koşulun tamamında
+nominal 0.95'in tutarlı biçimde altında kalmıştır (aralık:
+0.884--0.922) — Çalışma 3'te havuzlanmış *d* için elde edilen
+neredeyse nominal 0.917--0.947'den belirgin biçimde düşük. En kötü
+hücreye ($k = 5$, $\rho_{xy,\mu} = 0.50$, heterojen güvenirlik;
+$R = 1{.}000$) Knapp--Hartung düzeltmesi [@knapp2003] uygulayan ek
+bir kontrol, kapsamayı 0.898'den 0.926'ya yükseltmiştir — gerçek
+ama nominal düzeye tam ulaşmayan bir iyileşme. Bu durum, açığın
+yalnızca küçük-$k$ Wald aralığından değil, ham korelasyon
+ölçeğindeki varyansın kendisinden de kaynaklandığına işaret eder:
+Cohen *d*'sinin aksine korelasyonlar, geleneksel olarak,
+varyansı-durağanlaştıran Fisher-z dönüşümünden sonra havuzlanır —
+çünkü örneklem varyansları $r$'ye göre büyük-örneklem formülünün
+ancak kabaca yaklaştırdığı bir biçimde değişir; bu durum, varyans
+heterojen $\rho_{xx}\rho_{yy}$'ye bölünerek şişirildiğinde daha da
+belirginleşir. `mes_meta()` ile düzeltilmiş korelasyonları havuzlayan
+araştırmacılar bu nedenle elde edilen aralığı yaklaşık olarak
+değerlendirmelidir — düzeltilmemiş korelasyonları havuzlamaktan
+çok daha iyi kalibre edilmiş, ama paketin *d*-ailesi araçlarının
+ulaştığı standardın henüz gerisinde.
+
 # 6. Tartışma
 
 ## 6.1 Bulguların Özeti
@@ -1111,10 +1180,27 @@ kestirim artık yanlılık taşıyabilir.
 düzeltilmiş korelasyonu Fisher-z güven aralığıyla birlikte
 sunmaktadır. Bölüm 5.4'teki alt-çalışma sekiz koşulda 0.946--0.953
 kapsamasını doğrulamıştır (tamamı nominal 0.95'in Monte Carlo standart
-hatası içinde). Düzeltilmiş korelasyonlar için meta-analitik varyans
-henüz uygulanmamıştır; havuzlanmış düzeltilmiş korelasyona ihtiyaç
-duyan araştırmacılar şimdilik nokta kestirimleri dışa aktararak kendi
-varyanslarını sağlamalıdır.
+hatası içinde). `mes_meta()` artık düzeltilmiş korelasyon nesnelerini
+de kabul etmekte, havuzlanmış analiz sütunlarını doldurmak için
+standart büyük-örneklem varyansını
+$(1-r^2)^2 / \left[(n-1)\,\rho_{xx}\rho_{yy}\right]$ kullanmaktadır ve
+Bölüm 5.5 bu eklentiyi, Çalışma 3'ün *d*-ailesi durumunu
+değerlendirdiği aynı yolla test etmiştir: simüle edilmiş çalışmaları
+paketin kendi `mes_meta()` ve `metafor::rma()` işlevleriyle
+havuzlayarak. Düzeltme, en çok önem taşıdığı yerde belirleyici
+olmuştur — heterojen güvenirlik altında düzeltilmemiş havuzlanmış
+korelasyonun kapsaması $k = 20$ çalışmada 0.000'a çökerken, düzeltilmiş
+kestirici kapsamayı 0.902 ile 0.922 arasında tutmuştur — ama bu
+düzeltilmiş kapsama nominal düzeyin tutarlı biçimde altında kalmıştır
+(on iki koşulun tamamında 0.884--0.922; Çalışma 3'te havuzlanmış *d*
+için elde edilen 0.917--0.947'ye karşı). Bir Knapp--Hartung kontrolü bu
+açığı daraltmış ama kapatamamıştır; bu da eksikliğin yalnızca
+küçük-$k$ kaynaklı bir yapaylık olmadığını, aynı zamanda ham
+korelasyon ölçeğinde havuzlamadan da kaynaklandığını —
+varyansı-durağanlaştıran Fisher-z ölçeği yerine— düşündürmektedir.
+`mes_meta()` bir Fisher-z ölçekli havuzlama seçeneği sunana dek,
+araştırmacılar havuzlanmış korelasyon aralığını yaklaşık olarak
+değerlendirmelidir.
 
 **Dengesiz-değişen varyanslı birleşik desenler.** Ana faktöriyel eşit
 grup büyüklükleri ve eşit evren varyansları kullanmıştır.
@@ -1150,7 +1236,11 @@ kendisinin tartışmalı hâle geldiği — desenlere genişletir.
 Üçüncüsü, tekrarlı ölçümler için etki büyüklükleri ($d_{rm}$,
 $d_{av}$) deneysel psikoloji açısından önceliklidir; orada zayıflama
 daha karmaşıktır, çünkü iki ölçüm zamanının güvenirlikleri ile
-aralarındaki korelasyon düzeltmeye birlikte girer. Ölçme hatasının
+aralarındaki korelasyon düzeltmeye birlikte girer. Dördüncüsü, Bölüm
+5.5, `mes_meta()`'nın havuzlanmış-korelasyon kapsamasının *d*-ailesi
+standardının gerisinde kaldığını göstermiştir; ham korelasyon ölçeği
+yerine Fisher-z ölçeğinde havuzlama, doğal bir sonraki adım ve
+görece küçük bir uygulama değişikliğidir. Ölçme hatasının
 model düzeyinde ele alındığı çok düzeyli ve yapısal eşitlik
 modellerindeki etki büyüklükleri için destek ile örtük değişken etki
 büyüklükleri için `OpenMx` paketiyle [@neale2016] bir arayüz, doğal
@@ -1295,6 +1385,29 @@ knitr::kable(
     "Tablo 6. Her iki değişken hatalıyken gözlenen ve iki yönlü",
     "düzeltilmiş korelasyonun yanlılığı ve RMSE'si; hücre başına",
     "5.000 tekrar.")
+)
+```
+
+```{r tablo7, echo = FALSE}
+t7 <- read.csv("../analysis/results/substudy_meta_correlation.csv")
+t7$rel_pattern <- ifelse(t7$rel_pattern == "homogeneous",
+                         "Homojen", "Heterojen")
+knitr::kable(
+  t7[, c("k_studies", "rho_xy_mean", "rel_pattern",
+         "bias_pooled_obs", "bias_pooled_corr",
+         "rmse_pooled_obs", "rmse_pooled_corr",
+         "coverage_obs", "coverage_corr")],
+  row.names = FALSE, digits = 3,
+  col.names = c("$k$", "$\\rho_{xy,\\mu}$", "Güvenirlik örüntüsü",
+                "Yanlılık (düz.siz)", "Yanlılık (düz.li)",
+                "RMSE (düz.siz)", "RMSE (düz.li)",
+                "Kapsama (düz.siz)", "Kapsama (düz.li)"),
+  caption = paste(
+    "Tablo 7. Homojen ve heterojen çalışmalar arası güvenirlik",
+    "altında, mes_meta() varyansı (1-r^2)^2 / [(n-1) rho_xx rho_yy]",
+    "kullanılarak havuzlanmış düzeltilmiş korelasyon rastgele etkiler",
+    "kestiriminin yanlılığı, RMSE'si ve %95 GA kapsaması; hücre",
+    "başına 1.000 tekrar.")
 )
 ```
 

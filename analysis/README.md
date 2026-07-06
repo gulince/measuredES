@@ -35,6 +35,10 @@ source("analysis/05_simulation_bootstrap.R")
 # heteroscedastic designs, severe skewness, two-sided correlation
 # correction (manuscript Sections 5.2.4-5.2.6, 5.4)   # ~5 minutes
 source("analysis/06_simulation_substudies.R")
+
+# Meta-analytic pooling of corrected correlations via mes_meta()
+# (manuscript Section 5.5)   # ~7 minutes
+source("analysis/07_simulation_meta_correlation.R")
 ```
 
 ## Outputs
@@ -45,6 +49,8 @@ source("analysis/06_simulation_substudies.R")
 - `table1_bias.csv`     : Bias summary (manuscript Table 1)
 - `table2_coverage.csv` : CI coverage summaries (reported in Section 5.2)
 - `table3_meta.csv`     : Meta-analytic comparison (manuscript Table 2)
+- `substudy_meta_correlation.csv` : Pooled corrected-correlation coverage
+  via `mes_meta()` (manuscript Table 7)
 
 ### Figures (`figures/`)
 - `fig1_bias.{png,pdf}`    : Bias comparison (Figure 1)

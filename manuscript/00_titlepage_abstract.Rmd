@@ -27,12 +27,12 @@ coverage of corrected and uncorrected Cohen's *d* across true effect
 size, sample size, reliability, distributional form, and known
 versus estimated reliability. A second simulation (1,000
 replications per cell) examined what between-study reliability
-heterogeneity does to pooled meta-analytic estimates, and five
+heterogeneity does to pooled meta-analytic estimates, and six
 focused sub-studies extended the evaluation to the bootstrap
 interval, severe skewness, reliability-estimation uncertainty,
 unbalanced and heteroscedastic designs including the combined
-Behrens--Fisher case, and the two-sided correction for
-correlations. Uncorrected
+Behrens--Fisher case, the two-sided correction for correlations,
+and the meta-analytic pooling of corrected correlations. Uncorrected
 effect sizes underestimated the population effect in proportion to
 $\sqrt{\rho_{xx}}$, by about 22% at $\rho_{xx} = .60$; both
 analytical intervals held
@@ -40,10 +40,12 @@ near-nominal coverage, with Hunter--Schmidt slightly
 anti-conservative and Bonett slightly conservative at small sample
 sizes; and meta-analyses of studies with heterogeneous reliability
 were biased downward unless each study was corrected individually,
-with coverage of the pooled estimate falling as low as 0.28 at
-$k = 20$ studies. We discuss what these results imply for reporting
-practice and meta-analytic synthesis, and when the correction is
-defensible in applied work.
+with coverage of the pooled estimate falling as low as 0.28 for
+*d* (0.00 for correlations) at $k = 20$ studies. Correcting each
+study individually restored coverage to near-nominal levels for
+*d*, though only to 0.88--0.92 for pooled correlations. We discuss
+what these results imply for reporting practice and meta-analytic
+synthesis, and when the correction is defensible in applied work.
 
 **Keywords:** effect size, measurement error, reliability,
 attenuation, Cohen's *d*, Hedges' *g*, meta-analysis, simulation

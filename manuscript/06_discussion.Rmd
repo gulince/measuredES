@@ -141,10 +141,25 @@ bias.
 provides the two-sided corrected correlation together with a
 Fisher-z confidence interval. The sub-study in Section 5.4 confirmed
 coverage of 0.946–0.953 across eight conditions, all within Monte
-Carlo standard error of the nominal 0.95. Meta-analytic variance for
-corrected correlations is not yet implemented; researchers who need a
-pooled corrected correlation must currently export the point estimates
-and supply their own variance.
+Carlo standard error of the nominal 0.95. `mes_meta()` now accepts
+corrected-correlation objects as well, using the standard large-sample
+variance $(1-r^2)^2 / \left[(n-1)\,\rho_{xx}\rho_{yy}\right]$ to
+populate the pooled-analysis columns, and Section 5.5 evaluated this
+addition the same way Study 3 evaluated the *d*-family case: pooling
+simulated studies through the package's own `mes_meta()` and
+`metafor::rma()`. The correction was decisive where it mattered most —
+under heterogeneous reliability the uncorrected pooled correlation's
+coverage collapsed to 0.000 at $k = 20$ studies, while the corrected
+estimator held between 0.902 and 0.922 — but that corrected coverage
+sits consistently below nominal (0.884–0.922 across all twelve
+conditions, versus 0.917–0.947 for pooled *d* in Study 3). A
+Knapp–Hartung check narrowed but did not close this gap, suggesting
+the shortfall is not purely a small-$k$ artifact but also reflects
+pooling on the raw correlation scale rather than the
+variance-stabilizing Fisher-z scale conventionally used for this
+purpose. Until `mes_meta()` offers a Fisher-z-scale pooling option,
+researchers should treat its pooled-correlation interval as
+approximate.
 
 **Unbalanced heteroscedastic designs.** The main factorial used
 equal group sizes and equal population variances. The
@@ -179,8 +194,12 @@ estimand itself is questionable. Third, repeated-measures effect
 sizes ($d_{rm}$, $d_{av}$) are a priority for experimental
 psychology; attenuation is more intricate there because the
 reliabilities of both measurement occasions and the correlation
-between them enter the correction jointly. Support for effect sizes
-in multilevel and structural equation models, where measurement
-error is handled at the model level, and an interface with the
-`OpenMx` package [@neale2016] for latent-variable effect sizes are
-natural longer-term extensions.
+between them enter the correction jointly. Fourth, Section 5.5 found
+that `mes_meta()`'s pooled-correlation coverage falls short of the
+*d*-family standard; pooling on the Fisher-z scale instead of the raw
+correlation scale is the natural next step and a comparatively small
+implementation change. Support for effect sizes in multilevel and
+structural equation models, where measurement error is handled at
+the model level, and an interface with the `OpenMx` package
+[@neale2016] for latent-variable effect sizes are natural
+longer-term extensions.

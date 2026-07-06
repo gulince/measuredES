@@ -116,6 +116,29 @@ knitr::kable(
 )
 ```
 
+```{r table7, echo = FALSE}
+t7 <- read.csv("../analysis/results/substudy_meta_correlation.csv")
+t7$rel_pattern <- ifelse(t7$rel_pattern == "homogeneous",
+                         "Homogeneous", "Heterogeneous")
+knitr::kable(
+  t7[, c("k_studies", "rho_xy_mean", "rel_pattern",
+         "bias_pooled_obs", "bias_pooled_corr",
+         "rmse_pooled_obs", "rmse_pooled_corr",
+         "coverage_obs", "coverage_corr")],
+  row.names = FALSE, digits = 3,
+  col.names = c("$k$", "$\\rho_{xy,\\mu}$", "Reliability pattern",
+                "Bias (uncorr.)", "Bias (corr.)",
+                "RMSE (uncorr.)", "RMSE (corr.)",
+                "Coverage (uncorr.)", "Coverage (corr.)"),
+  caption = paste(
+    "Table 7. Bias, RMSE, and 95% CI coverage of the pooled",
+    "random-effects estimate of a corrected correlation, under",
+    "homogeneous and heterogeneous between-study reliability, using",
+    "the mes_meta() variance (1-r^2)^2 / [(n-1) rho_xx rho_yy];",
+    "1,000 replications per cell.")
+)
+```
+
 # Figures
 
 ![Figure 1. Bias of the corrected and uncorrected Cohen's d by sample size, population effect size, and reliability (normal distribution, known reliability).](../analysis/figures/fig1_bias.png)

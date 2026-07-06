@@ -279,3 +279,49 @@ working with fallible measures on both sides of the correlation
 therefore have a single-stop function — corrected estimate and
 interval together — rather than a point estimate requiring external
 software for inference.
+
+## 5.5 Meta-Analytic Pooling of Corrected Correlations
+
+Table 7 extends Study 3's meta-analytic evaluation (Section 5.3) to
+correlations, pooling `mes_r()` estimates through the variance
+`mes_meta()` computes for corrected correlations,
+$(1-r^2)^2/[(n-1)\rho_{xx}\rho_{yy}]$, in an actual
+`metafor::rma()` random-effects analysis.
+
+Under homogeneous reliability, the uncorrected pooled correlation
+carried a bias of $-0.039$ to $-0.066$ that grew with the true
+correlation, and its coverage fell from 0.836 at the smallest true
+effect and fewest studies to 0.336 at $k = 20$,
+$\rho_{xy,\mu} = 0.50$ — attenuation bias that a narrowing
+meta-analytic interval increasingly fails to cover. The corrected
+estimator's bias stayed small (0.007 to 0.013) and its coverage held
+between 0.884 and 0.922.
+
+Heterogeneous reliability reproduced Study 3's pattern in a more
+extreme form: the uncorrected pooled correlation's coverage collapsed
+from 0.599 ($k = 5$, $\rho_{xy,\mu} = 0.30$) to exactly 0.000 at
+$k = 20$, $\rho_{xy,\mu} = 0.50$ — every single replicate's interval
+missed the true correlation. The corrected estimator again held
+coverage between 0.902 and 0.922, and cut RMSE by roughly half to
+two-thirds relative to the uncorrected pooled estimate in every
+heterogeneous cell (e.g., 0.169 to 0.079 at $k = 5$,
+$\rho_{xy,\mu} = 0.50$).
+
+The corrected estimator's coverage, however, sits consistently below
+the nominal 0.95 across all twelve conditions (range: 0.884–0.922) —
+noticeably lower than Study 3's near-nominal 0.917–0.947 for pooled
+*d*. A supplementary check applying the Knapp–Hartung adjustment
+[@knapp2003] to the single worst cell ($k = 5$,
+$\rho_{xy,\mu} = 0.50$, heterogeneous reliability; $R = 1{,}000$)
+raised coverage from 0.898 to 0.926 — a real improvement, but one
+that leaves a gap to nominal. This points to the raw-correlation-scale
+variance itself, and not only the small-$k$ Wald interval, as a
+contributor: unlike Cohen's *d*, correlations are conventionally
+pooled after a variance-stabilizing Fisher-z transform precisely
+because their sampling variance depends on $r$ in a way the
+large-sample formula approximates only loosely, especially once it
+is inflated by division by heterogeneous $\rho_{xx}\rho_{yy}$.
+Researchers pooling corrected correlations with `mes_meta()` should
+therefore treat the resulting interval as approximate — considerably
+better calibrated than pooling uncorrected correlations, but not yet
+at the standard the package's *d*-family tools meet.
