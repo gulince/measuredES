@@ -8,6 +8,20 @@
 #' directly to \code{metafor::rma()} or used in Hunter--Schmidt psychometric
 #' meta-analysis procedures.
 #'
+#' @details
+#' The sampling variance \code{vi} is returned on the same scale as the
+#' corrected effect \code{yi}. For \emph{d}- and \emph{g}-type objects it
+#' comes from the Hedges--Olkin (1985) large-sample formula divided by the
+#' reliability (with the delta-method term added when \code{rxx_se} was
+#' supplied). For correlations it is
+#' \deqn{\widehat{Var}(r^*) =
+#'   \frac{(1 - r^2)^2}{(n - 1)\, r_{xx} r_{yy}},}
+#' the large-sample variance of the observed correlation scaled by the
+#' (fixed) attenuation factor; one-sided corrections drop \eqn{r_{yy}}.
+#' Symmetric analytical intervals (Hunter--Schmidt, Bonett) are inverted
+#' back to a variance directly, whereas asymmetric BCa bootstrap intervals
+#' fall back to the analytical formula.
+#'
 #' @param ... One or more 'mes' objects (or a list of 'mes' objects).
 #' @param study_id Optional study identifiers (character vector).
 #'
@@ -18,7 +32,8 @@
 #'   \item{vi}{Approximate sampling variance of the effect size}
 #'   \item{sei}{Standard error}
 #'   \item{ni}{Total sample size}
-#'   \item{rxx}{Reliability of the dependent variable}
+#'   \item{rxx}{Reliability of the dependent variable (or of the first
+#'     variable for correlations)}
 #'   \item{type}{Effect-size type}
 #' }
 #'
@@ -39,6 +54,11 @@
 #'
 #' meta_df <- mes_meta(s1, s2, study_id = c("Study_2024", "Study_2025"))
 #' meta_df
+#'
+#' # Corrected correlations combine the same way
+#' r1 <- mes_r(r = 0.30, n = 120, rxx = 0.85, ryy = 0.78)
+#' r2 <- mes_r(r = 0.42, n = 90,  rxx = 0.80, ryy = 0.75)
+#' mes_meta(r1, r2)
 #'
 #' \donttest{
 #' # Random-effects meta-analysis with metafor
@@ -111,6 +131,15 @@ mes_meta <- function(..., study_id = NULL) {
           obj$reliability$rxx_se^2 / (4 * obj$reliability$rxx^3)
       }
       (J^2) * var_dstar
+    } else if (obj$type == "r" && !is.null(obj$n$total)) {
+      # Corrected correlation: large-sample Var(r) = (1 - r^2)^2 / (n - 1),
+      # scaled by the fixed attenuation factor rxx * ryy. A one-sided
+      # correction (no ryy) treats the second variable as error-free.
+      r_obs    <- obj$raw_estimate
+      n_r      <- obj$n$total
+      ryy_val  <- if (!is.null(obj$reliability$ryy)) obj$reliability$ryy else 1
+      atten_sq <- obj$reliability$rxx * ryy_val
+      ((1 - r_obs^2)^2 / (n_r - 1)) / atten_sq
     } else NA_real_
 
     rxx_val <- if (!is.null(obj$reliability$rxx))

@@ -59,6 +59,46 @@ test_that("mes_meta falls through to analytical variance for bootstrap CIs", {
   expect_equal(vi_boot, vi_noci, tolerance = 1e-8)
 })
 
+test_that("mes_meta computes a finite variance for correlation objects", {
+  r1 <- mes_r(r = 0.30, n = 120, rxx = 0.85, ryy = 0.78)
+  r2 <- mes_r(r = 0.45, n = 90,  rxx = 0.80, ryy = 0.75)
+
+  res <- mes_meta(r1, r2, study_id = c("A", "B"))
+
+  expect_equal(nrow(res), 2L)
+  expect_true(all(is.finite(res$vi)))
+  expect_true(all(res$vi > 0))
+  expect_true(all(is.finite(res$sei)))
+  expect_equal(res$sei, sqrt(res$vi), tolerance = 1e-12)
+
+  # closed form: Var(r*) = (1 - r^2)^2 / ((n - 1) * rxx * ryy)
+  expected_vi1 <- (1 - 0.30^2)^2 / ((120 - 1) * 0.85 * 0.78)
+  expect_equal(res$vi[1L], expected_vi1, tolerance = 1e-8)
+})
+
+test_that("mes_meta handles one-sided corrected correlations (ryy absent)", {
+  r1  <- suppressWarnings(mes_r(r = 0.40, n = 100, rxx = 0.90))
+  res <- mes_meta(r1)
+
+  expect_true(is.finite(res$vi))
+  expected_vi <- (1 - 0.40^2)^2 / ((100 - 1) * 0.90)
+  expect_equal(res$vi, expected_vi, tolerance = 1e-8)
+})
+
+test_that("mes_meta correlation output is compatible with metafor", {
+  skip_if_not_installed("metafor")
+
+  r_studies <- list(
+    mes_r(r = 0.28, n = 110, rxx = 0.83, ryy = 0.79),
+    mes_r(r = 0.35, n = 140, rxx = 0.88, ryy = 0.81),
+    mes_r(r = 0.41, n = 95,  rxx = 0.80, ryy = 0.76)
+  )
+  res <- mes_meta(r_studies)
+  fit <- metafor::rma(yi = yi, vi = vi, data = res, method = "REML")
+  expect_s3_class(fit, "rma")
+  expect_true(is.finite(fit$beta))
+})
+
 test_that("mes_meta result is compatible with metafor", {
   skip_if_not_installed("metafor")
 

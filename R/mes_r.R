@@ -37,6 +37,15 @@
 #'
 #' @return An object of class 'mes' with \code{type = "r"}.
 #'
+#' @note
+#' The Fisher-z interval treats \code{rxx} and \code{ryy} as known
+#' constants. Unlike \code{\link{mes_d}} and \code{\link{mes_g}}, this
+#' function does not (in this version) accept a standard error for the
+#' reliabilities, so it does not propagate the extra uncertainty that
+#' arises when a reliability is itself a sample estimate. Read the
+#' interval as approximate whenever \code{rxx} or \code{ryy} comes from a
+#' sample rather than a known population value.
+#'
 #' @references
 #' Spearman, C. (1904). The proof and measurement of association between
 #' two things. \emph{American Journal of Psychology}, 15, 72--101.

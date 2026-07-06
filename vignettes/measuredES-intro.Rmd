@@ -78,7 +78,38 @@ df <- data.frame(
 mes_d(formula = score ~ group, data = df, rxx = 0.85)
 ```
 
-## 5. Meta-analysis
+## 5. Correlations
+
+Attenuation is not only a mean-difference problem. A correlation
+between two fallible measures is pulled toward zero by *both*
+unreliabilities, so the two-variable form of Spearman's correction
+divides by $\sqrt{r_{xx} \, r_{yy}}$. `mes_r()` applies it and attaches
+a Fisher-z confidence interval:
+
+```{r}
+# Observed r = .30 between two scales with reliabilities .85 and .78
+mes_r(r = 0.30, n = 120, rxx = 0.85, ryy = 0.78)
+```
+
+If only one variable is measured with error, omit `ryy` for the
+one-sided correction. R prints a reminder that the second variable is
+then treated as error-free:
+
+```{r}
+mes_r(r = 0.30, n = 120, rxx = 0.85)
+```
+
+Corrected correlations flow into `mes_meta()` exactly like the
+d-family, so a psychometric meta-analysis of correlations needs no
+extra bookkeeping:
+
+```{r}
+r1 <- mes_r(r = 0.28, n = 110, rxx = 0.83, ryy = 0.79)
+r2 <- mes_r(r = 0.35, n = 140, rxx = 0.88, ryy = 0.81)
+mes_meta(r1, r2, study_id = c("Sample_A", "Sample_B"))
+```
+
+## 6. Meta-analysis
 
 `mes_meta()` turns one or more results into a data frame with the
 `yi`/`vi` columns `metafor::rma()` expects:
@@ -94,7 +125,7 @@ meta_df <- mes_meta(s1, s2, s3,
 meta_df
 ```
 
-## 6. APA-7 reporting
+## 7. APA-7 reporting
 
 `mes_report()` produces a sentence you can drop straight into a
 manuscript:
@@ -103,7 +134,7 @@ manuscript:
 mes_report(fit, style = "inline", language = "en")
 ```
 
-## 7. Switching the CI method
+## 8. Switching the CI method
 
 If a reviewer wants a different interval, `mes_ci()` re-runs the
 interval on an existing result without redoing the effect size:
@@ -114,7 +145,7 @@ fit_bonett <- mes_ci(fit, method = "bonett")
 fit_bonett$ci
 ```
 
-## 8. A few things to keep in mind
+## 9. A few things to keep in mind
 
 1. **Random error only.** The correction handles random measurement
    error. Systematic bias (social desirability, common method variance,

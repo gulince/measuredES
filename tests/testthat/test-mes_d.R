@@ -57,6 +57,35 @@ test_that("disattenuate no longer accepts eta2 / omega2", {
   expect_error(disattenuate(0.10, rxx = 0.80, type = "omega2"))
 })
 
+test_that("disattenuate is vectorized over 'effect' for type = 'd'", {
+  d_vec <- c(0.20, 0.45, 0.63, 0.80)
+  out   <- disattenuate(d_vec, rxx = 0.75, type = "d")
+  expect_length(out, length(d_vec))
+  expect_equal(out, d_vec / sqrt(0.75), tolerance = 1e-10)
+})
+
+test_that("disattenuate passes NA elements through unchanged", {
+  d_vec <- c(0.20, NA, 0.63)
+  out   <- disattenuate(d_vec, rxx = 0.80, type = "d")
+  expect_equal(out, d_vec / sqrt(0.80))
+  expect_true(is.na(out[2L]))
+})
+
+test_that("disattenuate is vectorized for type = 'r'", {
+  r_vec <- c(0.30, 0.50)
+  out   <- disattenuate(r_vec, rxx = 0.85, ryy = 0.78, type = "r")
+  expect_length(out, length(r_vec))
+  expect_equal(out, r_vec / sqrt(0.85 * 0.78), tolerance = 1e-10)
+})
+
+test_that("disattenuate warns once, with a count, when any |r*| > 1", {
+  # 0.95 / (0.85) = 1.12 is out of bounds; 0.20 / 0.85 = 0.24 is fine
+  expect_warning(
+    disattenuate(c(0.20, 0.95), rxx = 0.85, ryy = 0.85, type = "r"),
+    regexp = "1 corrected correlation"
+  )
+})
+
 test_that("mes_d formula interface works", {
   set.seed(2026)
   df <- data.frame(

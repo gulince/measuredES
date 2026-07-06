@@ -47,6 +47,15 @@ same coverage as the observed one. Endpoints are truncated to
 \eqn{[-1, 1]} when the correction pushes them outside the admissible
 range.
 }
+\note{
+The Fisher-z interval treats \code{rxx} and \code{ryy} as known
+constants. Unlike \code{\link{mes_d}} and \code{\link{mes_g}}, this
+function does not (in this version) accept a standard error for the
+reliabilities, so it does not propagate the extra uncertainty that
+arises when a reliability is itself a sample estimate. Read the
+interval as approximate whenever \code{rxx} or \code{ryy} comes from a
+sample rather than a known population value.
+}
 \examples{
 # Both variables fallible
 mes_r(r = 0.30, n = 120, rxx = 0.85, ryy = 0.78)
