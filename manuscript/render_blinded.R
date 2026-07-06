@@ -53,7 +53,7 @@ manuscript source are openly available in the package repository
 (https://github.com/gulince/measuredES).
 
 *Word count (excluding abstract, references, tables, and figures):*
-approximately 5,500
+approximately 7,800
 '
 tp <- file.path("manuscript", "_title_page.Rmd")
 writeLines(title_page, tp, useBytes = FALSE)

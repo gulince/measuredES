@@ -54,6 +54,6 @@ study, R software
 ---
 
 *Word count (excluding abstract, references, tables, and figures):*
-approximately 7,000
+approximately 7,800
 
 ---
