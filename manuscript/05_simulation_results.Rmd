@@ -66,8 +66,8 @@ Figure 2 displays coverage for both intervals across sample sizes,
 reliability levels, and reliability-estimation conditions.
 
 **Known reliability.** When $\rho_{xx}$ was treated as known, both
-the Hunter–Schmidt and Bonett intervals achieved near-nominal
-coverage across all conditions. Hunter–Schmidt coverage ranged from
+the Hunter--Schmidt and Bonett intervals achieved near-nominal
+coverage across all conditions. Hunter--Schmidt coverage ranged from
 0.936 to 0.959, with a mean of 0.948. Bonett coverage ranged from
 0.938 to 0.963, with a mean of 0.952. Bonett's
 heteroscedasticity-robust variance combined with the $t$-based
@@ -99,9 +99,9 @@ skewness.
 ### 5.2.2 Interval Width
 
 Mean CI width decreased with sample size as expected. Under known
-reliability at $n = 30$, mean Hunter–Schmidt width was 1.18; at
+reliability at $n = 30$, mean Hunter--Schmidt width was 1.18; at
 $n = 240$, it narrowed to 0.41. The Bonett interval was on average
-about $2\%$ wider than the Hunter–Schmidt interval, reflecting the
+about $2\%$ wider than the Hunter--Schmidt interval, reflecting the
 combined effect of the heteroscedasticity-robust variance and the
 $t$-distribution critical value. Both intervals narrowed as
 $\rho_{xx}$ increased, because higher reliability reduces the
@@ -129,8 +129,8 @@ coverage in every cell: BCa coverage ranged from 0.940 to 0.961
 (mean 0.951), Hunter--Schmidt from 0.937 to 0.958 (mean 0.947), and
 Bonett from 0.943 to 0.963 (mean 0.955); with a Monte Carlo standard
 error of about 0.007, the differences among methods are within
-simulation noise. Second — and contrary to what the assumption-free
-construction of BCa might suggest — the bootstrap did not repair the
+simulation noise. Second, contrary to what the assumption-free
+construction of BCa might suggest, the bootstrap did not repair the
 mild undercoverage that skewness produces at $\delta = 0.80$: in the
 skewed $\delta = 0.80$ cells, mean coverage was 0.946 for BCa
 against 0.946 for Hunter--Schmidt and 0.951 for Bonett. The extra
@@ -173,7 +173,7 @@ correspondingly nudged coverage up by at most half a percentage
 point without ever overshooting (maximum 0.962). Within this
 design, then, the delta-method term is correctly calibrated but
 rarely consequential; its value lies in settings this sub-study did
-not reach — very low reliability, very short tests, or reliability
+not reach: very low reliability, very short tests, or reliability
 estimates imported from small calibration samples.
 
 ### 5.2.6 Unbalanced and Heteroscedastic Designs
@@ -190,23 +190,24 @@ at $n = 30$ per group (0.962 vs. 0.950). Balanced group sizes are
 known to protect pooled-variance procedures against variance
 heterogeneity, and that protection is visible here; Bonett's
 advantage is accordingly modest but consistent, and it comes
-precisely where its variance was designed to work. The combined Behrens–Fisher condition — 1:3 imbalance *and* 2:1
-variance heterogeneity simultaneously — produced the starkest
-divergence between methods, and the direction depended on which
+precisely where its variance was designed to work. The combined
+Behrens--Fisher condition (1:3 imbalance *and* 2:1 variance
+heterogeneity simultaneously) produced the largest divergence
+between methods, and the direction depended on which
 group carried the larger variance. When the *larger* variance
 belonged to the *larger* group (positive pairing), both intervals
-over-covered: Hunter–Schmidt 0.977–0.982, Bonett 0.966–0.972.
+over-covered: Hunter--Schmidt 0.977--0.982, Bonett 0.966--0.972.
 When the *larger* variance belonged to the *smaller* group (negative
-pairing) — the configuration most hazardous for pooled-variance
-procedures — Hunter–Schmidt fell to 0.898–0.908, a five-percentage-
+pairing), the configuration most hazardous for pooled-variance
+procedures, Hunter--Schmidt fell to 0.898--0.908, a five-percentage-
 point deficit below nominal that persisted across both sample sizes
-and both reliability levels. Bonett recovered partially: 0.928–0.938,
+and both reliability levels. Bonett recovered partially: 0.928--0.938,
 still below nominal but substantially closer, and its wider interval
 under negative pairing (mean 11% wider than HS) reflects that the
 heteroscedasticity-robust variance correctly identified elevated
 uncertainty. The negative-pairing result is the strongest empirical
 case in this paper for preferring Bonett: it is the one condition in
-which the Hunter–Schmidt interval's under-coverage is practically
+which the Hunter--Schmidt interval's under-coverage is practically
 consequential rather than marginal.
 
 ## 5.3 Study 3: Meta-Analytic Consequences
@@ -238,7 +239,7 @@ uncorrected meta-analytic estimator suffered severe coverage
 failure, and the failure worsened as more studies were pooled:
 coverage of the uncorrected estimate fell from 0.854 at $k = 5$,
 $\delta_{\mu} = 0.30$ to 0.279 at $k = 20$, $\delta_{\mu} = 0.50$
-(Table 2, heterogeneous rows) — in the latter condition, the
+(Table 2, heterogeneous rows); in the latter condition, the
 interval missed the true effect in more than 70% of replications.
 
 This catastrophic under-coverage arises because reliability heterogeneity
@@ -260,25 +261,22 @@ unwarranted precision.
 
 Table 6 reports the correlational sub-study, in which both variables
 carry measurement error. The observed correlation was attenuated
-exactly as classical theory predicts — by the factor
-$\sqrt{\rho_{xx}\rho_{yy}}$, e.g., a bias of $-0.152$ for
-$\rho_{xy} = 0.50$ with reliabilities of 0.70 — while the two-sided
+exactly as classical theory predicts, by the factor
+$\sqrt{\rho_{xx}\rho_{yy}}$ (e.g., a bias of $-0.152$ for
+$\rho_{xy} = 0.50$ with reliabilities of 0.70), while the two-sided
 correction was essentially unbiased in every cell (all
 $|\text{bias}| \leq 0.003$). The RMSE trade-off familiar from
 Study 1 reappeared on the correlation scale: the corrected estimate
 had lower RMSE in six of eight cells, and slightly higher RMSE only
 for the weakest effect at the smallest sample
 ($\rho_{xy} = 0.30$, $n = 100$). No replicate produced a corrected
-correlation outside $[-1, 1]$ in these conditions. The point
-correction is thus empirically sound. The Fisher-z confidence
-interval that `mes_r()` adds showed excellent coverage across all
-eight cells: 0.946 to 0.953, all within Monte Carlo standard error
-of the nominal 0.95, and no replicate produced a corrected
-correlation outside $[-1, 1]$ in any condition. Applied researchers
-working with fallible measures on both sides of the correlation
-therefore have a single-stop function — corrected estimate and
-interval together — rather than a point estimate requiring external
-software for inference.
+correlation outside $[-1, 1]$ in any condition. The Fisher-z
+confidence interval that `mes_r()` adds covered well in all eight
+cells: 0.946 to 0.953, all within Monte Carlo standard error of the
+nominal 0.95. Applied researchers working with fallible measures on
+both sides of the correlation therefore get the corrected estimate
+and its interval from one function call, rather than a point
+estimate that requires external software for inference.
 
 ## 5.5 Meta-Analytic Pooling of Corrected Correlations
 
@@ -292,36 +290,35 @@ Under homogeneous reliability, the uncorrected pooled correlation
 carried a bias of $-0.039$ to $-0.066$ that grew with the true
 correlation, and its coverage fell from 0.836 at the smallest true
 effect and fewest studies to 0.336 at $k = 20$,
-$\rho_{xy,\mu} = 0.50$ — attenuation bias that a narrowing
-meta-analytic interval increasingly fails to cover. The corrected
-estimator's bias stayed small (0.007 to 0.013) and its coverage held
-between 0.884 and 0.922.
+$\rho_{xy,\mu} = 0.50$: as more studies are pooled, the interval
+narrows around the biased estimate and misses the true value more
+often. The corrected estimator's bias stayed small (0.007 to 0.013)
+and its coverage held between 0.884 and 0.922.
 
 Heterogeneous reliability reproduced Study 3's pattern in a more
-extreme form: the uncorrected pooled correlation's coverage collapsed
-from 0.599 ($k = 5$, $\rho_{xy,\mu} = 0.30$) to exactly 0.000 at
-$k = 20$, $\rho_{xy,\mu} = 0.50$ — every single replicate's interval
-missed the true correlation. The corrected estimator again held
-coverage between 0.902 and 0.922, and cut RMSE by roughly half to
-two-thirds relative to the uncorrected pooled estimate in every
-heterogeneous cell (e.g., 0.169 to 0.079 at $k = 5$,
-$\rho_{xy,\mu} = 0.50$).
+extreme form. The uncorrected pooled correlation's coverage fell
+from 0.599 at $k = 5$, $\rho_{xy,\mu} = 0.30$ to 0.000 at $k = 20$,
+$\rho_{xy,\mu} = 0.50$, where no replicate's interval contained the
+true correlation. The corrected estimator again held coverage
+between 0.902 and 0.922, and cut RMSE by roughly half to two-thirds
+relative to the uncorrected pooled estimate in every heterogeneous
+cell (e.g., 0.169 to 0.079 at $k = 5$, $\rho_{xy,\mu} = 0.50$).
 
-The corrected estimator's coverage, however, sits consistently below
-the nominal 0.95 across all twelve conditions (range: 0.884–0.922) —
-noticeably lower than Study 3's near-nominal 0.917–0.947 for pooled
-*d*. A supplementary check applying the Knapp–Hartung adjustment
-[@knapp2003] to the single worst cell ($k = 5$,
-$\rho_{xy,\mu} = 0.50$, heterogeneous reliability; $R = 1{,}000$)
-raised coverage from 0.898 to 0.926 — a real improvement, but one
-that leaves a gap to nominal. This points to the raw-correlation-scale
-variance itself, and not only the small-$k$ Wald interval, as a
-contributor: unlike Cohen's *d*, correlations are conventionally
-pooled after a variance-stabilizing Fisher-z transform precisely
-because their sampling variance depends on $r$ in a way the
-large-sample formula approximates only loosely, especially once it
-is inflated by division by heterogeneous $\rho_{xx}\rho_{yy}$.
-Researchers pooling corrected correlations with `mes_meta()` should
-therefore treat the resulting interval as approximate — considerably
-better calibrated than pooling uncorrected correlations, but not yet
-at the standard the package's *d*-family tools meet.
+The corrected estimator's coverage, however, sits below the nominal
+0.95 in all twelve conditions (range: 0.884--0.922), noticeably
+lower than Study 3's 0.917--0.947 for pooled *d*. A supplementary
+check applying the Knapp--Hartung adjustment [@knapp2003] to the
+single worst cell ($k = 5$, $\rho_{xy,\mu} = 0.50$, heterogeneous
+reliability; $R = 1{,}000$) raised coverage from 0.898 to 0.926, an
+improvement that still leaves a gap to nominal. Part of the
+shortfall therefore lies in the raw-correlation-scale variance
+itself, not only in the small-$k$ Wald interval. Unlike Cohen's
+*d*, correlations are conventionally pooled after a
+variance-stabilizing Fisher-z transform, because their sampling
+variance depends on $r$ in a way the large-sample formula
+approximates only loosely; dividing that variance by heterogeneous
+$\rho_{xx}\rho_{yy}$ amplifies the problem. Researchers pooling
+corrected correlations with `mes_meta()` should treat the resulting
+interval as approximate: much better calibrated than pooling
+uncorrected correlations, but short of what the package's
+*d*-family tools achieve.

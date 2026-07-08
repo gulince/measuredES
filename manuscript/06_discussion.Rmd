@@ -20,15 +20,15 @@ of $\delta \approx 0.52$, a difference large enough to change power
 calculations and meta-analytic conclusions.
 
 Both analytical confidence intervals held close to nominal
-coverage, but they erred in opposite directions: the Hunter–Schmidt
+coverage, but they erred in opposite directions: the Hunter--Schmidt
 interval tended to sit slightly below the nominal level (mean
 coverage 0.948), while the Bonett interval erred on the
 conservative side (mean 0.952), most visibly at $n = 30$ per group.
 When anti-conservative inference is the greater concern, this
 asymmetry favors Bonett. The BCa bootstrap, evaluated in a focused
-sub-study, performed on par with both analytical intervals —
-including under skewness, where it did not repair their mild
-undercoverage — at a far higher computational cost (Section 5.2.4).
+sub-study, performed on par with both analytical intervals
+(including under skewness, where it did not repair their mild
+undercoverage) at a far higher computational cost (Section 5.2.4).
 Estimating reliability with a 10-item
 coefficient $\alpha$ produced no measurable coverage penalty at the
 sample sizes studied; the undercoverage predicted when reliability
@@ -59,16 +59,16 @@ is the more appropriate estimate of the construct-level effect.
 `mes_report()` produces APA-7-compliant text for both.
 
 **2. Prefer the Bonett interval when undercoverage is the greater
-risk.** The Hunter–Schmidt interval fell below nominal coverage in
+risk.** The Hunter--Schmidt interval fell below nominal coverage in
 59% of design cells and the Bonett interval in 29%; Bonett's
 deviations were on the conservative side, at the cost of roughly
 2% additional width. It also held at or above nominal coverage
-under true-score variance heterogeneity, where Hunter–Schmidt
+under true-score variance heterogeneity, where Hunter--Schmidt
 slipped slightly (Section 5.2.6). The difference between the two is
 largest when $n < 60$ per group. The strongest empirical case came
-from the combined Behrens–Fisher condition: when the smaller group
-carried the larger variance (negative pairing), Hunter–Schmidt
-coverage fell to 0.898–0.908 while Bonett remained at 0.928–0.938.
+from the combined Behrens--Fisher condition: when the smaller group
+carried the larger variance (negative pairing), Hunter--Schmidt
+coverage fell to 0.898--0.908 while Bonett remained at 0.928--0.938.
 In designs where groups are both unequal in size and unequal in
 variance, Bonett is clearly the safer choice.
 
@@ -124,7 +124,7 @@ $n = 30$; Section 5.2.5) found a material coverage penalty for the
 naive interval at the reliabilities examined, and the `rxx_se`
 delta-method term proved correctly calibrated where it was tested.
 What remains untested is the regime in which the term should
-matter most — reliabilities well below 0.60, very short tests, or
+matter most: reliabilities well below 0.60, very short tests, or
 reliability estimates imported from small external calibration
 samples. A Bayesian interval with a prior on $\rho_{xx}$ remains
 future work.
@@ -140,20 +140,20 @@ bias.
 **Interval machinery for correlations.** The `mes_r()` function
 provides the two-sided corrected correlation together with a
 Fisher-z confidence interval. The sub-study in Section 5.4 confirmed
-coverage of 0.946–0.953 across eight conditions, all within Monte
-Carlo standard error of the nominal 0.95. `mes_meta()` now accepts
-corrected-correlation objects as well, using the standard large-sample
+coverage of 0.946--0.953 across eight conditions, all within Monte
+Carlo standard error of the nominal 0.95. `mes_meta()` accepts
+corrected-correlation objects as well, using the large-sample
 variance $(1-r^2)^2 / \left[(n-1)\,\rho_{xx}\rho_{yy}\right]$ to
 populate the pooled-analysis columns, and Section 5.5 evaluated this
 addition the same way Study 3 evaluated the *d*-family case: pooling
 simulated studies through the package's own `mes_meta()` and
-`metafor::rma()`. The correction was decisive where it mattered most —
-under heterogeneous reliability the uncorrected pooled correlation's
-coverage collapsed to 0.000 at $k = 20$ studies, while the corrected
-estimator held between 0.902 and 0.922 — but that corrected coverage
-sits consistently below nominal (0.884–0.922 across all twelve
-conditions, versus 0.917–0.947 for pooled *d* in Study 3). A
-Knapp–Hartung check narrowed but did not close this gap, suggesting
+`metafor::rma()`. Under heterogeneous reliability the uncorrected
+pooled correlation's coverage fell to 0.000 at $k = 20$ studies,
+while the corrected estimator held between 0.902 and 0.922. That
+corrected coverage nonetheless sits below nominal in all twelve
+conditions (0.884--0.922, versus 0.917--0.947 for pooled *d* in
+Study 3). A
+Knapp--Hartung check narrowed but did not close this gap, suggesting
 the shortfall is not purely a small-$k$ artifact but also reflects
 pooling on the raw correlation scale rather than the
 variance-stabilizing Fisher-z scale conventionally used for this
@@ -165,11 +165,11 @@ approximate.
 equal group sizes and equal population variances. The
 design-robustness sub-study (Section 5.2.6) extended this to
 unbalanced groups (1:3; B1), variance heterogeneity with balanced
-groups (2:1; B2), and the combined Behrens–Fisher condition with
+groups (2:1; B2), and the combined Behrens--Fisher condition with
 positive and negative pairing of variance and group size (B3). The
 combined negative-pairing condition (smaller group carries the larger
 variance) produced the only practically consequential under-coverage
-in the entire paper: Hunter–Schmidt 0.898–0.908, Bonett 0.928–0.938.
+in the entire paper: Hunter--Schmidt 0.898--0.908, Bonett 0.928--0.938.
 These results are interpreted on the pooled-SD scale; when the
 pairing is this severe, Welch-type standardizers (Section 6.5)
 represent a more principled approach to the estimand itself, and the

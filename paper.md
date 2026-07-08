@@ -26,11 +26,12 @@ bibliography: paper.bib
 # Summary
 
 `measuredES` is an R package that computes effect sizes
-(Cohen's *d* and Hedges' *g*) corrected for attenuation due to
-measurement unreliability. It combines the classical disattenuation
-correction [@spearman1904; @hunter2004] with modern interval
-estimation [@charles2005; @bonett2008]. Outputs are compatible with
-`metafor` for meta-analysis and follow APA-7 reporting standards.
+(Cohen's *d*, Hedges' *g*, and Pearson correlations) corrected for
+attenuation due to measurement unreliability. It combines the
+classical disattenuation correction [@spearman1904; @hunter2004]
+with modern interval estimation [@charles2005; @bonett2008].
+Outputs are compatible with `metafor` for meta-analysis and follow
+APA-7 reporting standards.
 
 # Statement of need
 
@@ -58,9 +59,12 @@ estimate, and produces APA-7 text and `metafor`-ready output.
 # Core functionality
 
 The starting point is `disattenuate()`, which applies Spearman's
-correction to any observed *d*-family value. Built on top of that are
-`mes_d()` and `mes_g()`, which accept raw vectors, a formula, or the
-summary statistics you pulled from a published paper.
+correction to any observed *d*-family value or correlation. Built on
+top of that are `mes_d()` and `mes_g()`, which accept raw vectors, a
+formula, or the summary statistics you pulled from a published
+paper, and `mes_r()`, which corrects a Pearson correlation for
+unreliability in one or both variables and attaches a Fisher-z
+confidence interval.
 
 Confidence intervals are available via three methods: the
 Hunter--Schmidt analytical approximation, Bonett's (2008)

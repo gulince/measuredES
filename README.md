@@ -7,17 +7,19 @@
 
 ## Overview
 
-`measuredES` computes Cohen's *d* and Hedges' *g* corrected for
-measurement unreliability. If you have a reliability estimate for your
-outcome measure, you can use it to get a better approximation of the
-underlying effect, with less distortion from measurement noise.
+`measuredES` computes Cohen's *d*, Hedges' *g*, and Pearson
+correlations corrected for measurement unreliability. If you have a
+reliability estimate for your outcome measure, you can use it to get a
+better approximation of the underlying effect, with less distortion
+from measurement noise.
 
 Packages like `effectsize`, `MBESS`, and `psych` each cover a piece of
 this, and `psychmeta` corrects *d* values for unreliability inside its
 meta-analysis framework. `measuredES` handles the single-study side, in
 one place: the correction itself (from raw data, summary statistics, or
-a formula), three confidence interval methods (Hunter-Schmidt, Bonett,
-Bootstrap BCa), APA-7 ready output, and direct `metafor` integration.
+a formula), confidence intervals for the corrected estimate
+(Hunter-Schmidt, Bonett, Bootstrap BCa for the *d* family; Fisher-z for
+correlations), APA-7 ready output, and direct `metafor` integration.
 
 ## What it does
 

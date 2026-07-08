@@ -660,8 +660,8 @@ ya da $10$ madde), grup başına $n$ (30, 60) ve $\rho_{xx}$ (0.60,
 0.85) değerlerinin $\delta = 0.50$'de çaprazlandığı desende
 ($R = 2{.}000$) her tekrar, $\alpha$'yı madde verisinden kestirmiş
 ve standart hatasını kişiler üzerinde parametrik olmayan bootstrap
-ile ($B = 200$) kestirmiştir — uygulamacı bir araştırmacının
-izleyebileceği yol. Ardından $\hat{\alpha}$'da değerlenen yalın
+ile ($B = 200$) kestirmiştir; uygulamacı bir araştırmacının
+izleyebileceği yol da budur. Ardından $\hat{\alpha}$'da değerlenen yalın
 Hunter--Schmidt aralığı, $\widehat{SE}(\hat{\alpha})$'yı `rxx_se`
 üzerinden yayan aralıkla karşılaştırılmıştır (Bölüm 2.3.4).
 
@@ -669,7 +669,7 @@ Hunter--Schmidt aralığı, $\widehat{SE}(\hat{\alpha})$'yı `rxx_se`
 ($n_1 : n_2 = 1{:}3$, $n_1 \in \{30, 60\}$), (b) dengeli gruplar
 altında değişen varyanslı gerçek puanlar (gerçek puan varyans oranı
 2:1, iki grupta eşit güvenirlik) ve (c) birleşik Behrens--Fisher
-koşulu — 1:3 dengesizlik *ve* 2:1 varyans heterojenliği; büyük
+koşulu: 1:3 dengesizlik *ve* 2:1 varyans heterojenliği; büyük
 varyans ya büyük grupla (pozitif eşleşme) ya da küçük grupla
 (negatif eşleşme) eşleştirilmiştir. Her blok
 $\rho_{xx} \in \{0.60, 0.85\}$ ile $\delta = 0.50$'de çaprazlanmış
@@ -692,9 +692,9 @@ puanlar, eşit derecede hatalı iki ölçme aracıyla gözlenmiş
 ($\rho_{xx} = \rho_{yy} \in \{0.70, 0.85\}$; $n \in \{100, 250\}$;
 $R = 5{.}000$) ve gözlenen korelasyon Bölüm 2.2'deki iki yönlü
 Spearman formülüyle düzeltilmiştir. Her tekrar ayrıca `mes_r()`'nin
-uyguladığı Fisher-z aralığını — gözlenen korelasyonun Fisher-z
-aralığının uçlarının zayıflama çarpanına bölünmüş hâli — hesaplamış
-ve kapsaması nokta düzeltmesiyle birlikte değerlendirilmiştir.
+uyguladığı aralığı (gözlenen korelasyonun Fisher-z aralığının,
+uçları zayıflama çarpanına bölünmüş hâli) hesaplamış ve kapsaması
+nokta düzeltmesiyle birlikte değerlendirilmiştir.
 
 Beşincisi, *düzeltilmiş korelasyonların meta-analitik havuzlanması*:
 Çalışma 3'ün deseni (Bölüm 4.4) `mes_d()` yerine `mes_r()`/
@@ -705,12 +705,14 @@ güvenirlik ya homojen ($\rho_{xx} = \rho_{yy} = 0.85$, tüm
 çalışmalarda) ya da heterojen (Beta(8, 4), Çalışma 3'teki gibi) olacak
 şekilde, her çalışmanın örneklem büyüklüğü aynı $\{40, 60, 100, 150,
 250\}$ kümesinden çekilerek simüle edilmiştir. Her tekrarda, simüle
-edilen her çalışma için `mes_r()` çağrılmış ve elde edilen nesneler
-paketin kendi `mes_meta()` işleviyle — incelemeye yanıt olarak bu
-işleve eklenen $(1-r^2)^2/[(n-1)\rho_{xx}\rho_{yy}]$ korelasyon
-varyansı formülünü doğrudan yoklayarak — havuzlanmış, ardından
-Çalışma 3'ün *d* için yaptığı gibi `metafor::rma()` (REML) ile
-birleştirilmiştir. Koşul başına $R = 1{.}000$ tekrar.
+edilen her çalışma için `mes_r()` çağrılmış, elde edilen nesneler
+paketin kendi `mes_meta()` işleviyle havuzlanmış ve sonuç, Çalışma
+3'ün *d* için yaptığı gibi `metafor::rma()` (REML) ile
+birleştirilmiştir. Desen böylece formülün yeniden yazımını değil,
+`mes_meta()`'nın uyguladığı
+$(1-r^2)^2/[(n-1)\rho_{xx}\rho_{yy}]$ korelasyon varyansı dahil,
+paketle dağıtılan kod yolunun kendisini sınamaktadır. Koşul başına
+$R = 1{.}000$ tekrar.
 
 # 5. Bulgular
 
@@ -845,9 +847,9 @@ yakın kapsama korumuştur: BCa kapsaması 0.940 ile 0.961 arasında
 (ortalama 0.951), Hunter--Schmidt 0.937 ile 0.958 arasında (ortalama
 0.947), Bonett 0.943 ile 0.963 arasında (ortalama 0.955) değişmiştir;
 yaklaşık 0.007'lik Monte Carlo standart hatasıyla yöntemler
-arasındaki farklar simülasyon gürültüsünün içindedir. İkincisi — ve
-BCa'nın varsayımsız kuruluşunun düşündürebileceğinin aksine —
-bootstrap, çarpıklığın $\delta = 0.80$'de ürettiği hafif
+arasındaki farklar simülasyon gürültüsünün içindedir. İkincisi,
+BCa'nın varsayımsız kuruluşunun düşündürebileceğinin aksine,
+bootstrap çarpıklığın $\delta = 0.80$'de ürettiği hafif
 alt-kapsamayı onarmamıştır: çarpık $\delta = 0.80$ hücrelerinde
 ortalama kapsama BCa için 0.946, Hunter--Schmidt için 0.946, Bonett
 için 0.951 olmuştur. Birleştirilmiş standart sapmanın çarpıklık
@@ -890,7 +892,7 @@ Belirsizliğin `rxx_se` ile yayılması kapsamayı en fazla yarım puan
 yukarı itmiş ve hiçbir hücrede aşırıya kaçmamıştır (en yüksek
 0.962). Bu desen içinde delta-yöntemi terimi doğru kalibre ama
 nadiren belirleyicidir; değeri, bu alt-çalışmanın ulaşmadığı
-koşullardadır — çok düşük güvenirlik, çok kısa testler ya da küçük
+koşullardadır: çok düşük güvenirlik, çok kısa testler ya da küçük
 kalibrasyon örneklemlerinden aktarılan güvenirlik kestirimleri.
 
 ### 5.2.6 Dengesiz ve Değişen Varyanslı Desenler
@@ -908,14 +910,15 @@ Dengeli grup büyüklüklerinin birleştirilmiş-varyans yöntemlerini
 varyans heterojenliğine karşı koruduğu bilinir ve bu koruma burada
 görülmektedir; Bonett'in üstünlüğü buna bağlı olarak mütevazı ama
 tutarlıdır ve tam da varyansının tasarlandığı yerde ortaya
-çıkmaktadır. Birleşik Behrens--Fisher koşulu — 1:3 dengesizlik *ve* 2:1 varyans
-heterojenliği aynı anda — yöntemler arasındaki en keskin ayrışmayı
-üretmiş ve bu ayrışma, büyük varyansın hangi grupta bulunduğuna göre
-belirlenmiştir. *Büyük* varyans *büyük* grupta yer aldığında (pozitif
-eşleşme), her iki aralık da aşırı kapsamıştır: Hunter--Schmidt
-0.977--0.982, Bonett 0.966--0.972. *Büyük* varyans *küçük* grupta
-yer aldığında (negatif eşleşme) — havuzlanmış-varyans yöntemleri için
-en tehlikeli düzenleme — Hunter--Schmidt iki örneklem büyüklüğünde ve
+çıkmaktadır. Birleşik Behrens--Fisher koşulu (1:3 dengesizlik *ve*
+2:1 varyans heterojenliği aynı anda) yöntemler arasındaki en büyük
+ayrışmayı üretmiş ve bu ayrışma, büyük varyansın hangi grupta
+bulunduğuna göre belirlenmiştir. *Büyük* varyans *büyük* grupta yer
+aldığında (pozitif eşleşme), her iki aralık da aşırı kapsamıştır:
+Hunter--Schmidt 0.977--0.982, Bonett 0.966--0.972. *Büyük* varyans
+*küçük* grupta yer aldığında (negatif eşleşme), yani
+havuzlanmış-varyans yöntemleri için en tehlikeli düzenlemede,
+Hunter--Schmidt iki örneklem büyüklüğünde ve
 iki güvenirlik düzeyinde de nominal düzeyin yaklaşık beş yüzde puan
 altına inerek 0.898--0.908'e gerilemiştir. Bonett kısmen
 toparlanmıştır: 0.928--0.938, hâlâ nominalin altında ama belirgin
@@ -956,7 +959,7 @@ meta-analitik kestirici ağır bir kapsama başarısızlığı yaşamış ve
 başarısızlık havuzlanan çalışma sayısı arttıkça derinleşmiştir:
 düzeltilmemiş kestirimin kapsaması $k = 5$, $\delta_{\mu} = 0.30$'da
 0.854'ten $k = 20$, $\delta_{\mu} = 0.50$'de 0.279'a düşmüştür
-(Tablo 2, heterojen satırlar) — ikinci koşulda aralık, gerçek etkiyi
+(Tablo 2, heterojen satırlar); ikinci koşulda aralık, gerçek etkiyi
 tekrarların %70'inden fazlasında kaçırmıştır.
 
 Bu vahim alt-kapsamanın nedeni, güvenirlik heterojenliğinin,
@@ -976,23 +979,21 @@ kalmaz: yanlış büyüklüğü, hak edilmemiş bir kesinlikle raporlar.
 
 Tablo 6, her iki değişkenin de ölçme hatası taşıdığı korelasyonel
 alt-çalışmayı raporlar. Gözlenen korelasyon tam olarak klasik
-kuramın öngördüğü gibi — $\sqrt{\rho_{xx}\rho_{yy}}$ çarpanıyla —
+kuramın öngördüğü gibi, $\sqrt{\rho_{xx}\rho_{yy}}$ çarpanıyla
 zayıflamıştır (ör. güvenirlikler 0.70 iken $\rho_{xy} = 0.50$ için
 $-0.152$'lik yanlılık); iki yönlü düzeltme ise her hücrede esasen
 yansızdır (tüm $|\text{yanlılık}| \leq 0.003$). Çalışma 1'den
 tanıdık RMSE ödünleşimi korelasyon ölçeğinde yeniden ortaya
 çıkmıştır: düzeltilmiş kestirim sekiz hücrenin altısında daha düşük
 RMSE göstermiş, yalnızca en küçük örneklemdeki en zayıf etkide
-($\rho_{xy} = 0.30$, $n = 100$) hafifçe yüksek kalmıştır. Bu
-koşullarda hiçbir tekrar $[-1, 1]$ dışında düzeltilmiş korelasyon
-üretmemiştir. Nokta düzeltmesi böylece görgül olarak sağlamdır. `mes_r()`'nin
-eklediği Fisher-z güven aralığı tüm sekiz hücrede mükemmel kapsama
-göstermiştir: 0.946 ile 0.953, tamamı nominal 0.95'in Monte Carlo
-standart hatası içinde; hiçbir tekrar herhangi bir koşulda $[-1, 1]$
-dışında düzeltilmiş korelasyon üretmemiştir. Her iki yanı hatalı
-ölçen uygulamalı araştırmacılar artık tek bir `mes_r()` çağrısıyla
-düzeltilmiş nokta kestirimi ve güven aralığına birlikte
-ulaşabilmektedir.
+($\rho_{xy} = 0.30$, $n = 100$) hafifçe yüksek kalmıştır. Hiçbir
+koşulda hiçbir tekrar $[-1, 1]$ dışında düzeltilmiş korelasyon
+üretmemiştir. `mes_r()`'nin eklediği Fisher-z güven aralığı sekiz
+hücrenin tamamında iyi kapsamıştır: 0.946 ile 0.953, tamamı nominal
+0.95'in Monte Carlo standart hatası içinde. Her iki yanı hatalı
+ölçen uygulamalı araştırmacılar böylece düzeltilmiş nokta kestirimi
+ile güven aralığına tek bir işlev çağrısıyla ulaşmakta, çıkarım için
+ayrıca dış yazılıma gerek kalmamaktadır.
 
 ## 5.5 Düzeltilmiş Korelasyonların Meta-Analitik Havuzlanması
 
@@ -1006,41 +1007,40 @@ Homojen güvenirlik altında, düzeltilmemiş havuzlanmış korelasyon
 gerçek korelasyonla birlikte büyüyen $-0.039$ ile $-0.066$ arası bir
 yanlılık taşımış ve kapsaması, en küçük gerçek etki ve en az
 çalışma sayısında 0.836'dan, $k = 20$, $\rho_{xy,\mu} = 0.50$'de
-0.336'ya düşmüştür — daralan bir meta-analitik aralığın giderek
-kapsayamadığı bir zayıflama yanlılığı. Düzeltilmiş kestiricinin
+0.336'ya düşmüştür: havuzlanan çalışma sayısı arttıkça aralık, yanlı
+kestirimin etrafında daralmakta ve gerçek değeri giderek daha sık
+kaçırmaktadır. Düzeltilmiş kestiricinin
 yanlılığı küçük kalmış (0.007 ile 0.013) ve kapsaması 0.884 ile
 0.922 arasında tutunmuştur.
 
 Heterojen güvenirlik, Çalışma 3'ün örüntüsünü daha uç bir biçimde
-yinelemiştir: düzeltilmemiş havuzlanmış korelasyonun kapsaması,
+yinelemiştir. Düzeltilmemiş havuzlanmış korelasyonun kapsaması,
 $k = 5$, $\rho_{xy,\mu} = 0.30$'da 0.599'dan, $k = 20$,
-$\rho_{xy,\mu} = 0.50$'de tam olarak 0.000'a çökmüştür — tek bir
-tekrarın aralığı bile gerçek korelasyonu kapsamamıştır. Düzeltilmiş
+$\rho_{xy,\mu} = 0.50$'de 0.000'a inmiştir; bu son koşulda hiçbir
+tekrarın aralığı gerçek korelasyonu kapsamamıştır. Düzeltilmiş
 kestirici kapsamayı yine 0.902 ile 0.922 arasında tutmuş ve her
 heterojen hücrede RMSE'yi düzeltilmemiş havuzlanmış kestirime göre
 kabaca yarı ile üçte iki oranında azaltmıştır (ör. $k = 5$,
 $\rho_{xy,\mu} = 0.50$'de 0.169'dan 0.079'a).
 
 Düzeltilmiş kestiricinin kapsaması ise on iki koşulun tamamında
-nominal 0.95'in tutarlı biçimde altında kalmıştır (aralık:
-0.884--0.922) — Çalışma 3'te havuzlanmış *d* için elde edilen
-neredeyse nominal 0.917--0.947'den belirgin biçimde düşük. En kötü
-hücreye ($k = 5$, $\rho_{xy,\mu} = 0.50$, heterojen güvenirlik;
-$R = 1{.}000$) Knapp--Hartung düzeltmesi [@knapp2003] uygulayan ek
-bir kontrol, kapsamayı 0.898'den 0.926'ya yükseltmiştir — gerçek
-ama nominal düzeye tam ulaşmayan bir iyileşme. Bu durum, açığın
-yalnızca küçük-$k$ Wald aralığından değil, ham korelasyon
-ölçeğindeki varyansın kendisinden de kaynaklandığına işaret eder:
-Cohen *d*'sinin aksine korelasyonlar, geleneksel olarak,
-varyansı-durağanlaştıran Fisher-z dönüşümünden sonra havuzlanır —
+nominal 0.95'in altında kalmıştır (aralık: 0.884--0.922); bu,
+Çalışma 3'te havuzlanmış *d* için elde edilen 0.917--0.947'den
+belirgin biçimde düşüktür. En kötü hücreye ($k = 5$,
+$\rho_{xy,\mu} = 0.50$, heterojen güvenirlik; $R = 1{.}000$)
+Knapp--Hartung düzeltmesi [@knapp2003] uygulayan ek bir kontrol,
+kapsamayı 0.898'den 0.926'ya yükseltmiş, ancak nominal düzeye
+ulaştıramamıştır. Açığın bir bölümü bu nedenle küçük-$k$ Wald
+aralığında değil, ham korelasyon ölçeğindeki varyansın kendisinde
+aranmalıdır. Cohen *d*'sinin aksine korelasyonlar geleneksel olarak
+varyansı durağanlaştıran Fisher-z dönüşümünden sonra havuzlanır,
 çünkü örneklem varyansları $r$'ye göre büyük-örneklem formülünün
-ancak kabaca yaklaştırdığı bir biçimde değişir; bu durum, varyans
-heterojen $\rho_{xx}\rho_{yy}$'ye bölünerek şişirildiğinde daha da
-belirginleşir. `mes_meta()` ile düzeltilmiş korelasyonları havuzlayan
-araştırmacılar bu nedenle elde edilen aralığı yaklaşık olarak
-değerlendirmelidir — düzeltilmemiş korelasyonları havuzlamaktan
-çok daha iyi kalibre edilmiş, ama paketin *d*-ailesi araçlarının
-ulaştığı standardın henüz gerisinde.
+ancak kabaca yaklaştırdığı bir biçimde değişir; varyansın heterojen
+$\rho_{xx}\rho_{yy}$'ye bölünmesi bu sorunu büyütür. `mes_meta()`
+ile düzeltilmiş korelasyonları havuzlayan araştırmacılar elde edilen
+aralığı yaklaşık saymalıdır: düzeltilmemiş korelasyonları
+havuzlamaktan çok daha iyi kalibre edilmiştir, ama paketin
+*d*-ailesi araçlarının ulaştığı düzeyin gerisindedir.
 
 # 6. Tartışma
 
@@ -1070,8 +1070,8 @@ Bonett aralığı konservatif yönde sapmıştır (ortalama 0.952) ve bu en
 çok grup başına $n = 30$'da görünürdür. Anti-konservatif çıkarım daha
 büyük kaygıysa bu asimetri Bonett'i öne çıkarır. Odaklı bir
 alt-çalışmada değerlendirilen BCa bootstrap, iki analitik aralıkla
-başa baş performans göstermiş — çarpıklık altında bile onların hafif
-alt-kapsamasını onarmamış — ve bunu çok daha yüksek hesaplama
+başa baş performans göstermiş (çarpıklık altında bile onların hafif
+alt-kapsamasını onarmamış) ve bunu çok daha yüksek hesaplama
 maliyetiyle yapmıştır (Bölüm 5.2.4). Güvenirliğin 10
 maddelik bir $\alpha$ ile kestirilmesi, incelenen örneklem
 büyüklüklerinde ölçülebilir bir kapsama cezası doğurmamıştır;
@@ -1163,7 +1163,7 @@ ana çalışma (10 madde) ne de özel alt-çalışma ($n = 30$'da 4
 maddeye kadar; Bölüm 5.2.5), incelenen güvenirliklerde yalın aralık
 için kayda değer bir kapsama cezası bulmuştur; test edildiği yerde
 `rxx_se` delta-yöntemi terimi de doğru kalibre çıkmıştır. Test
-edilmeyen bölge, terimin en çok önem taşıması gereken rejimdir —
+edilmeyen bölge, terimin en çok önem taşıması gereken rejimdir:
 0.60'ın epey altındaki güvenirlikler, çok kısa testler ya da küçük
 dış kalibrasyon örneklemlerinden aktarılan kestirimler.
 $\rho_{xx}$'e önsel atayan Bayesçi bir aralık gelecekteki iş olarak
@@ -1187,26 +1187,24 @@ $(1-r^2)^2 / \left[(n-1)\,\rho_{xx}\rho_{yy}\right]$ kullanmaktadır ve
 Bölüm 5.5 bu eklentiyi, Çalışma 3'ün *d*-ailesi durumunu
 değerlendirdiği aynı yolla test etmiştir: simüle edilmiş çalışmaları
 paketin kendi `mes_meta()` ve `metafor::rma()` işlevleriyle
-havuzlayarak. Düzeltme, en çok önem taşıdığı yerde belirleyici
-olmuştur — heterojen güvenirlik altında düzeltilmemiş havuzlanmış
-korelasyonun kapsaması $k = 20$ çalışmada 0.000'a çökerken, düzeltilmiş
-kestirici kapsamayı 0.902 ile 0.922 arasında tutmuştur — ama bu
-düzeltilmiş kapsama nominal düzeyin tutarlı biçimde altında kalmıştır
-(on iki koşulun tamamında 0.884--0.922; Çalışma 3'te havuzlanmış *d*
-için elde edilen 0.917--0.947'ye karşı). Bir Knapp--Hartung kontrolü bu
+havuzlayarak. Heterojen güvenirlik altında düzeltilmemiş havuzlanmış
+korelasyonun kapsaması $k = 20$ çalışmada 0.000'a inerken,
+düzeltilmiş kestirici kapsamayı 0.902 ile 0.922 arasında tutmuştur.
+Ne var ki bu düzeltilmiş kapsama on iki koşulun tamamında nominal
+düzeyin altındadır (0.884--0.922; Çalışma 3'te havuzlanmış *d* için
+elde edilen 0.917--0.947'ye karşı). Bir Knapp--Hartung kontrolü bu
 açığı daraltmış ama kapatamamıştır; bu da eksikliğin yalnızca
-küçük-$k$ kaynaklı bir yapaylık olmadığını, aynı zamanda ham
-korelasyon ölçeğinde havuzlamadan da kaynaklandığını —
-varyansı-durağanlaştıran Fisher-z ölçeği yerine— düşündürmektedir.
-`mes_meta()` bir Fisher-z ölçekli havuzlama seçeneği sunana dek,
-araştırmacılar havuzlanmış korelasyon aralığını yaklaşık olarak
-değerlendirmelidir.
+küçük-$k$ kaynaklı bir yapaylık olmadığını, varyansı durağanlaştıran
+Fisher-z ölçeği yerine ham korelasyon ölçeğinde havuzlamadan da
+kaynaklandığını düşündürmektedir. `mes_meta()` bir Fisher-z ölçekli
+havuzlama seçeneği sunana dek, araştırmacılar havuzlanmış korelasyon
+aralığını yaklaşık olarak değerlendirmelidir.
 
 **Dengesiz-değişen varyanslı birleşik desenler.** Ana faktöriyel eşit
 grup büyüklükleri ve eşit evren varyansları kullanmıştır.
 Desen-dayanıklılığı alt-çalışması (Bölüm 5.2.6) bunu dengeli olmayan
 gruplara (1:3; B1), dengeli gruplarla varyans heterojenliğine (2:1;
-B2) ve — birleşik Behrens--Fisher koşulunda — ikisine birden, varyans
+B2) ve birleşik Behrens--Fisher koşulunda ikisine birden, varyans
 ile grup büyüklüğünün pozitif ya da negatif eşleşmesiyle (B3)
 genişletmiştir. Birleşik negatif eşleşme koşulu (küçük grup büyük
 varyansı taşır), makalenin tamamındaki tek pratik öneme sahip
@@ -1231,8 +1229,8 @@ tutarlı aralık kestirimi sunacak ve `rxx_se` delta-yöntemi aralığının
 simülasyona dayalı değerlendirmesini de beraberinde getirecektir.
 İkincisi, $d$ ve $g$
 için Welch tipi standartlaştırıcılar, düzeltmeyi grup varyanslarının
-açıkça eşit olmadığı — birleştirilmiş-SS'li kestirilecek niceliğin
-kendisinin tartışmalı hâle geldiği — desenlere genişletir.
+açıkça eşit olmadığı, birleştirilmiş-SS'li kestirilecek niceliğin
+kendisinin tartışmalı hâle geldiği desenlere genişletir.
 Üçüncüsü, tekrarlı ölçümler için etki büyüklükleri ($d_{rm}$,
 $d_{av}$) deneysel psikoloji açısından önceliklidir; orada zayıflama
 daha karmaşıktır, çünkü iki ölçüm zamanının güvenirlikleri ile
@@ -1256,8 +1254,8 @@ meta-analitik sentezde etki büyüklüklerini yapı düzeyinde geri
 kazanmak için pratik ve kuramsal temeli sağlam bir araç takımı sunar.
 
 Burada raporlanan simülasyon sonuçları, Spearman düzeltmesinin
-kuramın öngördüğü gibi çalıştığını — orta ve büyük örneklemlerde
-ihmal edilebilir RMSE bedeliyle yanlılığı giderdiğini — ve Bonett
+kuramın öngördüğü gibi çalıştığını (orta ve büyük örneklemlerde
+ihmal edilebilir RMSE bedeliyle yanlılığı giderdiğini) ve Bonett
 güven aralığının geniş bir koşul yelpazesinde nominale yakın kapsama
 sağladığını göstermektedir. Meta-analitik bulgular özel bir ağırlık
 taşır: çalışmalar arası heterojen güvenirlik gibi gerçekçi bir
