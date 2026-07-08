@@ -45,7 +45,7 @@ print.mes <- function(x, digits = 3, ...) {
     }
   }
 
-  if (!is.na(x$interpretation)) {
+  if (!is.null(x$interpretation) && !is.na(x$interpretation)) {
     cat(sprintf("\n Cohen (1988) benchmark: %s\n", x$interpretation))
   }
 
