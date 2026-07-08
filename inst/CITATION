@@ -6,6 +6,6 @@ bibentry(
   author  = c(person(given = "Fazilet Gül", family = "İnce Aracı"),
               person(given = "Eren Halil", family = "Özberk")),
   year    = "2026",
-  note    = "R package version 0.1.0",
+  note    = paste("R package version", meta$Version),
   url     = "https://github.com/gulince/measuredES"
 )

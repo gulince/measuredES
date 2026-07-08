@@ -81,6 +81,11 @@ mes_report <- function(x,
         inline_text <- paste0(inline_text,
                               sprintf("; reliability r_xx = %s",
                                       fmt(x$reliability$rxx)))
+        if (!is.null(x$reliability$ryy)) {
+          inline_text <- paste0(inline_text,
+                                sprintf(", r_yy = %s",
+                                        fmt(x$reliability$ryy)))
+        }
       } else if (!is.null(x$reliability$marginal_reliability)) {
         inline_text <- paste0(inline_text,
                               sprintf("; marginal reliability = %s",
@@ -99,8 +104,13 @@ mes_report <- function(x,
       }
       if (!is.null(x$reliability$rxx)) {
         inline_text <- paste0(inline_text,
-                              sprintf("; g\u00fcvenilirlik r_xx = %s",
+                              sprintf("; g\u00fcvenirlik r_xx = %s",
                                       fmt(x$reliability$rxx)))
+        if (!is.null(x$reliability$ryy)) {
+          inline_text <- paste0(inline_text,
+                                sprintf(", r_yy = %s",
+                                        fmt(x$reliability$ryy)))
+        }
       }
     }
   }

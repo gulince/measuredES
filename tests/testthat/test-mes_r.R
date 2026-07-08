@@ -38,3 +38,12 @@ test_that("mes_r objects print and report without error", {
   out <- mes_report(fit, style = "inline", language = "en")
   expect_true(grepl("corrected r", out))
 })
+
+test_that("mes_report includes both reliabilities for two-sided r", {
+  fit <- mes_r(r = 0.40, n = 150, rxx = 0.80, ryy = 0.75)
+  out_en <- mes_report(fit, style = "inline", language = "en")
+  expect_true(grepl("r_xx = 0.80", out_en))
+  expect_true(grepl("r_yy = 0.75", out_en))
+  out_tr <- mes_report(fit, style = "inline", language = "tr")
+  expect_true(grepl("r_yy = 0.75", out_tr))
+})
