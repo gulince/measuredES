@@ -143,8 +143,9 @@ $$\text{Var}(\hat{\delta}) \approx
   \frac{d_{\text{obs}}^2 \, \text{Var}(\hat{\rho}_{xx})}{4\rho_{xx}^{3}}.$$
 
 The second term vanishes only when $\rho_{xx}$ is known. @charles2005
-demonstrated that this omitted term can be substantial when
-$\hat{\rho}_{xx}$ is estimated from small samples or when the
+discussed the uncertainty of the estimated reliability in
+corrected coefficients; the omitted term can be expected to matter
+when $\hat{\rho}_{xx}$ is estimated from small samples or when the
 true reliability is low. `measuredES` implements the correction:
 when the standard error of the reliability estimate is supplied
 through the `rxx_se` argument, the delta-method term above is added

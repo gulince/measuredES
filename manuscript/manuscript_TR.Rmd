@@ -337,9 +337,10 @@ $$\text{Var}(\hat{\delta}) \approx
   \frac{d_{\text{göz}}^2 \, \text{Var}(\hat{\rho}_{xx})}{4\rho_{xx}^{3}}.$$
 
 İkinci terim yalnızca $\rho_{xx}$ bilindiğinde sıfırlanır. Charles
-[-@charles2005], bu ihmal edilen terimin $\hat{\rho}_{xx}$ küçük
+[-@charles2005], düzeltilmiş katsayılarda kestirilen güvenirliğin belirsizliğini
+tartışmıştır; ihmal edilen terimin $\hat{\rho}_{xx}$ küçük
 örneklemlerden kestirildiğinde ya da gerçek güvenirlik düşük
-olduğunda önemli boyutlara ulaşabileceğini göstermiştir. `measuredES`
+olduğunda önem kazanması beklenebilir. `measuredES`
 bu düzeltmeyi uygular: güvenirlik kestiriminin standart hatası
 `rxx_se` argümanıyla verildiğinde, yukarıdaki delta-yöntemi terimi
 `mes_d()` ve `mes_g()`'nin analitik varyanslarına eklenir ve aralık
@@ -367,7 +368,7 @@ büyüklüğü işlev takımı sunar ama ölçme hatası düzeltmesi içermez.
 `MBESS` [@kelley2007] etki büyüklükleri için merkezî-olmayan
 dağılımlara dayalı güven aralıkları sağlar ama Spearman düzeltmesini
 uygulamaz. `psych` [@revelle2024] psikometrik araç takımının parçası
-olarak korelasyonlar için tek yönlü zayıflama düzeltmesini destekler
+olarak korelasyonlar için zayıflama düzeltmesini destekler
 ama bunu standartlaştırılmış ortalama farklarına genişletmez.
 `psychmeta` [@dahlke2019] önceden hesaplanmış *d* değerlerini
 Hunter--Schmidt meta-analiz çerçevesi içinde güvenirsizliğe göre
@@ -1047,7 +1048,7 @@ küçük örneklemler ya da daha düşük güvenirlik gerektirmektedir.
 
 Meta-analitik simülasyon, en önemli bulguyu üretmiştir. Gerçek
 alanyazın sentezlerinde istisna değil kural olan heterojen
-güvenirlik koşulunda [@vacha1998; @mcneish2018], düzeltilmemiş
+güvenirlik koşulunda [örn. @vacha1998], düzeltilmemiş
 rastgele etkiler kestirimi ağır kapsama başarısızlığı göstermiş;
 $k = 20$ ve orta-büyük evren etkisinde 0.282'ye kadar düşmüştür.
 Düzeltilmiş kestirici baştan sona nominale yakın kapsama korumuştur.
@@ -1101,7 +1102,7 @@ olan nicelik olduğunu varsayar. Köklü bir eleştiri, gerçek puanın
 yapının kendisi olmadığını savunur: gerçek puan, varsayımsal
 tekrarlar üzerindeki beklenen gözlenen puandan ibarettir ve ona doğru
 düzeltmek, kestirimi araştırmacının önemsediği örtük niteliğe kendi
-başına yaklaştırmaz [@borsboom2004]. Bu çerçeveyi kendi uygulaması
+başına yaklaştırmaz [bkz. @borsboom2004]. Bu çerçeveyi kendi uygulaması
 için ikna edici bulmayan araştırmacılar, gözlenen etkiyi ölçme
 aracının güvenirliğiyle birlikte raporlamakla hiçbir şey kaybetmez.
 
@@ -1111,7 +1112,7 @@ gözlenen puanların kendisine ilişkinse, kestirilecek nicelik
 düzeltilmemiş etkidir ve onu düzeltmek kimsenin sormadığı bir soruyu
 yanıtlar. Güvenirlik kestirimi, etki büyüklüğünün geldiği
 popülasyondan ya da uygulamadan farklı bir kaynaktan geliyorsa
-düzeltme hatayı gidermek yerine içeri taşıyabilir [@charles2005]. Çok
+düzeltme hatayı gidermek yerine içeri taşıyabilir. Çok
 düşük güvenirlikte ise düzeltilmiş kestirim, keşifsel sayılması
 gerekecek kadar kararsızlaşır; `measuredES` $\rho_{xx} = 0.10$'un
 altında uyarı verir ama kararsızlık bunun epey üzerinde başlar. Bu

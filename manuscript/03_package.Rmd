@@ -19,7 +19,7 @@ effect-size functions with clean output and APA reporting, but
 offers no correction for measurement error. `MBESS` [@kelley2007]
 provides noncentral-distribution-based confidence intervals for
 effect sizes but does not implement the Spearman correction.
-`psych` [@revelle2024] supports one-sided attenuation correction
+`psych` [@revelle2024] supports attenuation correction
 for correlations as part of its psychometric toolkit, but does not
 extend this to standardized mean differences. `psychmeta`
 [@dahlke2019] corrects previously computed *d* values for

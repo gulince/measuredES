@@ -36,8 +36,7 @@ tests, smaller samples, or lower reliability than examined here.
 
 The meta-analytic simulation produced the most consequential finding.
 Under heterogeneous reliability, a condition that is the rule rather
-than the exception in real literature syntheses [@vacha1998;
-@mcneish2018], the uncorrected random-effects estimate showed severe
+than the exception in real literature syntheses [e.g., @vacha1998], the uncorrected random-effects estimate showed severe
 coverage failure, reaching as low as 27.9% at $k = 20$ and a
 medium-to-large population effect. The corrected estimator maintained
 near-nominal coverage throughout. This confirms empirically a point
@@ -94,7 +93,7 @@ the quantity of scientific interest. A long-standing critique holds
 that the true score is not the construct: it is merely the expected
 observed score over hypothetical replications, and correcting toward
 it does not by itself move the estimate closer to the latent
-attribute the researcher cares about [@borsboom2004]. Researchers
+attribute the researcher cares about [cf. @borsboom2004]. Researchers
 who find that framing unconvincing for their application lose
 nothing by reporting the observed effect together with the
 reliability of the measure.
@@ -105,7 +104,7 @@ themselves, as in selection decisions or descriptive benchmarking,
 the uncorrected effect is the estimand and correcting it answers a
 question nobody asked. When the reliability estimate comes from a
 different population or administration than the effect size, the
-correction can import error rather than remove it [@charles2005].
+correction can import error rather than remove it.
 And at very low reliability, the corrected estimate becomes unstable
 enough that it should be treated as exploratory; `measuredES` warns
 below $\rho_{xx} = 0.10$ but instability begins well above that.
