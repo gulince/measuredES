@@ -4,7 +4,7 @@ author: "Fazilet Gül İnce Aracı"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to measuredES}
+  %\VignetteIndexEntry{measuredES: Measurement-Corrected Effect Sizes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
