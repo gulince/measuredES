@@ -37,7 +37,7 @@ tests, smaller samples, or lower reliability than examined here.
 The meta-analytic simulation produced the most consequential finding.
 Under heterogeneous reliability, a condition that is the rule rather
 than the exception in real literature syntheses [e.g., @vacha1998], the uncorrected random-effects estimate showed severe
-coverage failure, reaching as low as 27.9% at $k = 20$ and a
+coverage failure, reaching as low as 28.2% at $k = 20$ and a
 medium-to-large population effect. The corrected estimator maintained
 near-nominal coverage throughout. This confirms empirically a point
 that @hunter2004 argued on theoretical grounds: pooling uncorrected
@@ -57,10 +57,11 @@ is the more appropriate estimate of the construct-level effect.
 `mes_report()` produces APA-7-compliant text for both.
 
 **2. Prefer the Bonett interval when undercoverage is the greater
-risk.** The Hunter--Schmidt interval fell below nominal coverage in
-61% of design cells and the Bonett interval in 30%; Bonett's
-deviations were on the conservative side, at the cost of roughly
-2% additional width. It also held at or above nominal coverage
+risk.** The Hunter--Schmidt interval's estimated coverage fell below
+0.95 in 61% of design cells and the Bonett interval's in 30%, but
+only 4% (8 of 192) and 1% (2 of 192) of cells fell below 0.94, a gap
+of about three Monte Carlo standard errors; the cost of the Bonett
+interval was roughly 2% additional width. It also held at or above nominal coverage
 under true-score variance heterogeneity, where Hunter--Schmidt
 slipped slightly (Section 5.2.6). The difference between the two is
 largest when $n < 60$ per group. The strongest empirical case came

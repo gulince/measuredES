@@ -1069,8 +1069,7 @@ kestirimi düzeltilmiş $\hat{\delta}$'dır. `mes_report()` ikisi için
 de APA-7 uyumlu metin üretir.
 
 **2. Alt-kapsama daha büyük riskse Bonett aralığını yeğleyin.**
-Hunter--Schmidt aralığı desen hücrelerinin %61'inde, Bonett aralığı ise %30'unda nominal kapsamanın altına düşmüştür; Bonett'in sapmaları
-konservatif yöndedir ve bedeli yaklaşık %2 ek genişliktir. Bonett
+Hunter--Schmidt aralığının kestirilen kapsaması desen hücrelerinin %61'inde, Bonett aralığınınki ise %30'unda 0.95'in altına düşmüştür; ancak hücrelerin yalnızca %4'ü (192'de 8) ve %1'i (192'de 2) 0.94'ün altındadır; bu fark yaklaşık üç Monte Carlo standart hatasıdır. Bonett aralığının bedeli yaklaşık %2 ek genişliktir. Bonett
 ayrıca gerçek puan varyans heterojenliği altında da nominalde ya da
 üzerinde kalmış, Hunter--Schmidt orada hafifçe kaymıştır (Bölüm
 5.2.6). İki yöntem arasındaki fark en çok grup başına $n < 60$ iken
