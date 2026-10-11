@@ -152,12 +152,7 @@ pooled correlation's coverage fell to 0.000 at $k = 20$ studies,
 while the corrected estimator held between 0.902 and 0.922. That
 corrected coverage nonetheless sits below nominal in all twelve
 conditions (0.884--0.922, versus 0.917--0.947 for pooled *d* in
-Study 3). A
-Knapp--Hartung check narrowed but did not close this gap, suggesting
-the shortfall is not purely a small-$k$ artifact but also reflects
-pooling on the raw correlation scale rather than the
-variance-stabilizing Fisher-z scale conventionally used for this
-purpose. Until `mes_meta()` offers a Fisher-z-scale pooling option,
+Study 3). The shortfall may reflect both the small number of studies and pooling on the raw correlation scale rather than the variance-stabilizing Fisher-z scale conventionally used for this purpose; this simulation did not separate the two. Until `mes_meta()` offers a Fisher-z-scale pooling option,
 researchers should treat its pooled-correlation interval as
 approximate.
 

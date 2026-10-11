@@ -727,9 +727,7 @@ kestiricinin yanlılığını örneklem büyüklüğüne göre gösterir.
 **Düzeltilmemiş kestirici.** Düzeltilmemiş Cohen $d$'si tüm
 koşullarda sistematik negatif yanlılık göstermiş; göreli yanlılık,
 kuramsal zayıflama çarpanı
-$(\sqrt{\rho_{xx}} - 1) \times 100\%$ ile örtüşmüştür:
-$\rho_{xx} = 0.60$'ta yaklaşık $-\%22$ ve $\rho_{xx} = 0.95$'te
-$-\%2.5$. $\rho_{xx} = 0.60$'ta mutlak yanlılık $\delta = 0.20$ için
+$(\sqrt{\rho_{xx}} - 1) \times 100\%$ ile yakın çıkmıştır: kuramsal değerler $\rho_{xx} = 0.60$'ta $-\%22.5$ ve $\rho_{xx} = 0.95$'te $-\%2.5$, simülasyondaki ortalama göreli yanlılıklar ise $-\%22.1$ ve $-\%1.5$ olmuştur. $\rho_{xx} = 0.60$'ta mutlak yanlılık $\delta = 0.20$ için
 $-0.044$'ten $\delta = 0.80$ için $-0.178$'e uzanmıştır (Tablo 1);
 bu, zayıflamanın çarpımsal doğasını yansıtır
 ($d_{\text{göz}} = \delta\sqrt{\rho_{xx}}$, dolayısıyla yanlılık
@@ -866,10 +864,7 @@ sıralamayı değiştirmemektedir. Puanlar standartlaştırılmış
 $\chi^2(1)$ dağılımını izlediğinde (çarpıklık $\approx 2.83$; Bölüm
 4.6) üç aralık da bozulmuştur: Hunter--Schmidt kapsaması
 0.911--0.937'ye, BCa 0.921--0.937'ye, Bonett 0.920--0.944'e
-düşmüştür. BCa, Hunter--Schmidt'e göre en fazla yaklaşık bir puan
-kazandırmış (en kötü hücrede 0.924'e karşı 0.911) ve bunu %4--8
-daha geniş aralıklarla yapmıştır; Bonett ise baştan sona ona eşit ya
-da üstün kalmıştır. Dikkat çekici biçimde kapsama
+düşmüştür. BCa, Hunter--Schmidt'e göre en fazla yaklaşık 1.3 puan kazandırmış (en kötü hücrede 0.924'e karşı 0.911) ve bunu %4--9 daha geniş aralıklarla yapmıştır; Bonett dört hücrenin üçünde BCa'ya eşit ya da üstün kalmış, istisna $n = 60$, $\rho_{xx} = 0.85$ hücresi olmuştur (0.920'ye karşı 0.924). Dikkat çekici biçimde kapsama
 $\rho_{xx} = 0.85$'te 0.60'takinden *daha kötüydü*: seyreltecek
 ölçme gürültüsü azaldıkça gerçek puanların çarpıklığı gözlenen
 puanlara daha eksiksiz geçmektedir. Pratik sonuç yönteme özgü değil,
@@ -888,8 +883,7 @@ $\rho_{xx} = 0.60$'ta 0.089'a karşı 0.089). İkincisi,
 $\hat{\alpha}$'da değerlenen yalın aralık kuramın
 düşündürebileceğinden daha dayanıklı çıkmıştır: $n = 30$'da 4
 maddelik testle bile kapsaması 0.946 ile 0.960 arasında kalmıştır.
-Belirsizliğin `rxx_se` ile yayılması kapsamayı en fazla yarım puan
-yukarı itmiş ve hiçbir hücrede aşırıya kaçmamıştır (en yüksek
+Belirsizliğin `rxx_se` ile yayılması kapsamayı en fazla yaklaşık 0.6 puan yukarı itmiş ve hiçbir hücrede aşırıya kaçmamıştır (en yüksek
 0.962). Bu desen içinde delta-yöntemi terimi doğru kalibre ama
 nadiren belirleyicidir; değeri, bu alt-çalışmanın ulaşmadığı
 koşullardadır: çok düşük güvenirlik, çok kısa testler ya da küçük
@@ -923,7 +917,7 @@ iki güvenirlik düzeyinde de nominal düzeyin yaklaşık beş yüzde puan
 altına inerek 0.898--0.908'e gerilemiştir. Bonett kısmen
 toparlanmıştır: 0.928--0.938, hâlâ nominalin altında ama belirgin
 biçimde daha yakın; negatif eşleşme altındaki daha geniş aralığı
-(HS'den ortalama %11 geniş) ise heterojenlik-dayanıklı varyansının
+(HS'den ortalama yaklaşık %10 geniş) ise heterojenlik-dayanıklı varyansının
 yükselen belirsizliği doğru biçimde saptadığını yansıtmaktadır.
 Negatif eşleşme sonucu, bu makaledeki Bonett'i tercih etmek için en
 güçlü görgül kanıttır: Hunter--Schmidt aralığının alt-kapsamasının
@@ -953,7 +947,7 @@ düzeltilmiş sürüm daha düşük RMSE göstermiştir.
 ### 5.3.2 Heterojen Güvenirlik
 
 En çarpıcı sonuçlar, $\rho_{xx}$'in çalışmalar arasında Beta(8, 4)
-dağılımına göre (ortalama $\approx 0.67$) değiştiği heterojen
+dağılımına göre ($[0.40, 0.95]$ aralığına kırpılmış; kırpılmamış ortalama $\approx 0.67$) değiştiği heterojen
 güvenirlik koşulunda ortaya çıkmıştır. Bu koşulda düzeltilmemiş
 meta-analitik kestirici ağır bir kapsama başarısızlığı yaşamış ve
 başarısızlık havuzlanan çalışma sayısı arttıkça derinleşmiştir:
@@ -1018,21 +1012,13 @@ yinelemiştir. Düzeltilmemiş havuzlanmış korelasyonun kapsaması,
 $k = 5$, $\rho_{xy,\mu} = 0.30$'da 0.599'dan, $k = 20$,
 $\rho_{xy,\mu} = 0.50$'de 0.000'a inmiştir; bu son koşulda hiçbir
 tekrarın aralığı gerçek korelasyonu kapsamamıştır. Düzeltilmiş
-kestirici kapsamayı yine 0.902 ile 0.922 arasında tutmuş ve her
-heterojen hücrede RMSE'yi düzeltilmemiş havuzlanmış kestirime göre
-kabaca yarı ile üçte iki oranında azaltmıştır (ör. $k = 5$,
+kestirici kapsamayı yine 0.902 ile 0.922 arasında tutmuş ve altı heterojen hücrede RMSE'yi düzeltilmemiş havuzlanmış kestirime göre %25 ile %74 arasında azaltmıştır; en büyük azalmalar daha büyük $k$ ve daha güçlü korelasyonlarda görülmüştür (ör. $k = 5$,
 $\rho_{xy,\mu} = 0.50$'de 0.169'dan 0.079'a).
 
 Düzeltilmiş kestiricinin kapsaması ise on iki koşulun tamamında
 nominal 0.95'in altında kalmıştır (aralık: 0.884--0.922); bu,
 Çalışma 3'te havuzlanmış *d* için elde edilen 0.917--0.947'den
-belirgin biçimde düşüktür. En kötü hücreye ($k = 5$,
-$\rho_{xy,\mu} = 0.50$, heterojen güvenirlik; $R = 1{.}000$)
-Knapp--Hartung düzeltmesi [@knapp2003] uygulayan ek bir kontrol,
-kapsamayı 0.898'den 0.926'ya yükseltmiş, ancak nominal düzeye
-ulaştıramamıştır. Açığın bir bölümü bu nedenle küçük-$k$ Wald
-aralığında değil, ham korelasyon ölçeğindeki varyansın kendisinde
-aranmalıdır. Cohen *d*'sinin aksine korelasyonlar geleneksel olarak
+belirgin biçimde düşüktür. Açık kısmen ham korelasyon ölçeğindeki varyansın kendisinden, kısmen de küçük-$k$ Wald aralığından kaynaklanıyor olabilir; bu simülasyon ikisini ayırmamıştır. Cohen *d*'sinin aksine korelasyonlar geleneksel olarak
 varyansı durağanlaştıran Fisher-z dönüşümünden sonra havuzlanır,
 çünkü örneklem varyansları $r$'ye göre büyük-örneklem formülünün
 ancak kabaca yaklaştırdığı bir biçimde değişir; varyansın heterojen
@@ -1192,11 +1178,7 @@ korelasyonun kapsaması $k = 20$ çalışmada 0.000'a inerken,
 düzeltilmiş kestirici kapsamayı 0.902 ile 0.922 arasında tutmuştur.
 Ne var ki bu düzeltilmiş kapsama on iki koşulun tamamında nominal
 düzeyin altındadır (0.884--0.922; Çalışma 3'te havuzlanmış *d* için
-elde edilen 0.917--0.947'ye karşı). Bir Knapp--Hartung kontrolü bu
-açığı daraltmış ama kapatamamıştır; bu da eksikliğin yalnızca
-küçük-$k$ kaynaklı bir yapaylık olmadığını, varyansı durağanlaştıran
-Fisher-z ölçeği yerine ham korelasyon ölçeğinde havuzlamadan da
-kaynaklandığını düşündürmektedir. `mes_meta()` bir Fisher-z ölçekli
+elde edilen 0.917--0.947'ye karşı). Bu açık hem çalışma sayısının azlığını hem de varyansı durağanlaştıran Fisher-z ölçeği yerine ham korelasyon ölçeğinde havuzlamayı yansıtıyor olabilir; bu simülasyon ikisini ayırmamıştır. `mes_meta()` bir Fisher-z ölçekli
 havuzlama seçeneği sunana dek, araştırmacılar havuzlanmış korelasyon
 aralığını yaklaşık olarak değerlendirmelidir.
 

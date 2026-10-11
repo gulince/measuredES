@@ -9,10 +9,7 @@ reliability; Figure 1 displays the bias of both estimators by sample
 size.
 
 **Uncorrected estimator.** The uncorrected Cohen's $d$ showed
-systematic negative bias across all conditions, with the relative bias
-matching the theoretical attenuation factor
-$(\sqrt{\rho_{xx}} - 1) \times 100\%$: approximately $-22\%$ at
-$\rho_{xx} = 0.60$ and $-2.5\%$ at $\rho_{xx} = 0.95$. At
+systematic negative bias across all conditions, with the relative bias close to the theoretical attenuation factor $(\sqrt{\rho_{xx}} - 1) \times 100\%$, which is $-22.5\%$ at $\rho_{xx} = 0.60$ and $-2.5\%$ at $\rho_{xx} = 0.95$; the simulated mean relative biases were $-22.1\%$ and $-1.5\%$. At
 $\rho_{xx} = 0.60$, the absolute bias ranged from $-0.044$ for
 $\delta = 0.20$ to $-0.178$ for $\delta = 0.80$ (Table 1), reflecting the
 multiplicative nature of the attenuation ($d_{\text{obs}} =
@@ -146,10 +143,7 @@ Severe skewness changes the picture for every method, but not the
 ranking. When scores followed a standardized $\chi^2(1)$
 distribution (skewness $\approx 2.83$; Section 4.6), all three
 intervals degraded: Hunter--Schmidt coverage fell to 0.911--0.937,
-BCa to 0.921--0.937, and Bonett to 0.920--0.944. BCa recovered at
-most about one percentage point over Hunter--Schmidt (0.924 vs.
-0.911 in the worst cell) while running 4--8% wider, and Bonett
-matched or beat it throughout. Notably, coverage was *worse* at
+BCa to 0.921--0.937, and Bonett to 0.920--0.944. BCa recovered at most about 1.3 percentage points over Hunter--Schmidt (0.924 vs. 0.911 in the worst cell) while running 4--9% wider; Bonett matched or beat BCa in three of the four cells, the exception being $n = 60$, $\rho_{xx} = 0.85$ (0.920 vs. 0.924). Notably, coverage was *worse* at
 $\rho_{xx} = 0.85$ than at 0.60: with less measurement noise to
 dilute it, the skewness of the true scores passes through to the
 observed scores more fully. The practical conclusion is sobering
@@ -169,8 +163,7 @@ $\rho_{xx} = 0.60$). Second, the naive interval evaluated at
 $\hat{\alpha}$ proved more robust than theory might suggest: even
 with a 4-item test at $n = 30$, its coverage stayed between 0.946
 and 0.960. Propagating the uncertainty through `rxx_se`
-correspondingly nudged coverage up by at most half a percentage
-point without ever overshooting (maximum 0.962). Within this
+correspondingly nudged coverage up by at most about 0.6 percentage points without ever overshooting (maximum 0.962). Within this
 design, then, the delta-method term is correctly calibrated but
 rarely consequential; its value lies in settings this sub-study did
 not reach: very low reliability, very short tests, or reliability
@@ -203,7 +196,7 @@ procedures, Hunter--Schmidt fell to 0.898--0.908, a five-percentage-
 point deficit below nominal that persisted across both sample sizes
 and both reliability levels. Bonett recovered partially: 0.928--0.938,
 still below nominal but substantially closer, and its wider interval
-under negative pairing (mean 11% wider than HS) reflects that the
+under negative pairing (on average about 10% wider than HS) reflects that the
 heteroscedasticity-robust variance correctly identified elevated
 uncertainty. The negative-pairing result is the strongest empirical
 case in this paper for preferring Bonett: it is the one condition in
@@ -233,8 +226,7 @@ showing lower RMSE at $k = 20$ due to the elimination of bias.
 ### 5.3.2 Heterogeneous Reliability
 
 The most striking results emerged under heterogeneous reliability,
-where $\rho_{xx}$ varied across studies according to a Beta(8, 4)
-distribution (mean $\approx 0.67$). In this condition, the
+where $\rho_{xx}$ varied across studies according to a Beta(8, 4) distribution truncated to $[0.40, 0.95]$ (untruncated mean $\approx 0.67$). In this condition, the
 uncorrected meta-analytic estimator suffered severe coverage
 failure, and the failure worsened as more studies were pooled:
 coverage of the uncorrected estimate fell from 0.854 at $k = 5$,
@@ -300,19 +292,11 @@ extreme form. The uncorrected pooled correlation's coverage fell
 from 0.599 at $k = 5$, $\rho_{xy,\mu} = 0.30$ to 0.000 at $k = 20$,
 $\rho_{xy,\mu} = 0.50$, where no replicate's interval contained the
 true correlation. The corrected estimator again held coverage
-between 0.902 and 0.922, and cut RMSE by roughly half to two-thirds
-relative to the uncorrected pooled estimate in every heterogeneous
-cell (e.g., 0.169 to 0.079 at $k = 5$, $\rho_{xy,\mu} = 0.50$).
+between 0.902 and 0.922, and cut RMSE by 25% to 74% relative to the uncorrected pooled estimate across the six heterogeneous cells, with the largest reductions at larger $k$ and stronger correlations (e.g., 0.169 to 0.079 at $k = 5$, $\rho_{xy,\mu} = 0.50$).
 
 The corrected estimator's coverage, however, sits below the nominal
 0.95 in all twelve conditions (range: 0.884--0.922), noticeably
-lower than Study 3's 0.917--0.947 for pooled *d*. A supplementary
-check applying the Knapp--Hartung adjustment [@knapp2003] to the
-single worst cell ($k = 5$, $\rho_{xy,\mu} = 0.50$, heterogeneous
-reliability; $R = 1{,}000$) raised coverage from 0.898 to 0.926, an
-improvement that still leaves a gap to nominal. Part of the
-shortfall therefore lies in the raw-correlation-scale variance
-itself, not only in the small-$k$ Wald interval. Unlike Cohen's
+lower than Study 3's 0.917--0.947 for pooled *d*. The shortfall may lie partly in the raw-correlation-scale variance itself and partly in the small-$k$ Wald interval; this simulation did not separate the two. Unlike Cohen's
 *d*, correlations are conventionally pooled after a
 variance-stabilizing Fisher-z transform, because their sampling
 variance depends on $r$ in a way the large-sample formula
