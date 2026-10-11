@@ -1018,7 +1018,7 @@ $\rho_{xy,\mu} = 0.50$'de 0.169'dan 0.079'a).
 Düzeltilmiş kestiricinin kapsaması ise on iki koşulun tamamında
 nominal 0.95'in altında kalmıştır (aralık: 0.884--0.922); bu,
 Çalışma 3'te havuzlanmış *d* için elde edilen 0.917--0.947'den
-belirgin biçimde düşüktür. Açık kısmen ham korelasyon ölçeğindeki varyansın kendisinden, kısmen de küçük-$k$ Wald aralığından kaynaklanıyor olabilir; bu simülasyon ikisini ayırmamıştır. Cohen *d*'sinin aksine korelasyonlar geleneksel olarak
+belirgin biçimde düşüktür. Ek bir çalışma (`analysis/08_knapp_hartung_check.R`; aynı tasarım, hücre başına $R = 1{.}000$, yeniden üretilmiş tekrarlar; bu nedenle 0.881--0.939 olan Wald kapsaması Tablo 7'den Monte Carlo hatası kadar farklıdır) aynı tekrarlara Knapp--Hartung düzeltmesini [@knapp2003] uygulamıştır. Düzeltme on iki koşulun tamamında kapsamayı 0.916--0.943'e yükseltmiştir. Kazanç $k = 5$'te en büyük (ör. heterojen güvenirlikte $\rho_{xy,\mu} = 0.50$ için 0.881'den 0.929'a), $k = 20$'de en küçük olmuştur; $k = 20$ ve $\rho_{xy,\mu} = 0.50$'de kapsama heterojen güvenirlikte 0.917, homojen güvenirlikte 0.935 kalmıştır. Açığın bir bölümü bu nedenle küçük-$k$ Wald aralığını, bir bölümü ise daha büyük $k$'de de sürdüğü için ham korelasyon ölçeğindeki varyansın katkısıyla tutarlı bir kalıntıyı yansıtmaktadır; bu simülasyon o katkıyı ayrıca ölçmemiştir. Cohen *d*'sinin aksine korelasyonlar geleneksel olarak
 varyansı durağanlaştıran Fisher-z dönüşümünden sonra havuzlanır,
 çünkü örneklem varyansları $r$'ye göre büyük-örneklem formülünün
 ancak kabaca yaklaştırdığı bir biçimde değişir; varyansın heterojen
@@ -1178,7 +1178,7 @@ korelasyonun kapsaması $k = 20$ çalışmada 0.000'a inerken,
 düzeltilmiş kestirici kapsamayı 0.902 ile 0.922 arasında tutmuştur.
 Ne var ki bu düzeltilmiş kapsama on iki koşulun tamamında nominal
 düzeyin altındadır (0.884--0.922; Çalışma 3'te havuzlanmış *d* için
-elde edilen 0.917--0.947'ye karşı). Bu açık hem çalışma sayısının azlığını hem de varyansı durağanlaştıran Fisher-z ölçeği yerine ham korelasyon ölçeğinde havuzlamayı yansıtıyor olabilir; bu simülasyon ikisini ayırmamıştır. `mes_meta()` bir Fisher-z ölçekli
+elde edilen 0.917--0.947'ye karşı). Bir Knapp--Hartung düzeltmesi açığın büyük bölümünü $k = 5$'te kapatmış, $k = 20$'de kapatamamıştır (Bölüm 5.5); dolayısıyla eksiklik yalnızca küçük-$k$ kaynaklı bir yapaylık değildir ve varyansı durağanlaştıran Fisher-z ölçeği yerine ham korelasyon ölçeğinde havuzlamayı da yansıtıyor olabilir. `mes_meta()` bir Fisher-z ölçekli
 havuzlama seçeneği sunana dek, araştırmacılar havuzlanmış korelasyon
 aralığını yaklaşık olarak değerlendirmelidir.
 

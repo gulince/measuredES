@@ -296,7 +296,7 @@ between 0.902 and 0.922, and cut RMSE by 25% to 74% relative to the uncorrected 
 
 The corrected estimator's coverage, however, sits below the nominal
 0.95 in all twelve conditions (range: 0.884--0.922), noticeably
-lower than Study 3's 0.917--0.947 for pooled *d*. The shortfall may lie partly in the raw-correlation-scale variance itself and partly in the small-$k$ Wald interval; this simulation did not separate the two. Unlike Cohen's
+lower than Study 3's 0.917--0.947 for pooled *d*. A supplementary run (`analysis/08_knapp_hartung_check.R`; same design, $R = 1{,}000$ per cell, freshly drawn replicates, so its Wald coverage of 0.881--0.939 differs from Table 7 by Monte Carlo error) applied the Knapp--Hartung adjustment [@knapp2003] to the same replicates. It raised coverage in all twelve conditions, to 0.916--0.943. The gain was largest at $k = 5$ (e.g., 0.881 to 0.929 at $\rho_{xy,\mu} = 0.50$ with heterogeneous reliability) and smallest at $k = 20$, where coverage at $\rho_{xy,\mu} = 0.50$ stayed at 0.917 under heterogeneous and 0.935 under homogeneous reliability. Part of the shortfall therefore reflects the small-$k$ Wald interval, and part persists at larger $k$, which is consistent with a contribution from the raw-correlation-scale variance; this simulation did not isolate that contribution. Unlike Cohen's
 *d*, correlations are conventionally pooled after a
 variance-stabilizing Fisher-z transform, because their sampling
 variance depends on $r$ in a way the large-sample formula
