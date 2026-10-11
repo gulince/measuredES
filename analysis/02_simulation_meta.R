@@ -4,7 +4,8 @@
 # reliability and sample size.
 
 rm(list = ls())
-set.seed(2026)
+# Reproducibility: seeds are set per condition inside run_meta_condition()
+# (base 20262000 + condition_id); results do not depend on core count.
 
 source("analysis/00_helpers.R")
 
@@ -13,7 +14,8 @@ suppressMessages({
   library(metafor)
 })
 
-n_cores <- max(1L, parallel::detectCores() - 1L)
+n_cores <- as.integer(Sys.getenv("MES_CORES",
+                                 max(1L, parallel::detectCores() - 1L)))
 
 
 # ---- Design ----
@@ -92,6 +94,8 @@ simulate_one_meta <- function(k, delta_mean, rho_pattern) {
 
 
 run_meta_condition <- function(cond_row, R = R_REPS_META) {
+
+  set.seed(20262000L + cond_row$condition_id)
   reps <- vector("list", R)
   for (r in seq_len(R)) {
     reps[[r]] <- simulate_one_meta(cond_row$k_studies,

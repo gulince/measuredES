@@ -6,7 +6,9 @@
 # added in response to review, in an actual metafor::rma() pooling step.
 
 rm(list = ls())
-set.seed(2026)
+# Reproducibility: seeds are set per condition inside
+# run_meta_r_condition() (base 20263000 + condition_id); results do not
+# depend on core count.
 
 if (!requireNamespace("measuredES", quietly = TRUE)) {
   devtools::load_all(".")
@@ -18,7 +20,8 @@ suppressMessages({
   library(metafor)
 })
 
-n_cores <- max(1L, parallel::detectCores() - 1L)
+n_cores <- as.integer(Sys.getenv("MES_CORES",
+                                 max(1L, parallel::detectCores() - 1L)))
 
 
 # ---- Design (mirrors Study 3's k/reliability-pattern crossing) ----
@@ -97,6 +100,8 @@ simulate_one_meta_r <- function(k, rho_xy_mean, rel_pattern) {
 
 
 run_meta_r_condition <- function(cond_row, R = R_REPS_META_R) {
+
+  set.seed(20263000L + cond_row$condition_id)
   reps <- vector("list", R)
   for (r in seq_len(R)) {
     reps[[r]] <- simulate_one_meta_r(cond_row$k_studies,

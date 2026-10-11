@@ -59,9 +59,24 @@ source("analysis/07_simulation_meta_correlation.R")
 
 ## Reproducibility
 
-All scripts begin with `set.seed(2026)`. Results may show minor
-differences across operating systems due to parallel RNG; the number of
-cores used should be reported alongside manuscript results.
+Every simulation condition is seeded individually inside its own worker
+process, so the results do not depend on the number of cores, the
+operating system, or the order in which the parallel backend schedules
+the conditions. Rerunning a script with the same R and package versions
+reproduces its results exactly. The seeds are:
+
+| Script | Seed for condition / cell `id` |
+|---|---|
+| `01_simulation_main.R` (Studies 1-2) | `20261000 + condition_id` |
+| `02_simulation_meta.R` (Study 3) | `20262000 + condition_id` |
+| `05_simulation_bootstrap.R` | `20260000 + cell_id` |
+| `06_simulation_substudies.R` (A, B, C, D) | `20270000`, `20280000`, `20290000`, `20300000` `+ cell_id` |
+| `07_simulation_meta_correlation.R` | `20263000 + condition_id` |
+| `08_knapp_hartung_check.R` | single sequential stream, `set.seed(20261011)` |
+
+The reported results were produced with R 4.1.2 (metafor 3.0.2). Set the
+environment variable `MES_CORES` to choose the number of worker processes
+in scripts 01, 02 and 07.
 
 ## Design notes
 

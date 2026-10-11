@@ -46,7 +46,7 @@ yanlı kaldı ve havuzlanmış kestirimin kapsaması $k = 20$ çalışmada
 *d* için 0.28'e (korelasyonlar için 0.00'a) kadar düştü. Her çalışmanın
 tek tek düzeltilmesi *d* için kapsamayı neredeyse nominal düzeye
 geri getirdi; havuzlanmış korelasyonlarda ise kapsama yalnızca
-0.88--0.92 aralığına ulaştı. Bu sonuçların raporlama pratiği ve meta-analitik
+0.89--0.94 aralığına ulaştı. Bu sonuçların raporlama pratiği ve meta-analitik
 sentez için ne anlama geldiğini ve düzeltmenin uygulamalı
 çalışmalarda hangi koşullarda savunulabilir olduğunu tartışıyoruz.
 
@@ -510,10 +510,7 @@ kareleri ortalamasının karekökünü (RMSE) incelemiştir. Çalışma 2,
 Hunter--Schmidt ve Bonett güven aralıklarının kapsama olasılığını ve
 genişliğini incelemiş; odaklı bir alt-çalışma BCa bootstrap'ı da
 eklemiştir (Bölüm 4.5). Çalışma 3, güvenirlik heterojenliğinin
-meta-analitik bağlamdaki sonuçlarını incelemiştir. Tüm simülasyonlar
-R'da (sürüm 4.5.3) `parallel` paketiyle çok çekirdekli olarak
-yürütülmüş; her çalışmada yeniden üretilebilirlik için
-`set.seed(2026)` kullanılmıştır. Simülasyon kodunun tamamına
+meta-analitik bağlamdaki sonuçlarını incelemiştir. Tüm simülasyonlar R'da (sürüm 4.1.2, metafor 3.0.2) `parallel` paketiyle çok çekirdekli olarak yürütülmüştür. Her simülasyon koşulu kendi işçi sürecinin içinde ayrı bir tohumla başlatılmış; böylece sonuçlar çekirdek sayısına ya da işletim sisteminin paralel altyapısına bağlı değildir ve bir betiğin yeniden çalıştırılması bildirilen sonuçları yeniden üretir. Tohumlar `analysis/README.md` dosyasında listelenmiştir. Simülasyon kodunun tamamına
 https://github.com/gulince/measuredES adresinden erişilebilir.
 
 ## 4.2 Veri Üretim Modeli
@@ -600,8 +597,7 @@ doğrultusunda bu kestirimlerin Monte Carlo belirsizliğini not
 ediyoruz. $R = 5{.}000$ iken nominal 0.95 yakınındaki bir kapsama
 kestiriminin Monte Carlo standart hatası
 $\sqrt{0.95 \times 0.05 / 5000} \approx 0.003$'tür; yanlılık
-kestirimlerinin Monte Carlo standart hatası tüm koşullarda 0.005'in
-altında kalır. Her koşulda 5.000 tekrarın tamamı başarıyla
+kestirimlerinin Monte Carlo standart hatası hiçbir koşulda yaklaşık 0.005'i aşmaz. Her koşulda 5.000 tekrarın tamamı başarıyla
 tamamlanmıştır.
 
 ## 4.4 Çalışma 3 Deseni
@@ -727,8 +723,8 @@ kestiricinin yanlılığını örneklem büyüklüğüne göre gösterir.
 **Düzeltilmemiş kestirici.** Düzeltilmemiş Cohen $d$'si tüm
 koşullarda sistematik negatif yanlılık göstermiş; göreli yanlılık,
 kuramsal zayıflama çarpanı
-$(\sqrt{\rho_{xx}} - 1) \times 100\%$ ile yakın çıkmıştır: kuramsal değerler $\rho_{xx} = 0.60$'ta $-\%22.5$ ve $\rho_{xx} = 0.95$'te $-\%2.5$, simülasyondaki ortalama göreli yanlılıklar ise $-\%22.1$ ve $-\%1.5$ olmuştur. $\rho_{xx} = 0.60$'ta mutlak yanlılık $\delta = 0.20$ için
-$-0.044$'ten $\delta = 0.80$ için $-0.178$'e uzanmıştır (Tablo 1);
+$(\sqrt{\rho_{xx}} - 1) \times 100\%$ ile yakın çıkmıştır: kuramsal değerler $\rho_{xx} = 0.60$'ta $-\%22.5$ ve $\rho_{xx} = 0.95$'te $-\%2.5$, simülasyondaki ortalama göreli yanlılıklar ise $-\%21.5$ ve $-\%2.1$ olmuştur. $\rho_{xx} = 0.60$'ta mutlak yanlılık $\delta = 0.20$ için
+$-0.041$'ten $\delta = 0.80$ için $-0.178$'e uzanmıştır (Tablo 1);
 bu, zayıflamanın çarpımsal doğasını yansıtır
 ($d_{\text{göz}} = \delta\sqrt{\rho_{xx}}$, dolayısıyla yanlılık
 $= \delta(\sqrt{\rho_{xx}} - 1)$). Bu örüntü, ölçme hatasını yok
@@ -736,8 +732,8 @@ saymanın gerçek etkiyi tutarlı biçimde küçümsettiğini doğrular.
 
 **Düzeltilmiş kestirici.** Spearman düzeltmeli kestirici tüm
 koşullarda esasen yansızdı. Mutlak yanlılık $\rho_{xx} = 0.60$,
-$\delta = 0.80$, $n = 30$ koşulunda $0.008$ olmuş ve tüm desende
-$\pm 0.026$ içinde kalmıştır. $n = 30$'daki küçük pozitif sapmalar,
+$\delta = 0.80$, $n = 30$ koşulunda $0.007$ olmuş ve tüm desende
+$\pm 0.025$ içinde kalmıştır. $n = 30$'daki küçük pozitif sapmalar,
 paydadaki birleştirilmiş standart sapma yoluyla giren ve Hedges
 düzeltmesinin hedeflediği, Cohen $d$'sinin bilinen küçük örneklem
 yanlılığıyla örtüşmektedir (Bölüm 2.2).
@@ -746,12 +742,11 @@ yanlılığıyla örtüşmektedir (Bölüm 2.2).
 ($n = 30$) düzeltilmemiş kestiriciden daha yüksek RMSE göstermiştir;
 bu, düzeltmenin getirdiği varyans şişmesinin iyi bilinen bir
 sonucudur [@charles2005]. $n = 30$, $\rho_{xx} = 0.60$ ve
-$\delta = 0.80$'de RMSE 0.319'dan (düzeltilmemiş) 0.345'e
+$\delta = 0.80$'de RMSE 0.323'ten (düzeltilmemiş) 0.350'ye
 (düzeltilmiş) yükselmiştir. Bu ödünleşimin nerede tersine döndüğü,
 giderilecek yanlılığın miktarına bağlıdır. $\rho_{xx} = 0.60$ ve
 $\delta = 0.80$'de düzeltilmiş kestiricinin RMSE'si $n = 60$'tan
-itibaren daha düşüktü (0.245'e karşı 0.261; $n = 240$'ta 0.122'ye
-karşı 0.204'e açılarak); $\rho_{xx} = 0.75$--$0.85$'te kesişme
+itibaren daha düşüktü (0.247'ye karşı 0.261; $n = 240$'ta 0.122'ye karşı 0.203'e açılarak); $\rho_{xx} = 0.75$--$0.85$'te kesişme
 $n = 120$ dolayına gelmiş; giderilecek yanlılığın az olduğu
 $\rho_{xx} = 0.95$'te ise iki kestiricinin RMSE'leri yalnızca
 birbirine yakınsamıştır.
@@ -759,7 +754,7 @@ birbirine yakınsamıştır.
 **Puan dağılımının etkisi.** Çarpık dağılım altındaki nokta
 kestirimi, normal dağılımdakiyle içeriksel olarak benzerdi: düzeltme
 esasen yansız kalmış ve eşleşen dağılım koşulları arasındaki RMSE
-farkları küçük olmuştur (en büyük mutlak fark 0.016). Bu
+farkları küçük olmuştur (en büyük mutlak fark 0.017). Bu
 beklenendir; çünkü düzeltme, $d$'nin çarpımsal bir yeniden
 ölçeklenmesidir ve yanlılık davranışı normalliğe bağlı değildir.
 Bununla birlikte çarpıklık, Bölüm 5.2.1'de raporlandığı gibi aralık
@@ -768,7 +763,7 @@ kapsamasını etkilemiştir.
 **Güvenirlik kestiriminin etkisi.** $\rho_{xx}$ bilinen kabul edilmek
 yerine Cronbach $\alpha$'sıyla kestirildiğinde, düzeltilmiş kestirici
 esasen yansız kalmıştır (kestirilen-güvenirlik koşullarında en büyük
-$|\text{yanlılık}| = 0.021$). Çalışma 2'nin gösterdiği gibi,
+$|\text{yanlılık}| = 0.025$). Çalışma 2'nin gösterdiği gibi,
 incelenen test uzunluğu ve örneklem büyüklüklerinde aralık kapsaması
 da etkilenmemiştir.
 
@@ -782,9 +777,7 @@ gösterir.
 
 **Bilinen güvenirlik.** $\rho_{xx}$ bilinen kabul edildiğinde hem
 Hunter--Schmidt hem de Bonett aralıkları tüm koşullarda nominale
-yakın kapsama sağlamıştır. Hunter--Schmidt kapsaması 0.936 ile 0.959
-arasında değişmiş, ortalaması 0.948 olmuştur. Bonett kapsaması 0.938
-ile 0.963 arasında değişmiş, ortalaması 0.952 olmuştur. Bonett'in
+yakın kapsama sağlamıştır. Hunter--Schmidt kapsaması 0.937 ile 0.955 arasında değişmiş, ortalaması 0.947 olmuştur. Bonett kapsaması 0.938 ile 0.965 arasında değişmiş, ortalaması 0.952 olmuştur. Bonett'in
 değişen-varyansa-dayanıklı varyansı, $t$ tabanlı kritik değerle
 birlikte, özellikle küçük örneklem düzeltmesinin en çok önem taşıdığı
 grup başına $n = 30$ koşulunda, ortalamada bir miktar daha yüksek
@@ -792,9 +785,7 @@ kapsama üretmiştir.
 
 **Kestirilen güvenirlik.** $\rho_{xx}$'in 10 maddelik bir testten
 $\alpha$ katsayısıyla kestirilmesi ölçülebilir bir kapsama cezası
-doğurmamıştır: ortalama Hunter--Schmidt kapsaması bilinen ve
-kestirilen koşulların ikisinde de 0.948, Bonett kapsaması da benzer
-biçimde değişmeden 0.952 olmuştur. Bu test uzunluklarında ve örneklem
+doğurmamıştır: ortalama Hunter--Schmidt kapsaması bilinen güvenirlikte 0.947, kestirilen güvenirlikte 0.949 olmuş; Bonett kapsaması da benzer biçimde büyük ölçüde değişmemiştir (0.952'ye karşı 0.953). Bu test uzunluklarında ve örneklem
 büyüklüklerinde $\hat{\alpha}$'nın örnekleme varyansı, ihmal edilen
 güvenirlik-belirsizliği teriminin (Bölüm 2.3.4) fark yaratamayacağı
 kadar küçüktür. Bu bulgu genel bir serbestlik olarak okunmamalıdır:
@@ -805,8 +796,7 @@ kalır ve nominalin altında kapsayabilir.
 
 **Çarpıklığın kapsamaya etkisi.** Desendeki en düşük kapsama
 değerleri, çarpık dağılımın $\delta = 0.80$ ile birleştiği
-koşullarda ortaya çıkmış; Hunter--Schmidt kapsaması 0.930'a, Bonett
-kapsaması 0.935'e düşmüştür. Düşüş mütevazı ama sistematikti ve iki
+koşullarda ortaya çıkmış; Hunter--Schmidt kapsaması 0.937'ye, Bonett kapsaması 0.938'e düşmüştür. Düşüş mütevazı ama sistematikti ve iki
 aralığı da etkiledi; iki varyans formülü de birleştirilmiş standart
 sapmanın çarpıklık altındaki ek örnekleme değişkenliğini tam olarak
 soğuramamaktadır.
@@ -827,11 +817,7 @@ varyans şişirme çarpanı $1/\rho_{xx}$'i küçültür.
 Desen üzerinden ortalandığında kaçırma oranları simetrikti: alt ve
 üst kuyruk oranlarının ortalaması, nominal $\alpha/2 = 0.025$'e
 karşılık Hunter--Schmidt için 0.026 ile 0.026, Bonett için 0.024 ile
-0.024 olmuştur. Tekil hücreler nominal kuyruk oranından en çok 0.018
-sapmıştır. En büyük asimetri, $n = 240$, $\rho_{xx} = 0.60$ ve
-kestirilen güvenirlik koşulunda ortaya çıkmış; Hunter--Schmidt
-aralıklarının %4.3'ü gerçek etkinin tamamen altında, %1.6'sı ise
-tamamen üstünde kalmıştır. Bu aşağı yönlü kayma,
+0.024 olmuştur. Tekil hücreler nominal kuyruk oranından en çok 0.016 sapmıştır. En büyük asimetri, $n = 240$, $\rho_{xx} = 0.60$, $\delta = 0.80$, kestirilen güvenirlik ve çarpık puanlar koşulunda ortaya çıkmış; Hunter--Schmidt aralıklarının %4.1'i gerçek etkinin tamamen altında, %1.5'i ise tamamen üstünde kalmıştır. Bu aşağı yönlü kayma,
 $\hat{\alpha}$'da gözlediğimiz küçük yukarı yönlü yanlılıkla
 ($\rho_{xx} = 0.60$'ta ortalama 0.610) tutarlıdır: bu yanlılık
 düzeltilmiş kestirimi hafifçe küçültür ve aralıklar daraldıkça
@@ -935,12 +921,10 @@ kestirimlerin yanlılığını gösterir.
 Homojen güvenirlik altında (tüm çalışmalarda $\rho_{xx} = 0.85$)
 düzeltilmemiş meta-analitik kestirici, tüm birincil çalışmaların
 paylaştığı tekbiçimli zayıflamayı yansıtan mütevazı ama tutarlı bir
-negatif yanlılık göstermiştir (ranj: $-0.024$ ile $-0.041$).
-Düzeltilmemiş havuzlanmış kestirimin kapsaması 0.829 ile 0.911
-arasında kalmış; en yalın senaryoda bile nominal 0.95 düzeyinin
-belirgin altına düşmüştür. Düzeltilmiş kestirici bu yanlılığı ortadan
-kaldırmış (ranj: $-0.004$ ile $0.002$) ve kapsamayı nominale yakın
-düzeylere (0.917--0.940) geri getirmiştir. RMSE iki kestirici
+negatif yanlılık göstermiştir (ranj: $-0.018$ ile $-0.038$).
+Düzeltilmemiş havuzlanmış kestirimin kapsaması 0.794 ile 0.935 arasında kalmış; en yalın senaryoda bile her koşulda nominal 0.95 düzeyinin altında kalmıştır. Düzeltilmiş kestirici bu yanlılığı ortadan
+kaldırmış (ranj: $-0.001$ ile $0.005$) ve kapsamayı nominale yakın
+düzeylere (0.926--0.947) geri getirmiştir. RMSE iki kestirici
 arasında benzerdi; yanlılığın giderilmesi sayesinde $k = 20$'de
 düzeltilmiş sürüm daha düşük RMSE göstermiştir.
 
@@ -952,7 +936,7 @@ güvenirlik koşulunda ortaya çıkmıştır. Bu koşulda düzeltilmemiş
 meta-analitik kestirici ağır bir kapsama başarısızlığı yaşamış ve
 başarısızlık havuzlanan çalışma sayısı arttıkça derinleşmiştir:
 düzeltilmemiş kestirimin kapsaması $k = 5$, $\delta_{\mu} = 0.30$'da
-0.854'ten $k = 20$, $\delta_{\mu} = 0.50$'de 0.279'a düşmüştür
+0.855'ten $k = 20$, $\delta_{\mu} = 0.50$'de 0.282'ye düşmüştür
 (Tablo 2, heterojen satırlar); ikinci koşulda aralık, gerçek etkiyi
 tekrarların %70'inden fazlasında kaçırmıştır.
 
@@ -960,11 +944,11 @@ Bu vahim alt-kapsamanın nedeni, güvenirlik heterojenliğinin,
 $\delta$'daki gerçek heterojenlikle karışan bir çalışmalar arası
 varyans üretmesidir; rastgele etkiler modeli bu kaynakları düzeltme
 olmaksızın ayrıştıramaz. Buna karşılık düzeltilmiş kestirici tüm
-heterojen koşullarda kapsamayı 0.920 ile 0.947 arasında korumuştur.
+heterojen koşullarda kapsamayı 0.930 ile 0.945 arasında korumuştur.
 
 Düzeltilmiş kestiricinin RMSE üstünlüğü heterojen güvenirlik altında
 özellikle belirgindi. $k = 20$, $\delta_{\mu} = 0.50$'de RMSE
-0.101'den (düzeltilmemiş) 0.045'e (düzeltilmiş) inmiştir: %56'lık
+0.102'den (düzeltilmemiş) 0.045'e (düzeltilmiş) inmiştir: %56'lık
 bir azalma. O hâlde gerçekçi güvenirlik heterojenliği altında
 düzeltilmemiş bir meta-analiz, havuzlanmış kestirimi küçültmekle
 kalmaz: yanlış büyüklüğü, hak edilmemiş bir kesinlikle raporlar.
@@ -998,27 +982,23 @@ $(1-r^2)^2/[(n-1)\rho_{xx}\rho_{yy}]$ varyansı üzerinden, gerçek bir
 `metafor::rma()` rastgele etkiler analiziyle havuzlanmıştır.
 
 Homojen güvenirlik altında, düzeltilmemiş havuzlanmış korelasyon
-gerçek korelasyonla birlikte büyüyen $-0.039$ ile $-0.066$ arası bir
+gerçek korelasyonla birlikte büyüyen $-0.037$ ile $-0.067$ arası bir
 yanlılık taşımış ve kapsaması, en küçük gerçek etki ve en az
-çalışma sayısında 0.836'dan, $k = 20$, $\rho_{xy,\mu} = 0.50$'de
-0.336'ya düşmüştür: havuzlanan çalışma sayısı arttıkça aralık, yanlı
+çalışma sayısında 0.837'den, $k = 20$, $\rho_{xy,\mu} = 0.50$'de 0.339'a düşmüştür: havuzlanan çalışma sayısı arttıkça aralık, yanlı
 kestirimin etrafında daralmakta ve gerçek değeri giderek daha sık
 kaçırmaktadır. Düzeltilmiş kestiricinin
-yanlılığı küçük kalmış (0.007 ile 0.013) ve kapsaması 0.884 ile
-0.922 arasında tutunmuştur.
+yanlılığı küçük kalmış (0.005 ile 0.013) ve kapsaması 0.886 ile 0.937 arasında tutunmuştur.
 
 Heterojen güvenirlik, Çalışma 3'ün örüntüsünü daha uç bir biçimde
 yinelemiştir. Düzeltilmemiş havuzlanmış korelasyonun kapsaması,
-$k = 5$, $\rho_{xy,\mu} = 0.30$'da 0.599'dan, $k = 20$,
+$k = 5$, $\rho_{xy,\mu} = 0.30$'da 0.597'den, $k = 20$,
 $\rho_{xy,\mu} = 0.50$'de 0.000'a inmiştir; bu son koşulda hiçbir
 tekrarın aralığı gerçek korelasyonu kapsamamıştır. Düzeltilmiş
-kestirici kapsamayı yine 0.902 ile 0.922 arasında tutmuş ve altı heterojen hücrede RMSE'yi düzeltilmemiş havuzlanmış kestirime göre %25 ile %74 arasında azaltmıştır; en büyük azalmalar daha büyük $k$ ve daha güçlü korelasyonlarda görülmüştür (ör. $k = 5$,
-$\rho_{xy,\mu} = 0.50$'de 0.169'dan 0.079'a).
+kestirici kapsamayı yine 0.894 ile 0.927 arasında tutmuş ve altı heterojen hücrede RMSE'yi düzeltilmemiş havuzlanmış kestirime göre %25 ile %74 arasında azaltmıştır; en büyük azalmalar daha büyük $k$ ve daha güçlü korelasyonlarda görülmüştür (ör. $k = 5$,
+$\rho_{xy,\mu} = 0.50$'de 0.172'den 0.082'ye).
 
 Düzeltilmiş kestiricinin kapsaması ise on iki koşulun tamamında
-nominal 0.95'in altında kalmıştır (aralık: 0.884--0.922); bu,
-Çalışma 3'te havuzlanmış *d* için elde edilen 0.917--0.947'den
-belirgin biçimde düşüktür. Ek bir çalışma (`analysis/08_knapp_hartung_check.R`; aynı tasarım, hücre başına $R = 1{.}000$, yeniden üretilmiş tekrarlar; bu nedenle 0.881--0.939 olan Wald kapsaması Tablo 7'den Monte Carlo hatası kadar farklıdır) aynı tekrarlara Knapp--Hartung düzeltmesini [@knapp2003] uygulamıştır. Düzeltme on iki koşulun tamamında kapsamayı 0.916--0.943'e yükseltmiştir. Kazanç $k = 5$'te en büyük (ör. heterojen güvenirlikte $\rho_{xy,\mu} = 0.50$ için 0.881'den 0.929'a), $k = 20$'de en küçük olmuştur; $k = 20$ ve $\rho_{xy,\mu} = 0.50$'de kapsama heterojen güvenirlikte 0.917, homojen güvenirlikte 0.935 kalmıştır. Açığın bir bölümü bu nedenle küçük-$k$ Wald aralığını, bir bölümü ise daha büyük $k$'de de sürdüğü için ham korelasyon ölçeğindeki varyansın katkısıyla tutarlı bir kalıntıyı yansıtmaktadır; bu simülasyon o katkıyı ayrıca ölçmemiştir. Cohen *d*'sinin aksine korelasyonlar geleneksel olarak
+nominal 0.95'in altında kalmıştır (aralık: 0.886--0.937); bu, Çalışma 3'te havuzlanmış *d* için elde edilen 0.926--0.947'den belirgin biçimde düşüktür. Ek bir çalışma (`analysis/08_knapp_hartung_check.R`; aynı tasarım, hücre başına $R = 1{.}000$, yeniden üretilmiş tekrarlar; bu nedenle 0.881--0.939 olan Wald kapsaması Tablo 7'ye (0.886--0.937) yakın olmakla birlikte aynı değildir) aynı tekrarlara Knapp--Hartung düzeltmesini [@knapp2003] uygulamıştır. Düzeltme on iki koşulun tamamında kapsamayı 0.916--0.943'e yükseltmiştir. Kazanç $k = 5$'te en büyük (ör. heterojen güvenirlikte $\rho_{xy,\mu} = 0.50$ için 0.881'den 0.929'a), $k = 20$'de en küçük olmuştur; $k = 20$ ve $\rho_{xy,\mu} = 0.50$'de kapsama heterojen güvenirlikte 0.917, homojen güvenirlikte 0.935 kalmıştır. Açığın bir bölümü bu nedenle küçük-$k$ Wald aralığını, bir bölümü ise daha büyük $k$'de de sürdüğü için ham korelasyon ölçeğindeki varyansın katkısıyla tutarlı bir kalıntıyı yansıtmaktadır; bu simülasyon o katkıyı ayrıca ölçmemiştir. Cohen *d*'sinin aksine korelasyonlar geleneksel olarak
 varyansı durağanlaştıran Fisher-z dönüşümünden sonra havuzlanır,
 çünkü örneklem varyansları $r$'ye göre büyük-örneklem formülünün
 ancak kabaca yaklaştırdığı bir biçimde değişir; varyansın heterojen
@@ -1051,7 +1031,7 @@ değiştirecek kadar büyüktür.
 
 Her iki analitik güven aralığı da nominale yakın kapsama korumuş,
 ancak zıt yönlerde sapmıştır: Hunter--Schmidt aralığı nominal düzeyin
-hafifçe altında seyretme eğilimindeyken (ortalama kapsama 0.948),
+hafifçe altında seyretme eğilimindeyken (ortalama kapsama 0.947),
 Bonett aralığı konservatif yönde sapmıştır (ortalama 0.952) ve bu en
 çok grup başına $n = 30$'da görünürdür. Anti-konservatif çıkarım daha
 büyük kaygıysa bu asimetri Bonett'i öne çıkarır. Odaklı bir
@@ -1069,7 +1049,7 @@ Meta-analitik simülasyon, en önemli bulguyu üretmiştir. Gerçek
 alanyazın sentezlerinde istisna değil kural olan heterojen
 güvenirlik koşulunda [@vacha1998; @mcneish2018], düzeltilmemiş
 rastgele etkiler kestirimi ağır kapsama başarısızlığı göstermiş;
-$k = 20$ ve orta-büyük evren etkisinde 0.279'a kadar düşmüştür.
+$k = 20$ ve orta-büyük evren etkisinde 0.282'ye kadar düşmüştür.
 Düzeltilmiş kestirici baştan sona nominale yakın kapsama korumuştur.
 Bu, Hunter ve Schmidt'in [-@hunter2004] kuramsal gerekçelerle ileri
 sürdüğü bir noktayı görgül olarak doğrular: ölçme özellikleri
@@ -1088,8 +1068,7 @@ kestirimi düzeltilmiş $\hat{\delta}$'dır. `mes_report()` ikisi için
 de APA-7 uyumlu metin üretir.
 
 **2. Alt-kapsama daha büyük riskse Bonett aralığını yeğleyin.**
-Hunter--Schmidt aralığı desen hücrelerinin %59'unda, Bonett aralığı
-ise %29'unda nominal kapsamanın altına düşmüştür; Bonett'in sapmaları
+Hunter--Schmidt aralığı desen hücrelerinin %61'inde, Bonett aralığı ise %30'unda nominal kapsamanın altına düşmüştür; Bonett'in sapmaları
 konservatif yöndedir ve bedeli yaklaşık %2 ek genişliktir. Bonett
 ayrıca gerçek puan varyans heterojenliği altında da nominalde ya da
 üzerinde kalmış, Hunter--Schmidt orada hafifçe kaymıştır (Bölüm
@@ -1175,10 +1154,9 @@ değerlendirdiği aynı yolla test etmiştir: simüle edilmiş çalışmaları
 paketin kendi `mes_meta()` ve `metafor::rma()` işlevleriyle
 havuzlayarak. Heterojen güvenirlik altında düzeltilmemiş havuzlanmış
 korelasyonun kapsaması $k = 20$ çalışmada 0.000'a inerken,
-düzeltilmiş kestirici kapsamayı 0.902 ile 0.922 arasında tutmuştur.
+düzeltilmiş kestirici kapsamayı 0.894 ile 0.927 arasında tutmuştur.
 Ne var ki bu düzeltilmiş kapsama on iki koşulun tamamında nominal
-düzeyin altındadır (0.884--0.922; Çalışma 3'te havuzlanmış *d* için
-elde edilen 0.917--0.947'ye karşı). Bir Knapp--Hartung düzeltmesi açığın büyük bölümünü $k = 5$'te kapatmış, $k = 20$'de kapatamamıştır (Bölüm 5.5); dolayısıyla eksiklik yalnızca küçük-$k$ kaynaklı bir yapaylık değildir ve varyansı durağanlaştıran Fisher-z ölçeği yerine ham korelasyon ölçeğinde havuzlamayı da yansıtıyor olabilir. `mes_meta()` bir Fisher-z ölçekli
+düzeyin altındadır (0.886--0.937; Çalışma 3'te havuzlanmış *d* için elde edilen 0.926--0.947'ye karşı). Bir Knapp--Hartung düzeltmesi açığın büyük bölümünü $k = 5$'te kapatmış, $k = 20$'de kapatamamıştır (Bölüm 5.5); dolayısıyla eksiklik yalnızca küçük-$k$ kaynaklı bir yapaylık değildir ve varyansı durağanlaştıran Fisher-z ölçeği yerine ham korelasyon ölçeğinde havuzlamayı da yansıtıyor olabilir. `mes_meta()` bir Fisher-z ölçekli
 havuzlama seçeneği sunana dek, araştırmacılar havuzlanmış korelasyon
 aralığını yaklaşık olarak değerlendirmelidir.
 

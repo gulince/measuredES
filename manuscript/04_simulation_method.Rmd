@@ -9,9 +9,7 @@ estimators. Study 2 examined the coverage probability and width of
 the Hunter--Schmidt and Bonett confidence intervals, with a focused
 sub-study adding the BCa bootstrap (Section 4.5). Study 3 examined
 the consequences of reliability heterogeneity in a meta-analytic
-context. All simulations were implemented in R (version 4.5.3) using
-the `parallel` package for multi-core execution. Each study used
-`set.seed(2026)` for reproducibility. Full simulation code is
+context. All simulations were implemented in R (version 4.1.2, with metafor 3.0.2) using the `parallel` package for multi-core execution. Each simulation condition was seeded individually inside its worker process, so the results do not depend on the number of cores or on the operating system's parallel backend, and rerunning a script reproduces the reported results; the seeds are listed in `analysis/README.md`. Full simulation code is
 available at https://github.com/gulince/measuredES.
 
 ## 4.2 Data-Generation Model
@@ -96,8 +94,7 @@ Following the reporting recommendations of @morris2019, we note the
 Monte Carlo uncertainty of these estimates. With $R = 5{,}000$, the
 Monte Carlo standard error of a coverage estimate near the nominal
 0.95 is $\sqrt{0.95 \times 0.05 / 5000} \approx 0.003$, and the
-Monte Carlo standard error of the bias estimates stays below 0.005
-in all conditions. All 5,000 replications completed successfully in
+Monte Carlo standard error of the bias estimates does not exceed about 0.005 in any condition. All 5,000 replications completed successfully in
 every condition.
 
 ## 4.4 Study 3 Design

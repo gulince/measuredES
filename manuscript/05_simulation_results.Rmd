@@ -9,18 +9,15 @@ reliability; Figure 1 displays the bias of both estimators by sample
 size.
 
 **Uncorrected estimator.** The uncorrected Cohen's $d$ showed
-systematic negative bias across all conditions, with the relative bias close to the theoretical attenuation factor $(\sqrt{\rho_{xx}} - 1) \times 100\%$, which is $-22.5\%$ at $\rho_{xx} = 0.60$ and $-2.5\%$ at $\rho_{xx} = 0.95$; the simulated mean relative biases were $-22.1\%$ and $-1.5\%$. At
-$\rho_{xx} = 0.60$, the absolute bias ranged from $-0.044$ for
-$\delta = 0.20$ to $-0.178$ for $\delta = 0.80$ (Table 1), reflecting the
+systematic negative bias across all conditions, with the relative bias close to the theoretical attenuation factor $(\sqrt{\rho_{xx}} - 1) \times 100\%$, which is $-22.5\%$ at $\rho_{xx} = 0.60$ and $-2.5\%$ at $\rho_{xx} = 0.95$; the simulated mean relative biases were $-21.5\%$ and $-2.1\%$. At
+$\rho_{xx} = 0.60$, the absolute bias ranged from $-0.041$ for $\delta = 0.20$ to $-0.178$ for $\delta = 0.80$ (Table 1), reflecting the
 multiplicative nature of the attenuation ($d_{\text{obs}} =
 \delta\sqrt{\rho_{xx}}$, so bias $= \delta(\sqrt{\rho_{xx}} - 1)$).
 This pattern confirms that neglecting measurement error consistently
 underestimates the true effect.
 
 **Corrected estimator.** The Spearman-corrected estimator was
-essentially unbiased across all conditions. Absolute bias was
-$0.008$ at $\rho_{xx} = 0.60$, $\delta = 0.80$, $n = 30$, and stayed
-within $\pm 0.026$ across the full design. The small positive
+essentially unbiased across all conditions. Absolute bias was $0.007$ at $\rho_{xx} = 0.60$, $\delta = 0.80$, $n = 30$, and stayed within $\pm 0.025$ across the full design. The small positive
 deviations at $n = 30$ match the known small-sample bias of Cohen's
 $d$, which enters through the pooled standard deviation in the
 denominator and is the quantity the Hedges correction targets
@@ -30,11 +27,9 @@ denominator and is the quantity the Hedges correction targets
 uncorrected estimator in small-sample conditions ($n = 30$), a
 well-known consequence of the variance inflation introduced by the
 correction [@charles2005]. At $n = 30$, $\rho_{xx} = 0.60$, and
-$\delta = 0.80$, RMSE increased from 0.319 (uncorrected) to 0.345
-(corrected). Where the trade-off reverses depends on how much bias
+$\delta = 0.80$, RMSE increased from 0.323 (uncorrected) to 0.350 (corrected). Where the trade-off reverses depends on how much bias
 there is to remove. At $\rho_{xx} = 0.60$ and $\delta = 0.80$, the
-corrected estimator's RMSE was lower from $n = 60$ on (0.245 vs.
-0.261, widening to 0.122 vs. 0.204 at $n = 240$); at
+corrected estimator's RMSE was lower from $n = 60$ on (0.247 vs. 0.261, widening to 0.122 vs. 0.203 at $n = 240$); at
 $\rho_{xx} = 0.75$--$0.85$ the crossover came near $n = 120$; and at
 $\rho_{xx} = 0.95$, where there is little bias to remove, the two
 estimators' RMSEs simply converged.
@@ -42,17 +37,14 @@ estimators' RMSEs simply converged.
 **Effect of score distribution.** Point estimation under the skewed
 distribution was substantively similar to that under normality: the
 correction remained essentially unbiased, and RMSE differences
-between matched distributional conditions were small (largest
-absolute difference 0.016). This is expected, because the correction
+between matched distributional conditions were small (largest absolute difference 0.017). This is expected, because the correction
 is a multiplicative rescaling of $d$ and its bias behavior does not
 depend on normality. Skewness did, however, affect interval
 coverage, as reported in Section 5.2.1.
 
 **Effect of reliability estimation.** When $\rho_{xx}$ was estimated
 via Cronbach's $\alpha$ rather than treated as known, the corrected
-estimator remained essentially unbiased (maximum
-$|\text{bias}| = 0.021$ across the estimated-reliability
-conditions). As Study 2 shows, interval coverage was also unaffected
+estimator remained essentially unbiased (maximum $|\text{bias}| = 0.025$ across the estimated-reliability conditions). As Study 2 shows, interval coverage was also unaffected
 at the test lengths and sample sizes studied.
 
 ## 5.2 Study 2: Confidence Interval Performance
@@ -64,9 +56,7 @@ reliability levels, and reliability-estimation conditions.
 
 **Known reliability.** When $\rho_{xx}$ was treated as known, both
 the Hunter--Schmidt and Bonett intervals achieved near-nominal
-coverage across all conditions. Hunter--Schmidt coverage ranged from
-0.936 to 0.959, with a mean of 0.948. Bonett coverage ranged from
-0.938 to 0.963, with a mean of 0.952. Bonett's
+coverage across all conditions. Hunter--Schmidt coverage ranged from 0.937 to 0.955, with a mean of 0.947. Bonett coverage ranged from 0.938 to 0.965, with a mean of 0.952. Bonett's
 heteroscedasticity-robust variance combined with the $t$-based
 critical value produced slightly higher coverage on average,
 particularly at $n = 30$ per group, where the small-sample correction
@@ -74,9 +64,7 @@ matters most.
 
 **Estimated reliability.** Estimating $\rho_{xx}$ with coefficient
 $\alpha$ from a 10-item test produced no measurable coverage
-penalty: mean Hunter--Schmidt coverage was 0.948 in both the known
-and estimated conditions, and Bonett coverage was likewise
-unchanged (0.952). At these test lengths and sample sizes, the
+penalty: mean Hunter--Schmidt coverage was 0.947 under known and 0.949 under estimated reliability, and Bonett coverage was likewise essentially unchanged (0.952 vs. 0.953). At these test lengths and sample sizes, the
 sampling variance of $\hat{\alpha}$ is evidently too small for the
 omitted reliability-uncertainty term (Section 2.3.4) to matter.
 This finding should not be read as a general license: the omitted
@@ -87,8 +75,7 @@ undercover.
 
 **Effect of skewness on coverage.** The lowest coverage values in
 the design occurred under the skewed distribution combined with
-$\delta = 0.80$, where Hunter--Schmidt coverage fell to 0.930 and
-Bonett to 0.935. The dip was modest but systematic, and it affected
+$\delta = 0.80$, where Hunter--Schmidt coverage fell to 0.937 and Bonett to 0.938. The dip was modest but systematic, and it affected
 both intervals; neither variance formula fully absorbs the extra
 sampling variability of the pooled standard deviation under
 skewness.
@@ -109,10 +96,8 @@ variance-inflation factor $1/\rho_{xx}$.
 Averaged over the design, miss rates were symmetric: mean lower- and
 upper-tail rates were 0.026 and 0.026 for Hunter--Schmidt and 0.024
 and 0.024 for Bonett, against the nominal $\alpha/2 = 0.025$.
-Individual cells deviated from the nominal tail rate by up to 0.018.
-The largest asymmetry occurred at $n = 240$, $\rho_{xx} = 0.60$ with
-estimated reliability, where 4.3% of Hunter--Schmidt intervals fell
-entirely below the true effect against 1.6% above it. This downward
+Individual cells deviated from the nominal tail rate by up to 0.016.
+The largest asymmetry occurred at $n = 240$, $\rho_{xx} = 0.60$, $\delta = 0.80$ with estimated reliability and skewed scores, where 4.1% of Hunter--Schmidt intervals fell entirely below the true effect against 1.5% above it. This downward
 displacement is consistent with the small upward bias we observed in
 $\hat{\alpha}$ (mean 0.610 at $\rho_{xx} = 0.60$), which shrinks the
 corrected estimate slightly and becomes visible once intervals are
@@ -214,12 +199,10 @@ the pooled estimates.
 
 Under homogeneous reliability ($\rho_{xx} = 0.85$ for all studies),
 the uncorrected meta-analytic estimator showed modest but consistent
-negative bias (range: $-0.024$ to $-0.041$), reflecting the
+negative bias (range: $-0.018$ to $-0.038$), reflecting the
 uniform attenuation common to all primary studies. Coverage of the
-uncorrected pooled estimate ranged from 0.829 to 0.911, notably
-below the nominal 0.95 level even under the simplest scenario.
-The corrected estimator eliminated this bias (range: $-0.004$ to
-$0.002$) and restored coverage to near-nominal levels (0.917–0.940).
+uncorrected pooled estimate ranged from 0.794 to 0.935, below the nominal 0.95 level in every condition even under the simplest scenario.
+The corrected estimator eliminated this bias (range: $-0.001$ to $0.005$) and restored coverage to near-nominal levels (0.926–0.947).
 RMSE was comparable between estimators, with the corrected version
 showing lower RMSE at $k = 20$ due to the elimination of bias.
 
@@ -229,8 +212,7 @@ The most striking results emerged under heterogeneous reliability,
 where $\rho_{xx}$ varied across studies according to a Beta(8, 4) distribution truncated to $[0.40, 0.95]$ (untruncated mean $\approx 0.67$). In this condition, the
 uncorrected meta-analytic estimator suffered severe coverage
 failure, and the failure worsened as more studies were pooled:
-coverage of the uncorrected estimate fell from 0.854 at $k = 5$,
-$\delta_{\mu} = 0.30$ to 0.279 at $k = 20$, $\delta_{\mu} = 0.50$
+coverage of the uncorrected estimate fell from 0.855 at $k = 5$, $\delta_{\mu} = 0.30$ to 0.282 at $k = 20$, $\delta_{\mu} = 0.50$
 (Table 2, heterogeneous rows); in the latter condition, the
 interval missed the true effect in more than 70% of replications.
 
@@ -238,13 +220,11 @@ This catastrophic under-coverage arises because reliability heterogeneity
 induces between-study variance that is confounded with true
 heterogeneity in $\delta$; the random-effects model cannot separate
 these sources without correction. Conversely, the corrected estimator
-maintained coverage between 0.920 and 0.947 across all heterogeneous
-conditions.
+maintained coverage between 0.930 and 0.945 across all heterogeneous conditions.
 
 The RMSE advantage of the corrected estimator was particularly
 pronounced under heterogeneous reliability. At $k = 20$,
-$\delta_{\mu} = 0.50$, RMSE dropped from 0.101 (uncorrected) to
-0.045 (corrected), a 56% reduction. Under realistic reliability
+$\delta_{\mu} = 0.50$, RMSE dropped from 0.102 (uncorrected) to 0.045 (corrected), a 56% reduction. Under realistic reliability
 heterogeneity, then, an uncorrected meta-analysis does more than
 shrink the pooled estimate: it reports the wrong magnitude with
 unwarranted precision.
@@ -279,24 +259,19 @@ $(1-r^2)^2/[(n-1)\rho_{xx}\rho_{yy}]$, in an actual
 `metafor::rma()` random-effects analysis.
 
 Under homogeneous reliability, the uncorrected pooled correlation
-carried a bias of $-0.039$ to $-0.066$ that grew with the true
-correlation, and its coverage fell from 0.836 at the smallest true
-effect and fewest studies to 0.336 at $k = 20$,
+carried a bias of $-0.037$ to $-0.067$ that grew with the true
+correlation, and its coverage fell from 0.837 at the smallest true effect and fewest studies to 0.339 at $k = 20$,
 $\rho_{xy,\mu} = 0.50$: as more studies are pooled, the interval
 narrows around the biased estimate and misses the true value more
-often. The corrected estimator's bias stayed small (0.007 to 0.013)
-and its coverage held between 0.884 and 0.922.
+often. The corrected estimator's bias stayed small (0.005 to 0.013) and its coverage held between 0.886 and 0.937.
 
 Heterogeneous reliability reproduced Study 3's pattern in a more
-extreme form. The uncorrected pooled correlation's coverage fell
-from 0.599 at $k = 5$, $\rho_{xy,\mu} = 0.30$ to 0.000 at $k = 20$,
+extreme form. The uncorrected pooled correlation's coverage fell from 0.597 at $k = 5$, $\rho_{xy,\mu} = 0.30$ to 0.000 at $k = 20$,
 $\rho_{xy,\mu} = 0.50$, where no replicate's interval contained the
-true correlation. The corrected estimator again held coverage
-between 0.902 and 0.922, and cut RMSE by 25% to 74% relative to the uncorrected pooled estimate across the six heterogeneous cells, with the largest reductions at larger $k$ and stronger correlations (e.g., 0.169 to 0.079 at $k = 5$, $\rho_{xy,\mu} = 0.50$).
+true correlation. The corrected estimator again held coverage between 0.894 and 0.927, and cut RMSE by 25% to 74% relative to the uncorrected pooled estimate across the six heterogeneous cells, with the largest reductions at larger $k$ and stronger correlations (e.g., 0.172 to 0.082 at $k = 5$, $\rho_{xy,\mu} = 0.50$).
 
 The corrected estimator's coverage, however, sits below the nominal
-0.95 in all twelve conditions (range: 0.884--0.922), noticeably
-lower than Study 3's 0.917--0.947 for pooled *d*. A supplementary run (`analysis/08_knapp_hartung_check.R`; same design, $R = 1{,}000$ per cell, freshly drawn replicates, so its Wald coverage of 0.881--0.939 differs from Table 7 by Monte Carlo error) applied the Knapp--Hartung adjustment [@knapp2003] to the same replicates. It raised coverage in all twelve conditions, to 0.916--0.943. The gain was largest at $k = 5$ (e.g., 0.881 to 0.929 at $\rho_{xy,\mu} = 0.50$ with heterogeneous reliability) and smallest at $k = 20$, where coverage at $\rho_{xy,\mu} = 0.50$ stayed at 0.917 under heterogeneous and 0.935 under homogeneous reliability. Part of the shortfall therefore reflects the small-$k$ Wald interval, and part persists at larger $k$, which is consistent with a contribution from the raw-correlation-scale variance; this simulation did not isolate that contribution. Unlike Cohen's
+0.95 in all twelve conditions (range: 0.886--0.937), noticeably lower than Study 3's 0.926--0.947 for pooled *d*. A supplementary run (`analysis/08_knapp_hartung_check.R`; same design, $R = 1{,}000$ per cell, freshly drawn replicates, so its Wald coverage of 0.881--0.939 is comparable to, but not identical with, Table 7 (0.886--0.937)) applied the Knapp--Hartung adjustment [@knapp2003] to the same replicates. It raised coverage in all twelve conditions, to 0.916--0.943. The gain was largest at $k = 5$ (e.g., 0.881 to 0.929 at $\rho_{xy,\mu} = 0.50$ with heterogeneous reliability) and smallest at $k = 20$, where coverage at $\rho_{xy,\mu} = 0.50$ stayed at 0.917 under heterogeneous and 0.935 under homogeneous reliability. Part of the shortfall therefore reflects the small-$k$ Wald interval, and part persists at larger $k$, which is consistent with a contribution from the raw-correlation-scale variance; this simulation did not isolate that contribution. Unlike Cohen's
 *d*, correlations are conventionally pooled after a
 variance-stabilizing Fisher-z transform, because their sampling
 variance depends on $r$ in a way the large-sample formula

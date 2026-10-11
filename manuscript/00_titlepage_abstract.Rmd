@@ -43,7 +43,7 @@ were biased downward unless each study was corrected individually,
 with coverage of the pooled estimate falling as low as 0.28 for
 *d* (0.00 for correlations) at $k = 20$ studies. Correcting each
 study individually restored coverage to near-nominal levels for
-*d*, though only to 0.88--0.92 for pooled correlations. We discuss
+*d*, though only to 0.89--0.94 for pooled correlations. We discuss
 what these results imply for reporting practice and meta-analytic
 synthesis, and when the correction is defensible in applied work.
 

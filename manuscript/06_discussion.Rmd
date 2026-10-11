@@ -21,8 +21,7 @@ calculations and meta-analytic conclusions.
 
 Both analytical confidence intervals held close to nominal
 coverage, but they erred in opposite directions: the Hunter--Schmidt
-interval tended to sit slightly below the nominal level (mean
-coverage 0.948), while the Bonett interval erred on the
+interval tended to sit slightly below the nominal level (mean coverage 0.947), while the Bonett interval erred on the
 conservative side (mean 0.952), most visibly at $n = 30$ per group.
 When anti-conservative inference is the greater concern, this
 asymmetry favors Bonett. The BCa bootstrap, evaluated in a focused
@@ -60,7 +59,7 @@ is the more appropriate estimate of the construct-level effect.
 
 **2. Prefer the Bonett interval when undercoverage is the greater
 risk.** The Hunter--Schmidt interval fell below nominal coverage in
-59% of design cells and the Bonett interval in 29%; Bonett's
+61% of design cells and the Bonett interval in 30%; Bonett's
 deviations were on the conservative side, at the cost of roughly
 2% additional width. It also held at or above nominal coverage
 under true-score variance heterogeneity, where Hunter--Schmidt
@@ -149,10 +148,9 @@ addition the same way Study 3 evaluated the *d*-family case: pooling
 simulated studies through the package's own `mes_meta()` and
 `metafor::rma()`. Under heterogeneous reliability the uncorrected
 pooled correlation's coverage fell to 0.000 at $k = 20$ studies,
-while the corrected estimator held between 0.902 and 0.922. That
+while the corrected estimator held between 0.894 and 0.927. That
 corrected coverage nonetheless sits below nominal in all twelve
-conditions (0.884--0.922, versus 0.917--0.947 for pooled *d* in
-Study 3). A Knapp--Hartung adjustment closed most of the gap at $k = 5$ but not at $k = 20$ (Section 5.5), so the shortfall is not purely a small-$k$ artifact; it may also reflect pooling on the raw correlation scale rather than the variance-stabilizing Fisher-z scale conventionally used for this purpose. Until `mes_meta()` offers a Fisher-z-scale pooling option,
+conditions (0.886--0.937, versus 0.926--0.947 for pooled *d* in Study 3). A Knapp--Hartung adjustment closed most of the gap at $k = 5$ but not at $k = 20$ (Section 5.5), so the shortfall is not purely a small-$k$ artifact; it may also reflect pooling on the raw correlation scale rather than the variance-stabilizing Fisher-z scale conventionally used for this purpose. Until `mes_meta()` offers a Fisher-z-scale pooling option,
 researchers should treat its pooled-correlation interval as
 approximate.
 

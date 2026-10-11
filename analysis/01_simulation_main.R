@@ -3,17 +3,17 @@
 # Runs ~2-4 hours on 8 cores with R = 5000 replications per condition.
 
 rm(list = ls())
-set.seed(2026)
+# Reproducibility: seeds are set per condition inside run_condition()
+# (base 20261000 + condition_id), so results do not depend on the number
+# of cores, the operating system's parallel backend, or scheduling order.
 
 source("analysis/00_helpers.R")
 
-suppressMessages({
-  library(parallel)
-  library(dplyr)
-  library(tidyr)
-})
+suppressMessages(library(parallel))
 
-n_cores <- max(1L, parallel::detectCores() - 1L)  # leave one core free
+# leave one core free; override with the MES_CORES environment variable
+n_cores <- as.integer(Sys.getenv("MES_CORES",
+                                 max(1L, parallel::detectCores() - 1L)))
 message(sprintf("Parallel cores available: %d", n_cores))
 
 
@@ -36,6 +36,8 @@ N_ITEMS <- 10L        # number of items for alpha estimation
 
 # ---- Run replications for one condition ----
 run_condition <- function(cond_row, R = R_REPS, n_items = N_ITEMS) {
+
+  set.seed(20261000L + cond_row$condition_id)
 
   reps <- vector("list", R)
   for (r in seq_len(R)) {
