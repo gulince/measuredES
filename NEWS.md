@@ -30,23 +30,24 @@ Initial release.
   object with a different method; the confidence level is inherited
   from the object rather than silently reset.
 * `mes_meta()`: convert one or more `mes` objects into a
-  `metafor`-ready data frame (`yi`, `vi`, `sei`, `ni`). Now also accepts
-  `mes_r()` objects, using the large-sample variance
+  `metafor`-ready data frame (`yi`, `vi`, `sei`, `ni`). Accepts `mes_d()`,
+  `mes_g()` and `mes_r()` objects; for corrected correlations it uses the large-sample variance
   `(1 - r^2)^2 / ((n - 1) * rxx * ryy)` to populate `vi`/`sei` for
   corrected correlations.
 * `mes_report()`: APA-7 inline text (English and Turkish) and tabular
   output.
+* Input validation: `conf_level`, `n_boot` (bootstrap only) and the
+  summary-statistic arguments (`means`, `sds`, `ns`) are checked and
+  rejected with a clear message when missing, non-finite or implausible.
 * S3 methods for the `mes` class: `print()`, `summary()`, `plot()`
   (ggplot2 when available, base graphics otherwise), and
   `as.data.frame()`.
 
 ### Scope notes
 
-* The package deliberately covers the d-family (and, via
-  `disattenuate()`, correlations) only. Corrections for
+* The package covers the d-family and correlations only. Corrections for
   variance-explained indices (eta-squared, omega-squared) and IRT-based
-  reliability were considered during development and dropped: the
-  methodological literature is too thin to support them as defaults.
+  reliability are not implemented.
 * By default the confidence intervals treat the reliability
   coefficient as a known constant; when it is itself estimated, pass
   `rxx_se` to propagate that uncertainty (the bootstrap always holds

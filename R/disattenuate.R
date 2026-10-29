@@ -4,7 +4,7 @@
 #' Correct an effect size for measurement error
 #'
 #' @description
-#' The math behind every \code{mes_*()} function. Under classical test
+#' The calculation behind every \code{mes_*()} function. Under classical test
 #' theory the observed score is true score plus random error
 #' (\eqn{X = T + E}), and that error pulls observed standardized effect
 #' sizes toward zero by a factor of \eqn{\sqrt{r_{xx}}}. This function
@@ -22,12 +22,13 @@
 #' treated as unreliable; the function issues a warning in that case so the
 #' assumption is explicit.
 #'
-#' \strong{One thing to keep in mind (Charles, 2005; Hunter & Schmidt, 2004):}
-#' if your reliability is itself a sample estimate (most of the time it
-#' is), the corrected effect's sampling distribution is wider than the
-#' analytical formulas in this package suggest. All three CI methods here
-#' treat \code{rxx} as a known constant; for the full uncertainty you'd
-#' need a Bayesian model or a bootstrap that resamples reliability too.
+#' \strong{Estimated reliabilities (Charles, 2005; Hunter & Schmidt, 2004):}
+#' when the reliability is itself a sample estimate, the sampling
+#' distribution of the corrected effect is wider than an interval that
+#' treats the reliability as fixed. \code{mes_d()} and \code{mes_g()} add a
+#' first-order delta-method term when a standard error is supplied through
+#' \code{rxx_se}; \code{mes_r()} and the bootstrap intervals treat the
+#' reliabilities as known constants.
 #'
 #' @param effect Observed effect size. May be a single value or a numeric
 #'   vector (e.g., a column of \emph{d} values from a study database).

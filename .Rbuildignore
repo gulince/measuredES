@@ -6,8 +6,6 @@
 ^\.Rproj\.user$
 ^.*\.Rproj$
 ^README\.Rmd$
-^\.positai$
-^\.claude$
 ^\.RData$
 ^\.Rhistory$
 ^\.Ruserdata$

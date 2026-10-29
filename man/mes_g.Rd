@@ -61,19 +61,19 @@ refinement). Bootstrap is available only when raw data are supplied.}
 An object of class 'mes'.
 }
 \description{
-Hedges' g is just Cohen's d shrunk slightly to remove the small-sample
-bias, then disattenuated for measurement error. Two steps:
+Hedges' g is Cohen's d multiplied by a small-sample bias correction and
+then disattenuated for measurement error. Two steps:
 
-**Step 1: Hedges (1981) bias correction.**
+\strong{Step 1: Hedges (1981) bias correction.}
 \deqn{g = J(\nu) \cdot d}
 where \eqn{J(\nu) = 1 - \frac{3}{4\nu - 1}} and \eqn{\nu = n_1 + n_2 - 2}.
-J is just under 1 for small samples and approaches 1 as n grows.
+J is below 1 for small samples and approaches 1 as n grows.
 
-**Step 2: reliability correction (Hunter & Schmidt, 2004).**
+\strong{Step 2: reliability correction (Hunter & Schmidt, 2004).}
 \deqn{g^* = \frac{g}{\sqrt{r_{xx}}}}
 }
 \details{
-Order matters for the variance. Since g = J·d, the sampling variance
+Order matters for the variance. Since g = J * d, the sampling variance
 picks up a J^2 factor before the reliability correction is applied:
 \deqn{\text{Var}(g^*) = \frac{J^2 \cdot \text{Var}(d)}{r_{xx}}}
 (Hunter & Schmidt, 2004; Bonett, 2008).

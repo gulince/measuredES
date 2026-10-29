@@ -6,7 +6,10 @@ This directory contains the simulation studies reported in the
 ## Prerequisites
 
 ```r
-install.packages(c("dplyr", "tidyr", "ggplot2", "metafor"))
+# 03 needs dplyr, tidyr, ggplot2 and scales; 01, 02, 07, 08 need metafor;
+# 05 needs boot; 04 needs psychmeta
+install.packages(c("dplyr", "tidyr", "ggplot2", "scales", "metafor",
+                   "boot", "psychmeta"))
 devtools::install("..")  # install measuredES from parent directory
 ```
 
@@ -39,6 +42,10 @@ source("analysis/06_simulation_substudies.R")
 # Meta-analytic pooling of corrected correlations via mes_meta()
 # (manuscript Section 5.5)   # ~7 minutes
 source("analysis/07_simulation_meta_correlation.R")
+
+# Knapp-Hartung check for the pooled corrected correlations
+# (manuscript Section 5.5)   # ~10 minutes
+source("analysis/08_knapp_hartung_check.R")
 ```
 
 ## Outputs
@@ -51,6 +58,8 @@ source("analysis/07_simulation_meta_correlation.R")
 - `table3_meta.csv`     : Meta-analytic comparison (manuscript Table 2)
 - `substudy_meta_correlation.csv` : Pooled corrected-correlation coverage
   via `mes_meta()` (manuscript Table 7)
+- `substudy_knapp_hartung.csv` : Wald vs Knapp-Hartung coverage for the same
+  pooled correlations (manuscript Section 5.5)
 
 ### Figures (`figures/`)
 - `fig1_bias.{png,pdf}`    : Bias comparison (Figure 1)

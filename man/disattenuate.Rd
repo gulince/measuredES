@@ -50,12 +50,13 @@ When \code{ryy} is omitted, only the dependent variable (or criterion) is
 treated as unreliable; the function issues a warning in that case so the
 assumption is explicit.
 
-\strong{One thing to keep in mind (Charles, 2005; Hunter & Schmidt, 2004):}
-if your reliability is itself a sample estimate (most of the time it
-is), the corrected effect's sampling distribution is wider than the
-analytical formulas in this package suggest. All three CI methods here
-treat \code{rxx} as a known constant; for the full uncertainty you'd
-need a Bayesian model or a bootstrap that resamples reliability too.
+\strong{Estimated reliabilities (Charles, 2005; Hunter & Schmidt, 2004):}
+when the reliability is itself a sample estimate, the sampling
+distribution of the corrected effect is wider than an interval that
+treats the reliability as fixed. \code{mes_d()} and \code{mes_g()} add a
+first-order delta-method term when a standard error is supplied through
+\code{rxx_se}; \code{mes_r()} and the bootstrap intervals treat the
+reliabilities as known constants.
 }
 \examples{
 # Single value: Cohen's d at rxx = 0.80

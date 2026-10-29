@@ -39,7 +39,7 @@
     warning(sprintf(
       paste0("Reliability is very low (r = %.3f). At this level the ",
              "corrected estimate can be several times the observed value ",
-             "and is hard to interpret meaningfully (Charles, 2005)."), r),
+             "and is hard to interpret meaningfully."), r),
       call. = FALSE)
   }
 
@@ -158,6 +158,55 @@
   ifelse(ad < 0.20, "negligible",
     ifelse(ad < 0.50, "small",
       ifelse(ad < 0.80, "medium", "large")))
+}
+
+
+# Argument checks shared by mes_d(), mes_g(), mes_r() and mes_ci().
+# Plain comments (not roxygen) on purpose: these helpers need no Rd page.
+
+# Confidence level: a single number strictly between 0 and 1
+.check_conf_level <- function(conf_level) {
+  if (length(conf_level) != 1L || !is.numeric(conf_level) ||
+      is.na(conf_level) || conf_level <= 0 || conf_level >= 1) {
+    stop("'conf_level' must be a single number in (0, 1).", call. = FALSE)
+  }
+  invisible(conf_level)
+}
+
+# Number of bootstrap replications: a single whole number, at least 10
+.check_n_boot <- function(n_boot) {
+  if (length(n_boot) != 1L || !is.numeric(n_boot) || is.na(n_boot) ||
+      n_boot < 10 || n_boot != round(n_boot)) {
+    stop("'n_boot' must be a single whole number of at least 10.",
+         call. = FALSE)
+  }
+  invisible(n_boot)
+}
+
+# Summary-statistics input: numeric, complete, finite, whole-number ns
+.check_summary_stats <- function(means, sds, ns) {
+  if (length(means) != 2L || length(sds) != 2L || length(ns) != 2L) {
+    stop("'means', 'sds', and 'ns' must be length-2 vectors.",
+         call. = FALSE)
+  }
+  if (!is.numeric(means) || !is.numeric(sds) || !is.numeric(ns)) {
+    stop("'means', 'sds', and 'ns' must be numeric.", call. = FALSE)
+  }
+  if (!all(is.finite(means)) || !all(is.finite(sds)) ||
+      !all(is.finite(ns))) {
+    stop("'means', 'sds', and 'ns' must be finite and non-missing.",
+         call. = FALSE)
+  }
+  if (any(sds <= 0)) {
+    stop("Standard deviations must be positive.", call. = FALSE)
+  }
+  if (any(ns != round(ns))) {
+    stop("'ns' must be whole numbers.", call. = FALSE)
+  }
+  if (any(ns < 2L)) {
+    stop("Each group must have at least 2 observations.", call. = FALSE)
+  }
+  invisible(NULL)
 }
 
 

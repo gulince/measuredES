@@ -5,7 +5,7 @@
 # 8 cores with R = 5000; for a quick test, set R_REPS <- 100 in
 # 01_simulation_main.R (~5 minutes).
 
-for (pkg in c("dplyr", "tidyr", "metafor")) {
+for (pkg in c("metafor")) {
   if (!requireNamespace(pkg, quietly = TRUE)) install.packages(pkg)
 }
 

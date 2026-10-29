@@ -77,9 +77,7 @@ mes_r <- function(r,
   if (length(n) != 1L || !is.numeric(n) || is.na(n) || n < 4) {
     stop("'n' must be a single sample size of at least 4.", call. = FALSE)
   }
-  if (conf_level <= 0 || conf_level >= 1) {
-    stop("'conf_level' must be in (0, 1).", call. = FALSE)
-  }
+  .check_conf_level(conf_level)
 
   # validation of rxx/ryy (and the one-sided warning) happens here
   r_corrected <- disattenuate(r, rxx = rxx, ryy = ryy, type = "r")

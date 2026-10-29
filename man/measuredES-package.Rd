@@ -37,8 +37,8 @@ this attenuation in meta-analysis in detail.
 
 The correction handles random measurement error only; systematic bias
 is a different problem entirely. At low reliability (\eqn{r_{xx} < 0.50})
-the corrected estimate becomes unstable and hard to interpret
-(Charles, 2005), so treat those results with caution.
+the corrected estimate becomes unstable and hard to interpret, so
+treat those results with caution.
 }
 
 \references{

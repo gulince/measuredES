@@ -5,8 +5,8 @@
 #'
 #' @description
 #' Cohen's d for two independent groups, with Spearman's (1904) correction
-#' for the reliability of the outcome. Pass raw vectors, summary statistics,
-#' or a \code{y ~ group} formula, whichever you happen to have.
+#' for the reliability of the outcome. Accepts raw vectors, summary
+#' statistics, or a \code{y ~ group} formula.
 #'
 #' @details
 #' Classical Cohen's d:
@@ -19,9 +19,10 @@
 #' \strong{What the corrected value means:} it estimates what the
 #' standardized mean difference would look like if your outcome were
 #' measured perfectly. That interpretation rests on the parallel-tests
-#' assumption (Lord & Novick, 1968); when reliability is itself estimated
-#' the resulting interval is narrower than it should be (Charles, 2005),
-#' so read the bounds as approximate.
+#' assumption (Lord & Novick, 1968). Unless \code{rxx_se} is supplied, the
+#' intervals treat \code{rxx} as known; when it is a sample estimate they
+#' are then narrower than they should be (see Charles, 2005), so read the
+#' bounds as approximate.
 #'
 #' @param x1 Numeric vector for group 1 (raw-data path).
 #' @param x2 Numeric vector for group 2 (raw-data path).
@@ -113,9 +114,8 @@ mes_d <- function(x1 = NULL,
   ci_method <- match.arg(ci_method)
   call_ <- match.call()
 
-  if (conf_level <= 0 || conf_level >= 1) {
-    stop("'conf_level' must be in (0, 1).", call. = FALSE)
-  }
+  .check_conf_level(conf_level)
+  if (ci && ci_method == "bootstrap") .check_n_boot(n_boot)
 
   if (!is.null(rxx_se)) {
     if (length(rxx_se) != 1L || !is.numeric(rxx_se) ||
@@ -158,17 +158,7 @@ mes_d <- function(x1 = NULL,
     Sp <- .pooled_sd(x1, x2)
 
   } else {
-    if (length(means) != 2L || length(sds) != 2L || length(ns) != 2L) {
-      stop("'means', 'sds', and 'ns' must be length-2 vectors.",
-           call. = FALSE)
-    }
-    if (!is.numeric(means) || !is.numeric(sds) || !is.numeric(ns)) {
-      stop("'means', 'sds', and 'ns' must be numeric.", call. = FALSE)
-    }
-    if (any(sds <= 0)) stop("Standard deviations must be positive.",
-                            call. = FALSE)
-    if (any(ns < 2L))  stop("Each group must have at least 2 observations.",
-                            call. = FALSE)
+    .check_summary_stats(means, sds, ns)
 
     M1 <- means[1L]; M2 <- means[2L]
     s1 <- sds[1L];   s2 <- sds[2L]

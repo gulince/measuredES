@@ -40,9 +40,7 @@ mes_ci <- function(object,
   if (is.null(conf_level)) {
     conf_level <- object$conf_level
   }
-  if (conf_level <= 0 || conf_level >= 1) {
-    stop("'conf_level' must be in (0, 1).", call. = FALSE)
-  }
+  .check_conf_level(conf_level)
 
   if (!object$type %in% c("d", "g")) {
     stop("mes_ci only works with 'd' and 'g' objects for now. ",

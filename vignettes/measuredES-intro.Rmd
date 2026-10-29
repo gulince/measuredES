@@ -161,8 +161,8 @@ fit_bonett$ci
    as a sensitivity analysis and report the range.
 
 3. **Low reliability is trouble.** Below $r_{xx} \approx 0.50$ the
-   corrected estimate gets unstable (Charles, 2005), and below 0.10
-   the package issues a warning. Treat anything in that range as
+   corrected estimate gets unstable, and below 0.10 the package issues a
+   warning. Treat anything in that range as
    exploratory at best.
 
 4. **Reliability is treated as a known constant by default.** The CI
@@ -174,17 +174,16 @@ fit_bonett$ci
    term for that extra uncertainty. The bootstrap option cannot help
    here, because it holds $r_{xx}$ fixed across replicates.
 
-5. **Disattenuation is not universally accepted.** There is a
-   methodological tradition (Borsboom, Mellenbergh, & van Heerden,
-   2004; Markus & Borsboom, 2013) that questions the very idea of a
-   "true score" as a target of inference. From that perspective, what
-   we observe is what we observe, and correcting toward an unobservable
-   construct can mislead more than it helps. This package follows the
-   Hunter & Schmidt (2004) tradition, which is widespread in
-   psychometric meta-analysis, but if you find the latent-construct
-   framing unconvincing for your application, reporting the observed
-   effect alongside reliability information may be more honest than
-   reporting the corrected value.
+5. **Disattenuation is not universally accepted.** Work on validity
+   theory (e.g., Borsboom, Mellenbergh, & van Heerden, 2004; Markus &
+   Borsboom, 2013) holds that validity concerns whether the measured
+   attribute causes variation in the scores. A classical true score,
+   defined as the expected observed score, is not necessarily that
+   attribute, so correcting toward it need not bring the estimate closer
+   to the construct. This package follows the Hunter & Schmidt (2004)
+   tradition, which is widespread in psychometric meta-analysis. If the
+   true-score framing does not suit your application, report the observed
+   effect together with the reliability of the measure.
 
 ## References
 

@@ -69,8 +69,8 @@ An object of class 'mes'. Components include:
 }
 \description{
 Cohen's d for two independent groups, with Spearman's (1904) correction
-for the reliability of the outcome. Pass raw vectors, summary statistics,
-or a \code{y ~ group} formula, whichever you happen to have.
+for the reliability of the outcome. Accepts raw vectors, summary
+statistics, or a \code{y ~ group} formula.
 }
 \details{
 Classical Cohen's d:
@@ -83,9 +83,10 @@ Corrected estimate:
 \strong{What the corrected value means:} it estimates what the
 standardized mean difference would look like if your outcome were
 measured perfectly. That interpretation rests on the parallel-tests
-assumption (Lord & Novick, 1968); when reliability is itself estimated
-the resulting interval is narrower than it should be (Charles, 2005),
-so read the bounds as approximate.
+assumption (Lord & Novick, 1968). Unless \code{rxx_se} is supplied, the
+intervals treat \code{rxx} as known; when it is a sample estimate they
+are then narrower than they should be (see Charles, 2005), so read the
+bounds as approximate.
 }
 \examples{
 # --- Example 1: From raw data ---
